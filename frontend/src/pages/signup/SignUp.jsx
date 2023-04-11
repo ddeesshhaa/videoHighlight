@@ -1,99 +1,95 @@
-import { useState } from "react";
+import React, { useContext } from "react";
+import Style from "./AuthStyle.module.css";
 import axios from "axios";
-import { Link } from "react-router-dom";
-import styles from "./styles.module.css";
 
-const SignUp = () => {
-	const [data, setData] = useState({
-		firstName: "",
-		lastName: "",
-		email: "",
-		password: "",
-	});
-	const [error, setError] = useState("");
-	const [msg, setMsg] = useState("");
+function SignUp() {
+  const signup = async (e) => {
+    e.preventDefault();
 
-	const handleChange = ({ currentTarget: input }) => {
-		setData({ ...data, [input.name]: input.value });
-	};
+    let response = await axios.post(
+      "localhost:8080/signup",
+      {
+        firstName: e.target.firstname.value,
+        lastName:e.target.secondname.value,
+        email:e.target.email.value,
+        password:e.target.password.value
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    response = await response.json();
+    console.log(response);
+    if (response.status == 200)
+      window.location.replace("http://127.0.0.1:3000/login");
+  };
+  return (
+    <div className={Style.Auth_form_container}>
+      <form className={Style.Auth_form} onSubmit={signup}>
+        <div className={Style.Auth_form_content}>
+          <h3 className={Style.Auth_form_title}>Sign up</h3>
 
-	const handleSubmit = async (e) => {
-		e.preventDefault();
-		try {
-			const url = "http://localhost:8080/api/users";
-			const { data: res } = await axios.post(url, data);
-			setMsg(res.message);
-		} catch (error) {
-			if (
-				error.response &&
-				error.response.status >= 400 &&
-				error.response.status <= 500
-			) {
-				setError(error.response.data.message);
-			}
-		}
-	};
+          <div className="form-group mt-3">
+            <label>First Name</label>
+            <input
+              type="text"
+              name="firstname"
+              className="form-control mt-1"
+              placeholder="Enter FirstName"
+            />
+          </div>
 
-	return (
-		<div className={styles.signup_container}>
-			<div className={styles.signup_form_container}>
-				<div className={styles.left}>
-					<h1>Welcome Back</h1>
-					<Link to="/login">
-						<button type="button" className={styles.white_btn}>
-							Sign in
-						</button>
-					</Link>
-				</div>
-				<div className={styles.right}>
-					<form className={styles.form_container} onSubmit={handleSubmit}>
-						<h1>Create Account</h1>
-						<input
-							type="text"
-							placeholder="First Name"
-							name="firstName"
-							onChange={handleChange}
-							value={data.firstName}
-							required
-							className={styles.input}
-						/>
-						<input
-							type="text"
-							placeholder="Last Name"
-							name="lastName"
-							onChange={handleChange}
-							value={data.lastName}
-							required
-							className={styles.input}
-						/>
-						<input
-							type="email"
-							placeholder="Email"
-							name="email"
-							onChange={handleChange}
-							value={data.email}
-							required
-							className={styles.input}
-						/>
-						<input
-							type="password"
-							placeholder="Password"
-							name="password"
-							onChange={handleChange}
-							value={data.password}
-							required
-							className={styles.input}
-						/>
-						{error && <div className={styles.error_msg}>{error}</div>}
-						{msg && <div className={styles.success_msg}>{msg}</div>}
-						<button type="submit" className={styles.green_btn}>
-							Sign Up
-						</button>
-					</form>
-				</div>
-			</div>
-		</div>
-	);
-};
+          <div className="form-group mt-3">
+            <label>Second Name</label>
+            <input
+              type="text"
+              name="secondname"
+              className="form-control mt-1"
+              placeholder="Enter SecondName"
+            />
+          </div>
+
+          <div className="form-group mt-3">
+            <label>Email address</label>
+            <input
+              type="email"
+              name="email"
+              className="form-control mt-1"
+              placeholder="Enter email"
+              required
+            />
+          </div>
+
+          <div className="form-group mt-3">
+            <label>Password</label>
+            <input
+              type="password"
+              className="form-control mt-1"
+              placeholder="Enter password"
+              name="password"
+              required
+            />
+          </div>
+          
+          <div className="d-grid gap-2 mt-3">
+            <button type="submit" className="btn btn-primary">
+              Submit
+            </button>
+          </div>
+          <p
+            className="forgot-password text-center mt-2"
+            style={{ paddingTop: "10px" }}
+          >
+            <b>
+              <a href="/login">login?</a>
+            </b>
+          </p>
+        </div>
+      </form>
+    </div>
+  );
+}
 
 export default SignUp;

@@ -1,75 +1,83 @@
+import React from "react";
+import Style from "./AuthStyle.module.css";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { Link } from "react-router-dom";
-import styles from "./styles.module.css";
-
-const Login = () => {
-	const [data, setData] = useState({ email: "", password: "" });
-	const [error, setError] = useState("");
-
-	const handleChange = ({ currentTarget: input }) => {
-		setData({ ...data, [input.name]: input.value });
-	};
-
-	const handleSubmit = async (e) => {
-		e.preventDefault();
-		try {
-			const url = "http://localhost:8080/api/auth";
-			const { data: res } = await axios.post(url, data);
-			localStorage.setItem("token", res.data);
-			window.location = "/";
-		} catch (error) {
-			if (
-				error.response &&
-				error.response.status >= 400 &&
-				error.response.status <= 500
-			) {
-				setError(error.response.data.message);
-			}
-		}
-	};
-
-	return (
-		<div className={styles.login_container}>
-			<div className={styles.login_form_container}>
-				<div className={styles.left}>
-					<form className={styles.form_container} onSubmit={handleSubmit}>
-						<h1>Login to Your Account</h1>
-						<input
-							type="email"
-							placeholder="Email"
-							name="email"
-							onChange={handleChange}
-							value={data.email}
-							required
-							className={styles.input}
-						/>
-						<input
-							type="password"
-							placeholder="Password"
-							name="password"
-							onChange={handleChange}
-							value={data.password}
-							required
-							className={styles.input}
-						/>
-						{error && <div className={styles.error_msg}>{error}</div>}
-						<button type="submit" className={styles.green_btn}>
-							Sign In
-						</button>
-					</form>
-				</div>
-				<div className={styles.right}>
-					<h1>New Here ?</h1>
-					<Link to="/signup">
-						<button type="button" className={styles.white_btn}>
-							Sign Up
-						</button>
-					</Link>
-				</div>
-			</div>
-		</div>
-	);
-};
+function Login() {
+  
+  const navigate = useNavigate()
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const Sign = async (e) => {
+    e.preventDefault();
+    console.log(email, password);
+    let res = await axios.post(
+      "localhost:8080/login",
+      {
+        email:email,
+        password:password
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    console.log(res);
+    if(res.status == 200){
+      localStorage.setItem('auth', res.data.token);
+      navigate('/')
+    }else{
+      console.log(res.data);
+      window.location.reload()
+    }
+  };
+  return (
+    <div className={Style.Auth_form_container}>
+      <form className={Style.Auth_form} onSubmit={Sign}>
+        <div className={Style.Auth_form_content}>
+          <h3 className={Style.Auth_form_title}>Sign In</h3>
+          <div className="form-group mt-3">
+            <label>Email </label>
+            <input
+              type="text"
+              name="email"
+              className="form-control mt-1"
+              placeholder="Enter UserName"
+              onChange={(e) => {
+                setEmail(e.target.value);
+              }}
+            />
+          </div>
+          <div className="form-group mt-3">
+            <label>Password</label>
+            <input
+              type="password"
+              name="password"
+              className="form-control mt-1"
+              placeholder="Enter password"
+              onChange={(e) => {
+                setPassword(e.target.value);
+              }}
+            />
+          </div>
+          <div className="d-grid gap-2 mt-3">
+            <button type="submit" className="btn btn-primary">
+              Submit
+            </button>
+          </div>
+          <p
+            className="forgot-password text-center mt-2"
+            style={{ paddingTop: "10px" }}
+          >
+            <b>
+              <a href="/SignUp">register?</a>
+            </b>
+          </p>
+        </div>
+      </form>
+    </div>
+  );
+}
 
 export default Login;
