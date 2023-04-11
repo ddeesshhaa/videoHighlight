@@ -1,0 +1,74 @@
+.vedio-highlight-input{
+    background-color: black;
+    margin-top: 10rem;
+    width: 100%;
+    padding: 4rem 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.input-main-header{
+    margin-bottom: 2rem;
+    color: #6aac28;
+    opacity: 1 !important;
+}
+.input-form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 3px dashed #6aac28 !important;
+    height: 18.75rem;
+    width: 31.25rem;
+    border-radius: 2rem;
+    cursor: pointer;
+    z-index: -1;
+    color: #6aac28;
+    opacity: 1 !important;
+}
+
+.VideoInput_video{
+    /* border-radius: 2rem; */
+    background-color: black;
+}
+
+.data-div{
+    margin: 0.8rem 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* background-color: #6aac28; */
+    border-radius: 1rem;
+    padding: 1rem 1.2rem;
+    flex-direction: column;
+}
+
+.span{
+    display: flex;
+    gap: 0.4rem;
+    align-items: center;
+}
+
+.btn{
+    background-color: #6aac28 !important;
+    padding: 1rem 4rem !important;
+    font-weight: bold !important;
+    font-size: 1.2rem !important;
+}
+
+@media screen and (max-width:550px){
+    .input-form{
+        height: 14rem;
+        width: 25rem;
+    }
+}
+
+@media screen and (max-width:450px){
+    .input-form{
+        height: 10rem;
+        width: 20rem;
+    }
+}

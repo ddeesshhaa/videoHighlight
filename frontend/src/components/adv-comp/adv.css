@@ -1,0 +1,30 @@
+.vedio-highlight-adv{
+    background-color: #1c1b21;
+    margin-top: 10rem;
+}
+.cards-cont{
+    display: flex;
+    gap:2rem;
+}
+.adv-card{
+    background-color: #6aac28;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 5rem;
+    padding: 3rem 0;
+    border-radius: 2rem;
+    text-align: center;
+}
+
+.adv-card img{
+    height: 5rem;
+    width: 5rem;
+    margin-bottom: 2rem;
+}
+
+.adv-card p{
+    font-size: 1rem;
+    font-weight: bolder;
+}

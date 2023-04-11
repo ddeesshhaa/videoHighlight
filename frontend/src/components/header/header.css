@@ -1,0 +1,103 @@
+.vedio-highlight-navbar,
+.navbar-items-desk,
+.nav-left,
+.nav-right{
+    display: flex;
+    color: white;
+    align-items: center;
+    gap: 1rem;
+    font-weight: 700;
+    font-size: 1.2rem;
+    background-color: #000;
+}
+
+.vedio-highlight-navbar{
+    padding: 2rem;
+}
+
+.navbar-items-desk{
+    justify-content: space-between;
+    width: 100%;
+}
+
+.nav-left p:hover{
+    color: #6aac28;
+}
+
+.nav-right p:hover,
+.drop-div:hover,
+.drb-itm:hover{
+    color: #6aac28;
+}
+
+.drb-itm{
+    cursor: pointer;
+}
+
+.logo img{
+    width: 5rem;
+    height: 3rem;
+}
+
+.header-img{
+    width: 100%;
+    max-width: 1920px;
+}
+
+.btn-drop{
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.drop-div{
+    margin-top: -17px;
+}
+
+
+a{
+    text-decoration: none !important;
+    color: unset !important;
+}
+
+.login{
+    cursor: pointer;
+}
+
+.navbar-items {
+    position: absolute;
+    right: 0;
+    top: 7rem;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    background-color: #6aac28;
+    padding: 1rem 3rem;
+    transition: all 0.3s ease-in;
+    overflow: hidden;
+    z-index: 1000;
+    transition: 2s ease-in-out;
+
+  }
+
+  .navbar-menu{
+    display: none;
+  }
+
+
+@media screen and (max-width:768px){
+    .navbar-menu{
+        display: flex;
+      }
+      .navbar-items-desk{
+        display: none;
+      }
+      .vedio-highlight-header{
+        padding: 0;
+      }
+      .vedio-highlight-navbar{
+        justify-content: space-between;
+      }
+      
+}
