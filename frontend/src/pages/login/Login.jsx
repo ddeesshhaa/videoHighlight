@@ -4,18 +4,16 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 function Login() {
-  
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const Sign = async (e) => {
     e.preventDefault();
-    console.log(email, password);
     let res = await axios.post(
-      "localhost:8080/login",
+      "http://localhost:8080/signin",
       {
-        email:email,
-        password:password
+        email: email,
+        password: password,
       },
       {
         headers: {
@@ -23,13 +21,13 @@ function Login() {
         },
       }
     );
-    console.log(res);
-    if(res.status == 200){
-      localStorage.setItem('auth', res.data.token);
-      navigate('/')
-    }else{
+
+    if (res.status === 200) {
+      localStorage.setItem("auth", res.data.token);
+      navigate("/");
+    } else {
       console.log(res.data);
-      window.location.reload()
+      window.location.reload();
     }
   };
   return (

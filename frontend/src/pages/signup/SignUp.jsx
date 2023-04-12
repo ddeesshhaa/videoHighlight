@@ -5,14 +5,13 @@ import axios from "axios";
 function SignUp() {
   const signup = async (e) => {
     e.preventDefault();
-
     let response = await axios.post(
-      "localhost:8080/signup",
+      "http://localhost:8080/signup",
       {
         firstName: e.target.firstname.value,
-        lastName:e.target.secondname.value,
-        email:e.target.email.value,
-        password:e.target.password.value
+        lastName: e.target.secondname.value,
+        email: e.target.email.value,
+        password: e.target.password.value,
       },
       {
         headers: {
@@ -20,9 +19,9 @@ function SignUp() {
         },
       }
     );
-    response = await response.json();
-    console.log(response);
-    if (response.status == 200)
+    // response = await response.json();
+    console.log(response.status);
+    if (response.status === 200)
       window.location.replace("http://127.0.0.1:3000/login");
   };
   return (
@@ -72,7 +71,7 @@ function SignUp() {
               required
             />
           </div>
-          
+
           <div className="d-grid gap-2 mt-3">
             <button type="submit" className="btn btn-primary">
               Submit
