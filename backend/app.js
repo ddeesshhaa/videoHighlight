@@ -11,7 +11,7 @@ app.use(bp.json());
 app.use(cors());
 
 app.use("/signup", signupRouter);
-app.use("/signin", loginRouter);
+app.use("/login", loginRouter);
 
 app.listen(8080, () => {
   console.log("Port 8080");

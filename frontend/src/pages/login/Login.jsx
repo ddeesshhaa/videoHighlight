@@ -10,7 +10,7 @@ function Login() {
   const Sign = async (e) => {
     e.preventDefault();
     let res = await axios.post(
-      "http://localhost:8080/signin",
+      "http://localhost:8080/login",
       {
         email: email,
         password: password,
@@ -24,9 +24,10 @@ function Login() {
 
     if (res.status === 200) {
       localStorage.setItem("auth", res.data.token);
+      console.log(res.data);
       navigate("/");
     } else {
-      console.log(res.data);
+      console.log(res.status);
       window.location.reload();
     }
   };

@@ -3,13 +3,13 @@ import Style from "./AuthStyle.module.css";
 import axios from "axios";
 
 function SignUp() {
-  const signup = async (e) => {
+  const signUp = async (e) => {
     e.preventDefault();
     let response = await axios.post(
       "http://localhost:8080/signup",
       {
-        firstName: e.target.firstname.value,
-        lastName: e.target.secondname.value,
+        firstName: e.target.firstName.value,
+        lastName: e.target.secondName.value,
         email: e.target.email.value,
         password: e.target.password.value,
       },
@@ -26,7 +26,7 @@ function SignUp() {
   };
   return (
     <div className={Style.Auth_form_container}>
-      <form className={Style.Auth_form} onSubmit={signup}>
+      <form className={Style.Auth_form} onSubmit={signUp}>
         <div className={Style.Auth_form_content}>
           <h3 className={Style.Auth_form_title}>Sign up</h3>
 
@@ -34,7 +34,7 @@ function SignUp() {
             <label>First Name</label>
             <input
               type="text"
-              name="firstname"
+              name="firstName"
               className="form-control mt-1"
               placeholder="Enter FirstName"
             />
@@ -44,7 +44,7 @@ function SignUp() {
             <label>Second Name</label>
             <input
               type="text"
-              name="secondname"
+              name="secondName"
               className="form-control mt-1"
               placeholder="Enter SecondName"
             />
