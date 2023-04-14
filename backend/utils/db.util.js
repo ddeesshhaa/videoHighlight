@@ -1,7 +1,8 @@
 const mongoose = require("mongoose");
-const { user } = require("../models/user.model");
-// const DB_URL = "mongodb+srv://desha:10203040@cluster0.oin2mwv.mongodb.net/?retryWrites=true&w=majority";
-const DB_URL = "mongodb://127.0.0.1:27017/VH";
+const dotenv = require("dotenv");
+// const { user } = require("../models/user.model");
+dotenv.config({ path: ".env" });
+const DB_URL = process.env.DB_URL;
 
 exports.dbConnect = async () => {
   await mongoose.connect(DB_URL);

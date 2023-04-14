@@ -10,9 +10,10 @@ const userSchema = mongoose.Schema({
     default:
       "https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png",
   },
-  priv: {
-    type: Boolean,
-    default: false,
+  role: {
+    type: String,
+    enum: ["user", "admin"],
+    default: "user",
   },
   favVideos: {
     type: Array,
