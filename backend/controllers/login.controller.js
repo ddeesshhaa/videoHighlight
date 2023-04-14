@@ -3,6 +3,7 @@ const { dbConnect, dbDisconnect } = require("../utils/db.util");
 const bcrypt = require("bcrypt");
 const bp = require("body-parser").urlencoded({ extended: true });
 const request = require("request-promise");
+const jwt = require("jsonwebtoken");
 
 exports.login = async (req, res) => {
   await dbConnect();
@@ -14,7 +15,10 @@ exports.login = async (req, res) => {
   let x = await user.findOne({ email: email });
   if (x !== null) {
     if (await bcrypt.compare(password, x.password)) {
-      res.status(200).send(x);
+      const token = jwt.sign({ data: x }, process.env.JWT_SECRET_KEY, {
+        expiresIn: process.env.JWT_EXPIRATION_TIME,
+      });
+      res.status(200).send(token);
     } else {
       res.status(200).send("Wrong Password");
     }
