@@ -2,6 +2,7 @@ import json
 from pathlib import Path
 import os
 import pandas as pd
+import sys
 
 
 
@@ -78,10 +79,11 @@ def convert_ucf101_csv_to_json(label_csv_path, test_csv_path, video_dir_path, ds
 
 
 if __name__ == '__main__':
-    label_csv_path = Path("assets/uploads/generate/json/classInd.txt")
-    test_csv_path = Path("assets/uploads/generate/json/testlist.txt")
-    dst_json_path = Path("assets/uploads/generate/json/soccerShoubra.json")
-    jpg_path = Path("assets/uploads/generate/jpgs")
+    tempPath = sys.argv[2]
+    label_csv_path = Path(os.path.join(tempPath,"json","classInd.txt"))
+    test_csv_path = Path(os.path.join(tempPath,"json","testlist.txt"))
+    dst_json_path = Path(os.path.join(tempPath,"json","soccerShoubra.json"))
+    jpg_path = Path(os.path.join(tempPath,"jpgs"))
 
 
 

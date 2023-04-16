@@ -1,32 +1,30 @@
 const { spawn } = require("child_process");
 const path = require("path");
-exports.jpgToJson = (videoName, tempPath) => {
+
+exports.runModel = (tempDir) => {
   return new Promise((resolve, reject) => {
-    // video = videoName.split(".");
-    // v = video.slice(0, video.length - 1);
-    // vName = v.join(".");
-    jpgPyPath = path.join(
+    mainPyPath = path.join(
       __dirname,
       "../",
       "assets",
       "generate",
       "model",
-      "utils",
-      "SoccerShoubra_json.py"
+      "main.py"
     );
-    const splitVideo = spawn("python3", [jpgPyPath, videoName, tempPath]);
+    const splitVideo = spawn("python3", [mainPyPath, "--root_path " + tempDir]);
     splitVideo.stdout.on("data", (data) => {
-      // console.log(`stdout: ${data}`);
+      console.log(`stdout: ${data}`);
+      // console.log("1-Splitting Video");
     });
 
     splitVideo.stderr.on("data", (data) => {
       console.error(`stderr: ${data}`);
-      // reject(data);
+      // reject("error on step 1");
     });
 
     splitVideo.on("close", (code) => {
       // console.log(`child process exited with code ${code}`);
-      resolve({ videoName, tempPath });
+      resolve(tempDir);
     });
   });
 };

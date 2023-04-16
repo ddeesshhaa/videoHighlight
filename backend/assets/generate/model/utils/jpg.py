@@ -78,11 +78,14 @@ def class_process(class_dir_path, dst_root_path, ext, fps=-1, size=240):
 
 if __name__ == '__main__':
     name = sys.argv[1]
-    clipPath = os.path.abspath('assets/uploads/generate/clips')+"/"+name+"/"
-    jpgPath = os.path.abspath('assets/uploads/generate/jpgs')+"/"+name+"/"
-    os.mkdir(jpgPath)
+    tempPath = sys.argv[2]
+    clipPath = os.path.join(tempPath,"clips")+"/"
+    jpgPath = os.path.join(tempPath,"jpgs")+"/"
     dir_path=Path(clipPath)
     dst_path=Path(jpgPath)
+    print("*"*20)
+    print(dir_path)
+    print(dst_path)
     dataset="activitynet"
     n_jobs=1
     fps=-1

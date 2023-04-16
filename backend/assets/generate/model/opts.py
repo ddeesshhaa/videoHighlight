@@ -1,5 +1,6 @@
 import argparse
 from pathlib import Path
+import os
 
 
 def parse_opts():
@@ -9,7 +10,7 @@ def parse_opts():
                         type=Path,
                         help='Root directory path')
     parser.add_argument('--video_path',
-                        default=(r"SoccerShoubra/"),
+                        default=(r"jpgs/"),
                         type=Path,
                         help='Directory path of videos')
     parser.add_argument('--annotation_path',
@@ -38,7 +39,8 @@ def parse_opts():
                         help=('Number of classes of pretraining task.'
                               'When using --pretrain_path, this must be set.'))
     parser.add_argument('--pretrain_path',
-                        default=(r"r3d34_K_200ep.pth"),
+                        default=(os.path.abspath('assets/generate/preTrained/r3d50_K_200ep.pth')),
+
                         type=Path,
                         help='Pretrained model path (.pth).')
     parser.add_argument(
@@ -172,7 +174,7 @@ def parse_opts():
                         type=int,
                         help='Number of validation samples for each activity')
     parser.add_argument('--resume_path',
-                        default=r"result/save_20.pth",
+                        default=(os.path.abspath('assets/generate/preTrained/save_20.pth')),
                         type=Path,
                         help='Save data (.pth) of previous training')
     parser.add_argument('--no_train',
@@ -221,7 +223,7 @@ def parse_opts():
         help=
         '(resnet | resnet2p1d | preresnet | wideresnet | resnext | densenet | ')
     parser.add_argument('--model_depth',
-                        default=34,
+                        default=50,
                         type=int,
                         help='Depth of resnet (10 | 18 | 34 | 50 | 101)')
     parser.add_argument('--conv1_t_size',

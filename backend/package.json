@@ -11,6 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "@techainer1t/torch-js": "^0.13.0",
+    "async": "^3.2.4",
     "bcrypt": "^5.1.0",
     "body-parser": "^1.20.2",
     "child_process": "^1.0.2",
@@ -19,6 +20,7 @@
     "express-fileupload": "^1.4.0",
     "file-upload": "^0.0.0",
     "fileupload": "^1.0.0",
+    "fs-jetpack": "^5.1.0",
     "i": "^0.3.7",
     "jsonwebtoken": "^9.0.0",
     "mongodb": "^5.2.0",
