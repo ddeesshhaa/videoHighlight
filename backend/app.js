@@ -1,26 +1,37 @@
 const express = require("express");
-const dotenv = require("dotenv");
-const path = require("path");
-const signupRouter = require("./routers/signup.router");
-const loginRouter = require("./routers/login.router");
+const dotenv = require("dotenv").config();
 const bp = require("body-parser");
 const cors = require("cors");
 const morgan = require("morgan");
-const jwt = require("jsonwebtoken");
+const path = require("path");
 
 const app = express();
-dotenv.config({ path: ".env" });
+
+//DB
+const dbConnect = require("./utils/db.util");
+dbConnect.dbConnect();
+
 if (process.env.NODE_ENV === "dev") {
   app.use(morgan("dev"));
   console.log("Mode :" + process.env.NODE_ENV);
 }
+//Middleware
 app.use(bp.urlencoded({ extended: true }));
 app.use(bp.json());
 app.use(cors());
+app.use(express.static(path.join(__dirname, "assets")));
 
+// Mount Routes
+const signupRouter = require("./routers/signup.router");
+const loginRouter = require("./routers/login.router");
+const videoUpload = require("./routers/videoUpload.router");
+
+//Routes
 app.use("/signup", signupRouter);
 app.use("/login", loginRouter);
+app.use("/generate", videoUpload);
+
 const PORT = process.env.PORT;
 app.listen(PORT, () => {
-  console.log("Port " + PORT);
+  console.log("App Running on Port " + PORT);
 });

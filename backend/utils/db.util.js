@@ -1,17 +1,29 @@
 const mongoose = require("mongoose");
-const dotenv = require("dotenv");
+const dotenv = require("dotenv").config();
 // const { user } = require("../models/user.model");
-dotenv.config({ path: ".env" });
+
 const DB_URL = process.env.DB_URL;
 
-exports.dbConnect = async () => {
-  await mongoose.connect(DB_URL);
-  console.log("DB Connected");
+exports.dbConnect = () => {
+  mongoose
+    .connect(DB_URL)
+    .then((connect) => {
+      console.log("Connected to MongoDB: " + connect.connection.host);
+    })
+    .catch((err) => {
+      console.error("Database Error: " + err);
+    });
 };
 
 exports.dbDisconnect = async () => {
-  await mongoose.disconnect();
-  console.log("DB Disconnect");
+  mongoose
+    .disconnect()
+    .then((connect) => {
+      console.log("Disconnected from MongoDB");
+    })
+    .catch((err) => {
+      console.error("Database Error: " + err);
+    });
 };
 
 exports.checkData = async (model, key, value) => {
