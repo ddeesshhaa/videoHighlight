@@ -25,11 +25,13 @@ app.use(express.static(path.join(__dirname, "assets")));
 const signupRouter = require("./routers/signup.router");
 const loginRouter = require("./routers/login.router");
 const videoUpload = require("./routers/videoUpload.router");
+const tokenRoute = require("./routers/token.route");
 
 //Routes
 app.use("/signup", signupRouter);
 app.use("/login", loginRouter);
 app.use("/generate", videoUpload);
+app.use("/token", tokenRoute);
 
 const PORT = process.env.PORT;
 app.listen(PORT, () => {
