@@ -3,6 +3,7 @@ const { clipToJpg } = require("./clipToJpg");
 const { getVideoName } = require("./getVideoName");
 const { jpgToJson } = require("./jpgToJson");
 const { runModel } = require("./runModel");
+const { merge } = require("./merge");
 
 exports.callingFunctions = async (videoName, tempDir) => {
   splitVideo(videoName, tempDir)
@@ -29,7 +30,15 @@ exports.callingFunctions = async (videoName, tempDir) => {
                       console.log(
                         "5- Model Done & results on " + video + "/result"
                       );
+                      merge(video)
+                        .then((video) => {
+                          console.log("Merge Done");
+                        })
+                        .catch((err) => {
+                          console.error(err);
+                        });
                     })
+
                     .catch((err) => {
                       console.error(err);
                     });

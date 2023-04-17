@@ -36,7 +36,10 @@ exports.uploadVideo = (req, res) => {
 };
 
 exports.test = async (req, res) => {
-  videoName = "england-chelsea.mkv";
+  // videoName = "england-chelsea.mkv";
+  // videoName = "englandeplArsenalChelsea1stg0.mkv";
+  // videoName = "englandeplBournemouthChelsea2sts7.mkv";
+  videoName = "englandeplArsenalLeicester1stc0.mkv";
   rootFolderName = videoName.split(".");
   rootFolderName = rootFolderName.slice(0, rootFolderName.length - 1);
   rootFolderName = rootFolderName.join(".");

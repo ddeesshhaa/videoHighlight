@@ -1,34 +1,30 @@
 const { spawn } = require("child_process");
 const path = require("path");
 
-exports.runModel = (tempDir) => {
+exports.merge = (tempPath) => {
   return new Promise((resolve, reject) => {
-    mainPyPath = path.join(
+    jpgPyPath = path.join(
       __dirname,
       "../",
       "assets",
       "generate",
       "model",
-      "main.py"
+      "utils",
+      "merge.py"
     );
-    const splitVideo = spawn("python3", [
-      mainPyPath,
-      "--root_path",
-      tempDir + "/",
-    ]);
+    const splitVideo = spawn("python3", [jpgPyPath, tempPath]);
     splitVideo.stdout.on("data", (data) => {
-      console.log(`stdout: ${data}`);
-      // console.log("1-Splitting Video");
+      // console.log(`stdout: ${data}`);
     });
 
     splitVideo.stderr.on("data", (data) => {
       console.error(`stderr: ${data}`);
-      // reject("error on step 1");
+      // reject("error on step 2");
     });
 
     splitVideo.on("close", (code) => {
       // console.log(`child process exited with code ${code}`);
-      resolve(tempDir);
+      resolve(tempPath);
     });
   });
 };

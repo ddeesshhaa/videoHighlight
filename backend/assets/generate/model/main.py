@@ -2,6 +2,7 @@ from pathlib import Path
 import json
 import random
 import os
+import sys
 
 import numpy as np
 import torch
@@ -39,8 +40,8 @@ def json_serial(obj):
         return str(obj)
 
 
-def get_opt():
-    opt = parse_opts()
+def get_opt(root):
+    opt = parse_opts(root)
 
     if opt.root_path is not None:
         opt.video_path = opt.root_path / opt.video_path
@@ -317,7 +318,7 @@ def save_checkpoint(save_file_path, epoch, arch, model, optimizer, scheduler):
     torch.save(save_states, save_file_path)
 
 
-def main_worker(index, opt):
+def main_worker(index, opt,root):
     random.seed(opt.manual_seed)
     np.random.seed(opt.manual_seed)
     torch.manual_seed(opt.manual_seed)
@@ -413,7 +414,7 @@ def main_worker(index, opt):
                             opt.output_topk)
 
 
-    my_file = open(r"C:\Users\ALKODS\Downloads\json\classInd.txt", "r")
+    my_file = open(os.path.join(root,"json","classInd.txt"), "r")
     # reading the file
     data = my_file.read()
     data_into_list = data.split("\n")
@@ -427,7 +428,8 @@ def main_worker(index, opt):
 
 
 if __name__ == '__main__':
-    opt = get_opt()
+    root = sys.argv[2]
+    opt = get_opt(root)
 
     opt.device = torch.device('cpu' if opt.no_cuda else 'cuda')
     if not opt.no_cuda:
@@ -438,6 +440,6 @@ if __name__ == '__main__':
     opt.ngpus_per_node = torch.cuda.device_count()
     if opt.distributed:
         opt.world_size = opt.ngpus_per_node * opt.world_size
-        mp.spawn(main_worker, nprocs=opt.ngpus_per_node, args=(opt,))
+        mp.spawn(main_worker, nprocs=opt.ngpus_per_node, args=(opt,root)),
     else:
-        main_worker(-1, opt)
+        main_worker(-1, opt,root)

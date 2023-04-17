@@ -2,11 +2,10 @@ import argparse
 from pathlib import Path
 import os
 
-
-def parse_opts():
+def parse_opts(root):
     parser = argparse.ArgumentParser()
     parser.add_argument('--root_path',
-                        default=(r"C:/Users/ALKODS/Downloads/"),
+                        default=(root),
                         type=Path,
                         help='Root directory path')
     parser.add_argument('--video_path',
