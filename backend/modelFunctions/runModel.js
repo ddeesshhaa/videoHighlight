@@ -11,13 +11,13 @@ exports.runModel = (tempDir) => {
       "model",
       "main.py"
     );
-    const splitVideo = spawn("python3", [
+    const splitVideo = spawn("python", [
       mainPyPath,
       "--root_path",
       tempDir + "/",
     ]);
     splitVideo.stdout.on("data", (data) => {
-      console.log(`stdout: ${data}`);
+      // console.log(`stdout: ${data}`);
       // console.log("1-Splitting Video");
     });
 

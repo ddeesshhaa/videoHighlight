@@ -26,12 +26,14 @@ const signupRouter = require("./routers/signup.router");
 const loginRouter = require("./routers/login.router");
 const videoUpload = require("./routers/videoUpload.router");
 const tokenRoute = require("./routers/token.route");
+const profileRouter = require("./routers/profile.router");
 
 //Routes
 app.use("/signup", signupRouter);
 app.use("/login", loginRouter);
 app.use("/generate", videoUpload);
 app.use("/token", tokenRoute);
+app.use("/profile", profileRouter);
 
 const PORT = process.env.PORT;
 app.listen(PORT, () => {

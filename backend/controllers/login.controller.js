@@ -12,6 +12,7 @@ exports.login = async (req, res) => {
         expiresIn: process.env.JWT_EXPIRATION_TIME,
       });
       console.log(token);
+      // res.send(x._id);
       res.status(200).send(token);
     } else {
       res.status(200).send("Wrong Password");

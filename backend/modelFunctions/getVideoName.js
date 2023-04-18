@@ -14,7 +14,7 @@ exports.getVideoName = (videoName, tempPath) => {
       "utils",
       "getVideoName.py"
     );
-    const splitVideo = spawn("python3", [splitPyPath, videoName, tempPath]);
+    const splitVideo = spawn("python", [splitPyPath, videoName, tempPath]);
     splitVideo.stdout.on("data", (data) => {
       // console.log(`stdout: ${data}`);
     });

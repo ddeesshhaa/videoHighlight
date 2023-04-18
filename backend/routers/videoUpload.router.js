@@ -4,6 +4,6 @@ const upload = require("express-fileupload");
 
 router.post("/", upload(), videoController.uploadVideo);
 // router.post("/try", videoController.splitVideo);
-router.post("/test", videoController.test);
+router.post("/new", videoController.generateVideo);
 
 module.exports = router;

@@ -10,7 +10,7 @@ arg1 = sys.argv[1]
 tempDir = sys.argv[2]
 name = os.path.splitext(arg1)[0]
 extension = os.path.splitext(arg1)[1]
-parentPath=os.path.abspath("assets/uploads/videos")+"/"
+parentPath=os.path.abspath(os.path.join('assets',"uploads","videos",name))+"/"
 # clipPath = os.path.abspath('assets/uploads/generate/clips')+"/"
 clipPath = os.path.join(tempDir,"clips")+"/"
 

@@ -6,27 +6,8 @@ const videoSchema = mongoose.Schema(
       type: String,
       required: true,
     },
-    homeTeam: {
-      type: String,
-      required: true,
-    },
-    awayTeam: {
-      type: String,
-      required: true,
-    },
-    score: {
-      type: String,
-    },
-    type: {
-      type: String,
-      enum: ["football", "basketball", "tennis"],
-      default: "football",
-    },
     owner: {
       type: String,
-    },
-    status: {
-      type: Boolean,
     },
   },
   { timestamps: true }

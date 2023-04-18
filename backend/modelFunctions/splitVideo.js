@@ -12,7 +12,7 @@ exports.splitVideo = (videoName, tempDir) => {
       "utils",
       "split.py"
     );
-    const splitVideo = spawn("python3", [splitPyPath, videoName, tempDir]);
+    const splitVideo = spawn("python", [splitPyPath, videoName, tempDir]);
     splitVideo.stdout.on("data", (data) => {
       // console.log(`stdout: ${data}`);
       // console.log("1-Splitting Video");
