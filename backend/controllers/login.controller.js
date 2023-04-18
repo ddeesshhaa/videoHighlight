@@ -11,7 +11,6 @@ exports.login = async (req, res) => {
       const token = jwt.sign({ id: x._id }, process.env.JWT_SECRET_KEY, {
         expiresIn: process.env.JWT_EXPIRATION_TIME,
       });
-      console.log(token);
       // res.send(x._id);
       res.status(200).send(token);
     } else {
@@ -19,5 +18,13 @@ exports.login = async (req, res) => {
     }
   } else {
     res.status(404).send("Wrong email");
+  }
+};
+
+exports.check = async (req, res) => {
+  if (req.user == null) {
+    res.redirect("/login");
+  } else {
+    res.redirect("/profile");
   }
 };

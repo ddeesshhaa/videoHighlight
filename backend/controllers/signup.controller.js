@@ -21,3 +21,11 @@ exports.addUser = async (req, res) => {
     res.status(500).send("Error");
   }
 };
+
+exports.check = (req, res) => {
+  if (req.user == null) {
+    res.redirect("/signup");
+  } else {
+    res.redirect("/profile");
+  }
+};

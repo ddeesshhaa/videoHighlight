@@ -27,13 +27,18 @@ const loginRouter = require("./routers/login.router");
 const videoUpload = require("./routers/videoUpload.router");
 const tokenRoute = require("./routers/token.route");
 const profileRouter = require("./routers/profile.router");
+const videosRouter = require("./routers/videos.router");
+const generateRouter = require("./routers/generate.router");
 
 //Routes
 app.use("/signup", signupRouter);
 app.use("/login", loginRouter);
-app.use("/generate", videoUpload);
+app.use("/upload", videoUpload);
 app.use("/token", tokenRoute);
 app.use("/profile", profileRouter);
+app.use("/videos", videosRouter);
+app.use("/upload", videoUpload);
+app.use("/generate", generateRouter);
 
 const PORT = process.env.PORT;
 app.listen(PORT, () => {
