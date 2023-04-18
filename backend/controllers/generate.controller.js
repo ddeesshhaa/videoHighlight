@@ -18,10 +18,11 @@ exports.generateVideo = async (req, res) => {
     // // videoName = "englandeplBournemouthChelsea2sts7.mkv";
     // // videoName = "englandeplArsenalLeicester1stc0.mkv";
     videoName = video.title;
-    videoArray = videoName.split(".");
-    rootFolderName = videoArray.slice(0, videoArray.length - 1);
-    ext = videoArray[videoArray.length - 1];
-    rootFolderName = rootFolderName.join(".");
+    // videoArray = videoName.split(".");
+    // rootFolderName = videoArray.slice(0, videoArray.length - 1);
+    rootFolderName = video.title;
+    ext = video.ext;
+    // rootFolderName = rootFolderName.join(".");
     // res.send(rootFolderName);
 
     const classIndPath = path.join(
@@ -48,7 +49,12 @@ exports.generateVideo = async (req, res) => {
       copyFile(classIndPath, path.join(tempDir, "json", "classInd.txt")),
     ]);
 
-    await modelFunctions.callingFunctions(videoName, tempDir, highlightPath);
+    await modelFunctions.callingFunctions(
+      videoName,
+      ext,
+      tempDir,
+      highlightPath
+    );
     fsExtra.remove(tempDir),
       // await userModel.findByIdAndUpdate(
       //   { userId },
@@ -57,8 +63,8 @@ exports.generateVideo = async (req, res) => {
       await user.findByIdAndUpdate(userId, {
         $push: { doneVideos: req.body.id },
       });
-    res.send(highlightPath);
+    res.status(200).send("generated succefully");
   } else {
-    res.redirect("/login");
+    // res.status(40 1).send(" The user is not authorized");
   }
 };

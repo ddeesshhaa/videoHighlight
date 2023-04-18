@@ -1,7 +1,7 @@
 const { spawn } = require("child_process");
 const path = require("path");
 
-exports.splitVideo = (videoName, tempDir) => {
+exports.splitVideo = (videoName, ext, tempDir) => {
   return new Promise((resolve, reject) => {
     splitPyPath = path.join(
       __dirname,
@@ -12,7 +12,7 @@ exports.splitVideo = (videoName, tempDir) => {
       "utils",
       "split.py"
     );
-    const splitVideo = spawn("python", [splitPyPath, videoName, tempDir]);
+    const splitVideo = spawn("python", [splitPyPath, videoName, tempDir, ext]);
     splitVideo.stdout.on("data", (data) => {
       // console.log(`stdout: ${data}`);
       // console.log("1-Splitting Video");
@@ -25,7 +25,7 @@ exports.splitVideo = (videoName, tempDir) => {
 
     splitVideo.on("close", (code) => {
       // console.log(`child process exited with code ${code}`);
-      resolve({ videoName, tempDir });
+      resolve({ videoName, tempDir, ext });
     });
   });
 };

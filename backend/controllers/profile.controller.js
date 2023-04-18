@@ -13,7 +13,7 @@ exports.getVideosById = (req, res) => {
 };
 
 exports.getData = (req, res) => {
-  res.send(req.user);
+  res.status(200).send(req.user);
 };
 
 exports.addToFav = async (req, res) => {
@@ -21,9 +21,9 @@ exports.addToFav = async (req, res) => {
     await user.findByIdAndUpdate(req.user._id, {
       $push: { favVideos: req.body.videoId },
     });
-    res.status(201).send(req.user._id);
+    res.status(200).send(req.user._id);
   } else {
-    res.redirect("/login");
+    res.status(401).send(" The user is not authorized");
   }
 };
 
@@ -32,8 +32,8 @@ exports.removeFromFav = async (req, res) => {
     await user.findByIdAndUpdate(req.user._id, {
       $pull: { favVideos: req.body.videoId },
     });
-    res.status(201).send(req.user._id);
+    res.status(200).send(req.user._id);
   } else {
-    res.redirect("/login");
+    res.status(401).send(" The user is not authorized");
   }
 };

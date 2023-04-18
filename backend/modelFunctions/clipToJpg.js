@@ -1,11 +1,10 @@
 const { spawn } = require("child_process");
 const path = require("path");
 
-exports.clipToJpg = (videoName, tempPath) => {
+exports.clipToJpg = (videoName, tempPath, ext) => {
   return new Promise((resolve, reject) => {
-    video = videoName.split(".");
-    v = video.slice(0, video.length - 1);
-    vName = v.join(".");
+    vName = videoName;
+    ext = ext;
     jpgPyPath = path.join(
       __dirname,
       "../",
@@ -15,7 +14,7 @@ exports.clipToJpg = (videoName, tempPath) => {
       "utils",
       "jpg.py"
     );
-    const splitVideo = spawn("python", [jpgPyPath, vName, tempPath]);
+    const splitVideo = spawn("python", [jpgPyPath, videoName, tempPath, ext]);
     splitVideo.stdout.on("data", (data) => {
       // console.log(`stdout: ${data}`);
     });

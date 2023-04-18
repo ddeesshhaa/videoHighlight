@@ -9,6 +9,7 @@ const videoSchema = mongoose.Schema(
     owner: {
       type: String,
     },
+    ext: String,
   },
   { timestamps: true }
 );

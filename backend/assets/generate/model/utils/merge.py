@@ -6,6 +6,7 @@ import re
 import sys
 
 tempPath = sys.argv[1]
+ext = sys.argv[2]
 
 with open(os.path.join(tempPath,"result","test.json"), 'r') as f: #path of output json result
     distros_dict = load(f)
@@ -17,18 +18,18 @@ for distro in distros_dict['results']:
     clip_name = distro
     label = distros_dict['results'][clip_name][0]['label']
     score = float(distros_dict['results'][clip_name][0]['score'])
-    if score > 0.6 and label =="Goals":
-        required_video_file = root + clip_name + ".mkv"
+    if score > 0.5 and label =="Goals":
+        required_video_file = root + clip_name +"."+ ext
         clip = VideoFileClip(required_video_file)
         clips.append(clip)
-    if score > 0.9 and label ==("Subs"):
-        required_video_file = root + clip_name + ".mkv"
+    if score > 0.8 and label ==("Subs"):
+        required_video_file = root + clip_name + "."+ ext
 
         clip = VideoFileClip(required_video_file)
         clips.append(clip)
 
-    if score > 0.9 and label ==("Cards"):
-        required_video_file = root + clip_name + ".mkv"
+    if score > 0.8 and label ==("Cards"):
+        required_video_file = root + clip_name + "."+ ext
 
         clip = VideoFileClip(required_video_file)
         clips.append(clip)
@@ -36,4 +37,4 @@ for distro in distros_dict['results']:
 
 
 highlight = concatenate_videoclips(clips)
-highlight.write_videofile(tempPath+"/highlighted.mkv", codec="libx264", temp_audiofile='temp-audio.m4a', remove_temp=True, audio_codec='aac')
+highlight.write_videofile(tempPath+"/highlighted."+ext, codec="libx264", temp_audiofile='temp-audio.m4a', remove_temp=True, audio_codec='aac')

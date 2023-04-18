@@ -23,9 +23,7 @@ exports.addUser = async (req, res) => {
 };
 
 exports.check = (req, res) => {
-  if (req.user == null) {
-    res.redirect("/signup");
-  } else {
-    res.redirect("/profile");
+  if (req.user != null) {
+    res.status(404).send("Cant signup when logged in");
   }
 };

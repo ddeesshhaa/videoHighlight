@@ -12,19 +12,17 @@ exports.login = async (req, res) => {
         expiresIn: process.env.JWT_EXPIRATION_TIME,
       });
       // res.send(x._id);
-      res.status(200).send(token);
+      res.status(201).send(token);
     } else {
       res.status(200).send("Wrong Password");
     }
   } else {
-    res.status(404).send("Wrong email");
+    res.status(200).send("Wrong email");
   }
 };
 
 exports.check = async (req, res) => {
-  if (req.user == null) {
-    res.redirect("/login");
-  } else {
-    res.redirect("/profile");
+  if (req.user != null) {
+    res.status(200).send("already logged in");
   }
 };
