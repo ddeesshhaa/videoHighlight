@@ -14,10 +14,10 @@ exports.login = async (req, res) => {
       // res.send(userData._id);
       res.status(200).json({userData,token});
     } else {
-      res.status(200).send("Wrong Password");
+      res.status(400).send("Wrong Password");
     }
   } else {
-    res.status(200).send("Wrong email");
+    res.status(400).send("Wrong email");
   }
 };
 
