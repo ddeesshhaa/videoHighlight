@@ -9,6 +9,7 @@ const mkdir = promisify(fs.mkdir);
 
 exports.uploadVideo = async (req, res) => {
   if (req.files) {
+    console.log("ay 7aga")
     let video = req.files.video;
     let videoBaseName = video.name;
     videoBaseNameArray = videoBaseName.split(".");
@@ -48,4 +49,5 @@ exports.uploadVideo = async (req, res) => {
     });
     res.send(data);
   }
+  console.log(req.files);
 };
