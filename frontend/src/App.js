@@ -9,7 +9,6 @@ import './App.css';
 function App() {
 
   const [showScroll, setShowScroll] = useState(false);
-  const[test,setTest] = useState("noo");
  
   const checkScrollTop = () => {
     if (!showScroll && window.pageYOffset > 100){
@@ -36,14 +35,14 @@ function App() {
   return (
     <div className="App">
 
-      <FaArrowCircleUp className="scrollTop" onClick={scrollTop} style={{height: 40, display: showScroll ? 'flex' : 'none'}}/>
-      <Header handleSport={handleSport} test={test}/>
+      <FaArrowCircleUp className="scrollTop" onClick={scrollTop} style={{height: 40, display: showScroll ? 'flex' : 'none' , color:'grey'}}/>
+      <Header handleSport={handleSport} />
 
       <Routes>
-          <Route exact path="/" element={<Home pic={pic} />}/>
-          <Route  path="/login"  element={<Login test={test} setTest={setTest}/>}/>
+          <Route exact path="/" element={<Home pic={pic}/>}/>
+          <Route  path="/login"  element={<Login />}/>
           <Route  path="/signup"  element={<SignUP />}/>
-          <Route  path="/profile/:id"  element={<Profile test = {test}/>}/>
+          <Route  path="/profile/:id"  element={<Profile />}/>
           <Route  path="/popular"  element={<Popular />}/>
       </Routes>
 

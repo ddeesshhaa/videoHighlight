@@ -3,12 +3,20 @@ import Style from "./AuthStyle.module.css";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-function Login({test,setTest}) {
+import { useAuthContext } from '../../hooks/useAuthContext';
+
+const Login = () => {
+
   const navigate = useNavigate();
+
+  const { dispatch } = useAuthContext()
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const Sign = async (e) => {
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    
     let res = await axios.post(
       "http://localhost:8080/login",
       {
@@ -22,20 +30,25 @@ function Login({test,setTest}) {
       }
     );
 
+    const userData = await res.data;
+    console.log(res);
+
     if (res.status === 200) {
-      localStorage.setItem("auth", res.data);
-      /* localStorage.setItem("data", res.data.data); */
-      console.log(res.data);
-      //setTest(res.data);
+      
+      localStorage.setItem('vh_user', JSON.stringify(userData))
+
+      dispatch({type: 'LOGIN', payload: userData});
+
       navigate("/");
     } else {
       console.log(res.status);
-      //window.location.reload();
+     
     }
   };
+
   return (
     <div className={Style.Auth_form_container}>
-      <form className={Style.Auth_form} onSubmit={Sign}>
+      <form className={Style.Auth_form} onSubmit={handleSubmit}>
         <div className={Style.Auth_form_content}>
           <h3 className={Style.Auth_form_title}>Sign In</h3>
           <div className="form-group mt-3">
@@ -48,6 +61,7 @@ function Login({test,setTest}) {
               onChange={(e) => {
                 setEmail(e.target.value);
               }}
+              required
             />
           </div>
           <div className="form-group mt-3">
@@ -60,6 +74,7 @@ function Login({test,setTest}) {
               onChange={(e) => {
                 setPassword(e.target.value);
               }}
+              required
             />
           </div>
           <div className="d-grid gap-2 mt-3">

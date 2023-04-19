@@ -13,17 +13,18 @@ exports.login = async (req, res) => {
   let hash = bcrypt.hashSync(password, bcrypt.genSaltSync(10));
   // console.log(email,password,hash)
   let x = await user.findOne({ email: email });
+  console.log(x);
   if (x !== null) {
     if (await bcrypt.compare(password, x.password)) {
       const token = jwt.sign({ data: x }, process.env.JWT_SECRET_KEY, {
         expiresIn: process.env.JWT_EXPIRATION_TIME,
       });
-      res.status(200).send(token);
+      res.status(200).json({email , token});
     } else {
-      res.status(200).send("Wrong Password");
+      res.status(400).send("Wrong Password");
     }
   } else {
-    res.status(404).send("Wrong email");
+    res.status(400).send("Wrong email");
   }
   dbDisconnect();
 };

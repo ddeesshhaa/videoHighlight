@@ -1,12 +1,22 @@
-import React, { useContext } from "react";
+import React, { useState } from "react";
 import Style from "./AuthStyle.module.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-function SignUp() {
+
+const SignUp = () => {
+
+  const [error, setError] = useState(null)
+  const [isLoading, setIsLoading] = useState(null)
+  
+
   const navigate = useNavigate();
-  const signUp = async (e) => {
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true)
+    setError(null)
+
     let response = await axios.post(
       "http://localhost:8080/signup",
       {
@@ -21,14 +31,29 @@ function SignUp() {
         },
       }
     );
-    let res =  response;
-    console.log(res.status);
-    if (res.status === 200)
-    navigate('/login');
+
+
+    let user = await response.data;
+    console.log(user);
+    
+
+    if (response.status === 200){
+
+      setIsLoading(false);
+
+      navigate('/login');
+    }
+    else{
+      console.log("snjdnjkan");
+      setIsLoading(false)
+      setError("Email is already exist")
+    }
+
+
   };
   return (
     <div className={Style.Auth_form_container}>
-      <form className={Style.Auth_form} onSubmit={signUp}>
+      <form className={Style.Auth_form} onSubmit={handleSubmit}>
         <div className={Style.Auth_form_content}>
           <h3 className={Style.Auth_form_title}>Sign up</h3>
 
@@ -39,6 +64,7 @@ function SignUp() {
               name="firstName"
               className="form-control mt-1"
               placeholder="Enter FirstName"
+              required
             />
           </div>
 
@@ -49,6 +75,7 @@ function SignUp() {
               name="secondName"
               className="form-control mt-1"
               placeholder="Enter SecondName"
+              required
             />
           </div>
 
@@ -78,6 +105,11 @@ function SignUp() {
             <button type="submit" className="btn btn-primary">
               Submit
             </button>
+
+            {error && <div class="alert alert-danger" role="alert">
+                            error
+                       </div>
+            }
           </div>
           <p
             className="forgot-password text-center mt-2"

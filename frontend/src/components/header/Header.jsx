@@ -1,12 +1,15 @@
 import React , {useState} from 'react'
-import { Link } from 'react-router-dom';
+import { Link ,NavLink} from 'react-router-dom';
 import logo from '../../assests/logo3.png';
 import {RiMenu3Line , RiCloseLine} from 'react-icons/ri';
-
+import { useAuthContext } from '../../hooks/useAuthContext'
+import { HashLink } from 'react-router-hash-link';
 
 import './header.css';
 
-const Header = ({handleSport,test}) => {
+const Header = ({handleSport}) => {
+
+  const { user ,dispatch} = useAuthContext();
 
   const [showNav, setShowNav] = useState(false);
   
@@ -15,17 +18,23 @@ const Header = ({handleSport,test}) => {
     setShowNav(!showNav)
   }
 
+  const handleClick = () => {
+      localStorage.removeItem('vh_user');
+
+      dispatch({type: 'LOGOUT'});
+  }
   
 
   const Menu = () => {
     return(
       <div className='navbar-items-desk'>
         <div className="nav-left">
-              <p className='login'><Link to='/'>Home</Link></p>
-              <p className='login'><Link to='/popular'>Popular</Link></p>
-              <p className='login'><Link to={`/profile/${test._id}`}>Profile</Link></p>
-              <p className='login'><a href='#gene'>Generate</a></p>
-              <div className="dropdown show flex drop-div">
+              <p className='login'><Link to='/'>
+                Home</Link></p>
+              <p className='login'><Link to='/popular' >Popular</Link></p>
+              {/* <p className='login'><Link to={`/profile`}>Profile</Link></p> */}
+              <p className='login'><HashLink to='/#gene'>Generate</HashLink></p>
+              {/* <div className="dropdown show flex drop-div">
                 <a className="btn-drop dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   Sports
                 </a>
@@ -35,13 +44,22 @@ const Header = ({handleSport,test}) => {
                   <p className="dropdown-item drb-itm" onClick={() => handleSport('tennis')}>Tennis</p>
                   <p className="dropdown-item drb-itm" onClick={() => handleSport('basketball')}>Basketball</p>
                 </div>
-              </div>
+              </div> */}
       </div>
 
-            <div className="nav-right">
-               <p className='login'><Link to='/login'>login</Link></p>
-              <p className='sign-up'><Link to='/signup'>Sign up</Link></p>
-            </div>  
+
+
+            {user? <div className="nav-right">
+                      <p className='login'><Link to='/profile'>{user.email}</Link></p>
+                      <p className='sign-up' style={{cursor:'pointer'}} onClick={handleClick}>Logout</p>
+                    </div> 
+               :
+
+              <div className="nav-right">
+                <p className='login'><Link to='/login'>login</Link></p>
+                <p className='sign-up'><Link to='/signup'>Sign up</Link></p>
+              </div>
+            } 
               
       </div>
     )
