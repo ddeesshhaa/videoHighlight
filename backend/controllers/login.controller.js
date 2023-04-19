@@ -5,14 +5,14 @@ const jwt = require("jsonwebtoken");
 exports.login = async (req, res) => {
   let email = req.body.email;
   let password = req.body.password;
-  let x = await user.findOne({ email: email });
-  if (x !== null) {
-    if (await bcrypt.compare(password, x.password)) {
-      const token = jwt.sign({ id: x._id }, process.env.JWT_SECRET_KEY, {
+  let userData = await user.findOne({ email: email });
+  if (userData !== null) {
+    if (await bcrypt.compare(password, userData.password)) {
+      const token = jwt.sign({ id: userData._id }, process.env.JWT_SECRET_KEY, {
         expiresIn: process.env.JWT_EXPIRATION_TIME,
       });
-      // res.send(x._id);
-      res.status(201).send(token);
+      // res.send(userData._id);
+      res.status(200).json({userData,token});
     } else {
       res.status(200).send("Wrong Password");
     }

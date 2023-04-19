@@ -3,9 +3,9 @@
     justify-content: center;
     align-items: center;
     width: 100vw;
-    margin-top: -130px;
-    margin-bottom: -100px;
-    height: 100vh;
+    /* margin-top: -130px;
+    margin-bottom: -100px; */
+    height: 90vh;
   }
   
   .Auth_form {
@@ -34,4 +34,11 @@
     font-size: 14px;
     font-weight: 600;
     color: rgb(34, 34, 34);
+  }
+
+  @media screen and (max-width:676px){
+    .Auth_form{
+      width: 50vw;
+      align-self: center;
+    }
   }
