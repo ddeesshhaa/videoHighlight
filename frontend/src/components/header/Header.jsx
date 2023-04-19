@@ -4,12 +4,14 @@ import logo from '../../assests/logo3.png';
 import {RiMenu3Line , RiCloseLine} from 'react-icons/ri';
 import { useAuthContext } from '../../hooks/useAuthContext'
 import { HashLink } from 'react-router-hash-link';
+import { useNavigate } from 'react-router-dom';
 
 import './header.css';
 
 const Header = ({handleSport}) => {
 
   const { user ,dispatch} = useAuthContext();
+  const navigate = useNavigate();
 
   const [showNav, setShowNav] = useState(false);
   
@@ -20,8 +22,8 @@ const Header = ({handleSport}) => {
 
   const handleClick = () => {
       localStorage.removeItem('vh_user');
-
       dispatch({type: 'LOGOUT'});
+      navigate('/');
   }
   
 
@@ -50,7 +52,7 @@ const Header = ({handleSport}) => {
 
 
             {user? <div className="nav-right">
-                      <p className='login'><Link to='/profile'>{user.email}</Link></p>
+                      <p className='login'><Link to='/profile'>{user.userData.firstName}</Link></p>
                       <p className='sign-up' style={{cursor:'pointer'}} onClick={handleClick}>Logout</p>
                     </div> 
                :
