@@ -23,6 +23,7 @@ const Header = ({handleSport}) => {
   const handleClick = () => {
       localStorage.removeItem('vh_user');
       dispatch({type: 'LOGOUT'});
+      toggleNavItems(false);
       navigate('/');
   }
   
@@ -86,21 +87,19 @@ const Header = ({handleSport}) => {
                     
                   <p className='login' onClick={() => toggleNavItems(false)}><Link to='/'>Home</Link></p>
                   <p className='login' onClick={() => toggleNavItems(false)}><Link to='/popular'>Popular</Link></p>
-                  <p className='login' onClick={() => toggleNavItems(false)}><Link to='/profile'>Profile</Link></p>
-                  <p className='login' onClick={() => toggleNavItems(false)}>Generate</p>
-                  {/* <div className="dropdown show flex drop-div">
-                      <a className="btn-drop dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Sports
-                      </a>
+                  <p className='login' onClick={() => toggleNavItems(false)}><HashLink to='/#gene'>Generate</HashLink></p>
 
-                      <div className="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                        <p className="dropdown-item drb-itm" onClick={() => handleSport('football')}>Football</p>
-                        <p className="dropdown-item drb-itm" onClick={() => handleSport('tennis')}>Tennis</p>
-                        <p className="dropdown-item drb-itm" onClick={() => handleSport('basketball')}>Basketball</p>
-                      </div>
-                  </div> */}
-                  <p className='login' onClick={() => toggleNavItems(false)}><Link to='/login'>login</Link></p>
-                  <p className='sign-up' onClick={() => toggleNavItems(false)}><Link to='/signup'>Sign up</Link></p>
+                  {user? 
+                    <>
+                      <p className='login' onClick={() => toggleNavItems(false)} ><Link to='/profile'>{user.userData.firstName}</Link></p>
+                      <p className='login' style={{cursor:'pointer'}} onClick={handleClick}>Logout</p>
+                    </> 
+                    :
+                    <>
+                      <p className='login'><Link to='/login'onClick={() => toggleNavItems(false)}>login</Link></p>
+                      <p className='login'><Link to='/signup' onClick={() => toggleNavItems(false)}>Sign up</Link></p>
+                    </>
+            } 
                   
                 
                 </div>}
