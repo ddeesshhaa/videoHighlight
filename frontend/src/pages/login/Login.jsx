@@ -3,7 +3,7 @@ import Style from "./AuthStyle.module.css";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-function Login() {
+function Login({test,setTest}) {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -23,12 +23,14 @@ function Login() {
     );
 
     if (res.status === 200) {
-      localStorage.setItem("auth", res.data.token);
+      localStorage.setItem("auth", res.data);
+      /* localStorage.setItem("data", res.data.data); */
       console.log(res.data);
+      //setTest(res.data);
       navigate("/");
     } else {
       console.log(res.status);
-      window.location.reload();
+      //window.location.reload();
     }
   };
   return (

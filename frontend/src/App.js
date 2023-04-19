@@ -8,8 +8,9 @@ import './App.css';
 
 function App() {
 
-  const [showScroll, setShowScroll] = useState(false)
-
+  const [showScroll, setShowScroll] = useState(false);
+  const[test,setTest] = useState("noo");
+ 
   const checkScrollTop = () => {
     if (!showScroll && window.pageYOffset > 100){
       setShowScroll(true)
@@ -30,17 +31,19 @@ function App() {
     setPic(sport);
     console.log(pic);
   }
+
+  //console.log(localStorage.getItem('data'));
   return (
     <div className="App">
 
       <FaArrowCircleUp className="scrollTop" onClick={scrollTop} style={{height: 40, display: showScroll ? 'flex' : 'none'}}/>
-      <Header handleSport={handleSport}/>
+      <Header handleSport={handleSport} test={test}/>
 
       <Routes>
           <Route exact path="/" element={<Home pic={pic} />}/>
-          <Route  path="/login"  element={<Login />}/>
+          <Route  path="/login"  element={<Login test={test} setTest={setTest}/>}/>
           <Route  path="/signup"  element={<SignUP />}/>
-          <Route  path="/profile"  element={<Profile />}/>
+          <Route  path="/profile/:id"  element={<Profile test = {test}/>}/>
           <Route  path="/popular"  element={<Popular />}/>
       </Routes>
 

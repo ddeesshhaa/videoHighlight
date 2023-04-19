@@ -1,8 +1,10 @@
 import React, { useContext } from "react";
 import Style from "./AuthStyle.module.css";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function SignUp() {
+  const navigate = useNavigate();
   const signUp = async (e) => {
     e.preventDefault();
     let response = await axios.post(
@@ -19,10 +21,10 @@ function SignUp() {
         },
       }
     );
-    // response = await response.json();
-    console.log(response.status);
-    if (response.status === 200)
-      window.location.replace("http://127.0.0.1:3000/login");
+    let res =  response;
+    console.log(res.status);
+    if (res.status === 200)
+    navigate('/login');
   };
   return (
     <div className={Style.Auth_form_container}>

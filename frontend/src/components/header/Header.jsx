@@ -6,7 +6,7 @@ import {RiMenu3Line , RiCloseLine} from 'react-icons/ri';
 
 import './header.css';
 
-const Header = ({handleSport}) => {
+const Header = ({handleSport,test}) => {
 
   const [showNav, setShowNav] = useState(false);
   
@@ -23,7 +23,7 @@ const Header = ({handleSport}) => {
         <div className="nav-left">
               <p className='login'><Link to='/'>Home</Link></p>
               <p className='login'><Link to='/popular'>Popular</Link></p>
-              <p className='login'><Link to='/profile'>Profile</Link></p>
+              <p className='login'><Link to={`/profile/${test._id}`}>Profile</Link></p>
               <p className='login'><a href='#gene'>Generate</a></p>
               <div className="dropdown show flex drop-div">
                 <a className="btn-drop dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

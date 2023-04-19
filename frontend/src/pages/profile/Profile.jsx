@@ -9,7 +9,7 @@ import vod4 from '../../assests/2015-02-21 - 18-00 Swansea 2 - 1 Manchester Unit
 
 import './profile.css';
 
-const Profile = () => {
+const Profile = ({test}) => {
 
   const[activeClass,setActiveClass] = useState('left');
 
@@ -18,14 +18,14 @@ const Profile = () => {
 
       <div className="main-cont">
         <div className="profile-data d-flex">
-            <img src={jenn} alt="" className='profile-img'/>
+            <img src={test.pic} alt="" className='profile-img'/>
 
             <div className="name-data mt-4">
-                <p className='profileName'>Jennifer connely</p> 
+                <p className='profileName'>{test.firstName}</p> 
 
                 <div className="stat-data">
                   <div className="highlighted d-flex gap-2 fw-bold">
-                    <p>4</p>
+                    <p></p>
                     <p>Highlighted</p>
                   </div>
 
