@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState , useEffect} from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import jenn from '../../assests/jinn.jpg';
 import {MdOutlineVideoLibrary , MdOutlineFavorite} from 'react-icons/md';
+import { useAuthContext } from '../../hooks/useAuthContext';
 
 import vod2 from '../../assests/2015-02-21 - 18-00 Crystal Palace 1 - 2 Arsenalc1.mkv';
 import vod3 from '../../assests/2015-05-17 - 18-00 Manchester United 1 - 1 Arsenalg6.mkv';
@@ -9,7 +11,15 @@ import vod4 from '../../assests/2015-02-21 - 18-00 Swansea 2 - 1 Manchester Unit
 
 import './profile.css';
 
-const Profile = ({test}) => {
+const Profile = () => {
+
+  const {user} = useAuthContext();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+      if(!user)
+        navigate('/')
+   },[user]);
 
   const[activeClass,setActiveClass] = useState('left');
 
@@ -18,10 +28,10 @@ const Profile = ({test}) => {
 
       <div className="main-cont">
         <div className="profile-data d-flex">
-            <img src={test.pic} alt="" className='profile-img'/>
+            <img src={jenn} alt="" className='profile-img'/>
 
             <div className="name-data mt-4">
-                <p className='profileName'>{test.firstName}</p> 
+                <p className='profileName'>Jennifer connely</p> 
 
                 <div className="stat-data">
                   <div className="highlighted d-flex gap-2 fw-bold">
