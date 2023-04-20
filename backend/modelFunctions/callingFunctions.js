@@ -18,13 +18,13 @@ exports.callingFunctions = async (videoName, ext, tempDir, highlightPath) => {
     splitVideo(videoName, ext, tempDir)
       .then((video) => {
         console.log("1- Creating Clips Done");
-        clipToJpg(video.videoName, video.tempDir, video.ext)
+        clipToJpg(videoName, video.tempDir, video.ext)
           .then((video) => {
             console.log("2- Clips to JPG Done");
-            getVideoName(video.vName, video.tempPath)
+            getVideoName(videoName, video.tempPath)
               .then((video) => {
                 console.log("3- Making Video Names Done");
-                jpgToJson(video.videoName, video.tempPath)
+                jpgToJson(videoName, video.tempPath)
                   .then((video) => {
                     console.log("4- Json Created Successfully");
                     runModel(video.tempPath)

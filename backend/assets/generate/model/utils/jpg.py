@@ -90,7 +90,7 @@ if __name__ == '__main__':
     n_jobs=1
     fps=-1
     size=240
-    ext=".mkv"
+    ext="."+sys.argv[3]
     if dataset == 'activitynet':
         video_file_paths = [x for x in sorted(dir_path.iterdir())]
         status_list = Parallel(

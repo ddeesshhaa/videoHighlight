@@ -18,17 +18,17 @@ for distro in distros_dict['results']:
     clip_name = distro
     label = distros_dict['results'][clip_name][0]['label']
     score = float(distros_dict['results'][clip_name][0]['score'])
-    if score > 0.5 and label =="Goals":
+    if score > 0.1 and label =="Goals":
         required_video_file = root + clip_name +"."+ ext
         clip = VideoFileClip(required_video_file)
         clips.append(clip)
-    if score > 0.8 and label ==("Subs"):
+    if score > 0.1 and label ==("Subs"):
         required_video_file = root + clip_name + "."+ ext
 
         clip = VideoFileClip(required_video_file)
         clips.append(clip)
 
-    if score > 0.8 and label ==("Cards"):
+    if score > 0.1 and label ==("Cards"):
         required_video_file = root + clip_name + "."+ ext
 
         clip = VideoFileClip(required_video_file)
