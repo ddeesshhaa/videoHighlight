@@ -17,10 +17,10 @@ exports.generateVideo = async (req, res) => {
     // // videoName = "england-chelsea.mkv";
     // // videoName = "englandeplBournemouthChelsea2sts7.mkv";
     // // videoName = "englandeplArsenalLeicester1stc0.mkv";
-    videoName = video._id;
+    videoName = "Video-" + req.body.id;
     // videoArray = videoName.split(".");
     // rootFolderName = videoArray.slice(0, videoArray.length - 1);
-    rootFolderName = video.title;
+    rootFolderName = videoName;
     ext = video.ext;
     // rootFolderName = rootFolderName.join(".");
     // res.send(rootFolderName);
