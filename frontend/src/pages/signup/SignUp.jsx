@@ -32,26 +32,16 @@ const SignUp = () => {
         lastName: e.target.secondName.value,
         email: e.target.email.value,
         password: e.target.password.value,
-      },
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
-
-    let res2 = await axios.post(
-      "localhost:8080/profile/uploadProfilePic",
-      {
-         profilePic
+        image:profilePic
       },
       {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
       }
-      );
+    );
 
+    
 
     let user = await response.data;
     console.log(user);
