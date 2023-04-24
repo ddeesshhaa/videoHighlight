@@ -8,9 +8,17 @@ const SignUp = () => {
 
   const [error, setError] = useState(null)
   const [isLoading, setIsLoading] = useState(null)
+  const[profilePic,setProfilePic] = useState();
   
 
   const navigate = useNavigate();
+
+  const handleChange = (event) => {
+    const file = event.target.files[0];
+    //const url = URL.createObjectURL(file);
+    setProfilePic(file);
+    console.log(file);
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -32,10 +40,23 @@ const SignUp = () => {
       }
     );
 
+    let res2 = await axios.post(
+      "localhost:8080/profile/uploadProfilePic",
+      {
+         profilePic
+      },
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      }
+      );
+
 
     let user = await response.data;
     console.log(user);
     
+    //console.log(res2);
 
     if (response.status === 200){
 
@@ -48,7 +69,7 @@ const SignUp = () => {
       setIsLoading(false)
       setError("Email is already exist")
     }
-
+    
 
   };
   return (
@@ -100,6 +121,7 @@ const SignUp = () => {
               required
             />
           </div>
+          <input type="file" name="image" multiple accept="image/*"   onChange={handleChange}/>
 
           <div className="d-grid gap-2 mt-3">
             <button type="submit" className="btn btn-primary">
@@ -121,6 +143,8 @@ const SignUp = () => {
           </p>
         </div>
       </form>
+      {profilePic && <img src={profilePic} width={600}
+          height={305} alt="pp" />}
     </div>
   );
 }

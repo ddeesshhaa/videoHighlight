@@ -17,7 +17,9 @@ const Profile = () => {
   const logUser = user.userData;
   console.log(logUser);
 
- 
+  //console.log(` sgajdgh ${logUser.pic.image.data.$binary.base64}`);
+  const enc = logUser.pic.image.data.$binary.base64;
+  
   const[activeClass,setActiveClass] = useState('left');
 
   return (
@@ -25,7 +27,11 @@ const Profile = () => {
 
       <div className="main-cont">
         <div className="profile-data d-flex">
-            <img src={`${picc}`} alt="" className='profile-img'/>
+        <img className='profile-img'
+        src={
+          `data:${logUser.pic.image.contentType};base64,${enc}`
+        }
+      />
 
             <div className="name-data mt-4">
                 <p className='profileName'>{`${logUser.firstName} ${logUser.lastName}`}</p> 
