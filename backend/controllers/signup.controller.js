@@ -10,6 +10,13 @@ exports.addUser = async (req, res) => {
       lastName: req.body.lastName,
       email: req.body.email,
       password: hash,
+      pic: {
+        name: req.file.originalname,
+        image: {
+          data: req.file.buffer,
+          contentType: req.file.mimetype,
+        },
+      },
     };
     if (!((await user.findOne({ email: req.body.email })) === null)) {
       res.status(500).send("failed");
