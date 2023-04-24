@@ -7,8 +7,14 @@ const userSchema = mongoose.Schema(
     email: { type: "String", unique: true, required: true },
     password: { type: "String", required: true },
     pic: {
-      type: "String",
-      default: "user.png",
+      type: Object,
+      default: {
+        name: String,
+        image: {
+          data: Buffer,
+          contentType: String,
+        },
+      },
     },
     role: {
       type: String,

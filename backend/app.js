@@ -16,6 +16,7 @@ if (process.env.NODE_ENV === "dev") {
   console.log("Mode :" + process.env.NODE_ENV);
 }
 //Middleware
+app.use(express.urlencoded({ extended: true }));
 app.use(bp.urlencoded({ extended: true }));
 app.use(bp.json());
 app.use(cors());

@@ -37,3 +37,18 @@ exports.removeFromFav = async (req, res) => {
     res.status(401).send(" The user is not authorized");
   }
 };
+
+exports.uploadProfilePic = async (req, res) => {
+  pict = {
+    name: req.file.originalname,
+    image: {
+      data: req.file.buffer,
+      contentType: req.file.mimetype,
+    },
+  };
+  await user.findByIdAndUpdate(req.user._id, {
+    pic: pict,
+  });
+
+  res.status(200).send("done");
+};
