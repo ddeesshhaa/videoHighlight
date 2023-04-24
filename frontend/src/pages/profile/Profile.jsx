@@ -18,8 +18,8 @@ const Profile = () => {
   console.log(logUser);
 
   //console.log(` sgajdgh ${logUser.pic.image.data.$binary.base64}`);
-  const enc = logUser.pic.image.data.$binary.base64;
-  
+  const enc = logUser.pic.image.data;
+
   const[activeClass,setActiveClass] = useState('left');
 
   return (
@@ -38,12 +38,12 @@ const Profile = () => {
 
                 <div className="stat-data">
                   <div className="highlighted d-flex gap-2 fw-bold">
-                    <p></p>
+                    <p>{logUser.doneVideos.length}</p>
                     <p>Highlighted</p>
                   </div>
 
                   <div className="fav d-flex gap-2 fw-bold">
-                    <p>2</p>
+                    <p>{logUser.favVideos.length}</p>
                     <p>Favourites</p>
                   </div>
                 </div>

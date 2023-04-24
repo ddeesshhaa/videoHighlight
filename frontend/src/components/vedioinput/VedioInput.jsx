@@ -99,8 +99,8 @@ const VedioInput = () => {
             <MdDelete onClick={() => handleDelete()} style={{cursor:'pointer'}}/>
         </span> */}
         <button type="button" className="btn" onClick={(e) => genVideo(e)} disabled={!vedio}>
-          Generate
-          </button>
+           Generate
+         </button>
       </div>
       
     </div>
