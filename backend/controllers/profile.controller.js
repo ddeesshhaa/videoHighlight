@@ -50,5 +50,23 @@ exports.uploadProfilePic = async (req, res) => {
     pic: pict,
   });
 
-  res.status(200).send("done");
+  res
+    .status(200)
+    .send(
+      "data:" +
+        pict.image.contentType +
+        ";base64," +
+        pict.image.data.toString("base64")
+    );
+};
+
+exports.editProfile = async (req, res) => {
+  let data = {
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
+    email: req.body.email,
+    password: req.body.hash,
+  };
+  await user.findByIdAndUpdate(req.user._id, { data });
+  res.status(200).send("Done");
 };

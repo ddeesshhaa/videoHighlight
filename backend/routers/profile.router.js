@@ -4,6 +4,7 @@ const {
   addToFav,
   removeFromFav,
   uploadProfilePic,
+  editProfile,
 } = require("../controllers/profile.controller");
 const { auth } = require("../controllers/token.controller");
 
@@ -23,4 +24,5 @@ router.post(
   upload.single("image"),
   uploadProfilePic
 );
+router.post("/editProfile", auth, editProfile);
 module.exports = router;

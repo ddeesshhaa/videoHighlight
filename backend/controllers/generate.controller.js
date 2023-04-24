@@ -14,16 +14,9 @@ exports.generateVideo = async (req, res) => {
   if (req.user !== undefined) {
     let video = await videoModel.findById(req.body.id);
     let userId = req.user._id;
-    // // videoName = "england-chelsea.mkv";
-    // // videoName = "englandeplBournemouthChelsea2sts7.mkv";
-    // // videoName = "englandeplArsenalLeicester1stc0.mkv";
     videoName = "Video-" + req.body.id;
-    // videoArray = videoName.split(".");
-    // rootFolderName = videoArray.slice(0, videoArray.length - 1);
     rootFolderName = videoName;
     ext = video.ext;
-    // rootFolderName = rootFolderName.join(".");
-    // res.send(rootFolderName);
 
     const classIndPath = path.join(
       __dirname,
@@ -56,14 +49,10 @@ exports.generateVideo = async (req, res) => {
       highlightPath
     );
     fsExtra.remove(tempDir),
-      // await userModel.findByIdAndUpdate(
-      //   { userId },
-      //   { $addToSet: { doneVideos: { $each: [req.body.id] } } }
-      // );
       await user.findByIdAndUpdate(userId, {
         $push: { doneVideos: req.body.id },
       });
-    res.status(200).send("generated succefully");
+    res.status(200).send("generated successfully");
   } else {
     // res.status(40 1).send(" The user is not authorized");
   }
