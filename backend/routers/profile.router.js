@@ -25,4 +25,5 @@ router.post(
   uploadProfilePic
 );
 router.post("/editProfile", auth, editProfile);
+
 module.exports = router;

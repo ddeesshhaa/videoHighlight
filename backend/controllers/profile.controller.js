@@ -1,6 +1,6 @@
 const user = require("../models/user.model");
 const videoModel = require("../models/video.model");
-
+const bcrypt = require("bcrypt");
 exports.getVideosById = (req, res) => {
   videoModel
     .find({ owner: req.user._id })
@@ -61,12 +61,31 @@ exports.uploadProfilePic = async (req, res) => {
 };
 
 exports.editProfile = async (req, res) => {
-  let data = {
-    firstName: req.body.firstName,
-    lastName: req.body.lastName,
-    email: req.body.email,
-    password: req.body.hash,
-  };
-  await user.findByIdAndUpdate(req.user._id, { data });
-  res.status(200).send("Done");
+  if (await bcrypt.compare(req.body.oldPassword, req.user.password)) {
+    user
+      .find({ email: req.body.email })
+      .then((users) => {
+        if (users.length === 0) {
+          let inputPass = req.body.newPassword || req.body.oldPassword;
+          const hash = bcrypt.hashSync(inputPass, bcrypt.genSaltSync(10));
+          user
+            .findByIdAndUpdate(req.user._id, {
+              firstName: req.body.firstName || req.user.firstName,
+              lastName: req.body.lastName || req.user.lastName,
+              email: req.body.email || req.user.email,
+              password: hash,
+            })
+            .then(() => {
+              res.status(200).send("Edited");
+            });
+        } else {
+          res.status(400).send("Email Taken");
+        }
+      })
+      .catch((err) => {
+        res.send(err);
+      });
+  } else {
+    res.status(400).send("Wrong Password");
+  }
 };
