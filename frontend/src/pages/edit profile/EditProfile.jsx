@@ -23,10 +23,11 @@ const EditProfile = () => {
     let response = await axios.post(
       "http://localhost:8080/profile/editProfile",
       {
-        firstName: e.target.firstName.value.length?e.target.firstName.value:logUser.firstName,
-        lastName: e.target.secondName.value.length?e.target.secondName.value:logUser.lastName,
-        email: e.target.email.value.length?e.target.email.value:logUser.email,
-        password: e.target.password.value.length?e.target.password.value:logUser.password
+        firstName: e.target.firstName.value,
+        lastName: e.target.secondName.value,
+        email: e.target.email.value,
+        newPassword:e.target.Newpassword.value,
+        oldPassword: e.target.Oldpassword.value,
       },
       {
         headers: {
@@ -84,12 +85,23 @@ const EditProfile = () => {
           </div>
 
           <div className="form-group mt-3">
-            <label>Password</label>
+            <label>New Password</label>
             <input
               type="password"
               className="form-control mt-1"
-              placeholder="Update password"
-              name="password"
+              placeholder="New password"
+              name="Newpassword"
+            />
+          </div>
+
+          <div className="form-group mt-3">
+            <label>Old Password</label>
+            <input
+              type="password"
+              className="form-control mt-1"
+              placeholder="Old password"
+              name="Oldpassword"
+              required
             />
           </div>
           
