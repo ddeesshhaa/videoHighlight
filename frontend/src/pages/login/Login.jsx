@@ -32,6 +32,7 @@ const Login = () => {
 
     const userData = await res.data;
     console.log(userData);
+    console.log(res.data);
 
     if (res.status === 200) {
       

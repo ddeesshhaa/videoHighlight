@@ -133,8 +133,7 @@ const SignUp = () => {
           </p>
         </div>
       </form>
-      {profilePic && <img src={profilePic} width={600}
-          height={305} alt="pp" />}
+      
     </div>
   );
 }
