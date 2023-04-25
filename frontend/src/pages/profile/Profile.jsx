@@ -1,7 +1,6 @@
-import React, { useState , useEffect} from 'react';
-//import picc from '../../../../backend/assets/uploads/pictures/user.png';
+import React, { useState} from 'react';
+import { Link } from 'react-router-dom';
 
-import jenn from '../../assests/jinn.jpg';
 import {MdOutlineVideoLibrary , MdOutlineFavorite} from 'react-icons/md';
 
 import vod2 from '../../assests/2015-02-21 - 18-00 Crystal Palace 1 - 2 Arsenalc1.mkv';
@@ -11,7 +10,6 @@ import vod4 from '../../assests/2015-02-21 - 18-00 Swansea 2 - 1 Manchester Unit
 import './profile.css';
 
 const Profile = () => {
-  const picc = '../../../../backend/assets/uploads/pictures/';
 
   const user = JSON.parse(localStorage.getItem('vh_user'));
   const logUser = user.userData;
@@ -49,7 +47,7 @@ const Profile = () => {
                 </div>
                 
 
-                <button className='py-2 px-4 rounded'>Edit Profile</button>
+                <button className='py-2 px-4 rounded'><Link to='/edit'>Edit Profile</Link></button>
             </div>
         </div>
         <hr className='hrr'

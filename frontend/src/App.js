@@ -1,6 +1,6 @@
 import React,{useState} from "react";
 import { Footer, Header } from "./components";
-import {Login ,SignUP,Home, Profile , Popular} from './pages'
+import {Login ,SignUP,Home, Profile , Popular, EditProfile} from './pages'
 import { Route , Routes } from 'react-router-dom';
 import {FaArrowCircleUp} from 'react-icons/fa';
 
@@ -44,6 +44,7 @@ function App() {
           <Route  path="/signup"  element={<SignUP />}/>
           <Route  path="/profile"  element={<Profile />}/>
           <Route  path="/popular"  element={<Popular />}/>
+          <Route  path="/edit"  element={<EditProfile />}/>
       </Routes>
 
     {/* <Footer /> */}
