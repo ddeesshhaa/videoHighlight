@@ -19,7 +19,7 @@ exports.addUser = async (req, res) => {
       },
     };
     if (!((await user.findOne({ email: req.body.email })) === null)) {
-      res.status(500).send("failed");
+      res.status(500).send("Email is already exist");
     } else {
       await users.create(data);
       res.status(200).send("Done");

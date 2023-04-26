@@ -10,15 +10,9 @@ import './header.css';
 
 const Header = ({handleSport}) => {
 
-  const { user ,dispatch} = useAuthContext();
+  const { user ,dispatch,showNav,setShowNav,toggleNavItems} = useAuthContext();
   const navigate = useNavigate();
 
-  const [showNav, setShowNav] = useState(false);
-  
-
-  const toggleNavItems = () => {
-    setShowNav(!showNav)
-  }
 
   const handleClick = () => {
       localStorage.removeItem('vh_user');

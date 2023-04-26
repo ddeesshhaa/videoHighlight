@@ -79,7 +79,7 @@ exports.editProfile = async (req, res) => {
               res.status(200).send("Edited");
             });
         } else {
-          res.status(400).send("Email Taken");
+          res.status(400).send("Email is already exist");
         }
       })
       .catch((err) => {

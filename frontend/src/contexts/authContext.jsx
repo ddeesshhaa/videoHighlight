@@ -17,6 +17,12 @@ export const AuthContextProvider = ({children}) => {
     const[state,dispatch] = useReducer(authReducer , {
         user: null
     })
+
+    const [showNav, setShowNav] = useState(false);
+
+    const toggleNavItems = () => {
+        setShowNav(!showNav)
+      }
     
     useEffect(() => {
         const user = JSON.parse(localStorage.getItem('vh_user'))
@@ -29,7 +35,7 @@ export const AuthContextProvider = ({children}) => {
     console.log('AuthContext state:', state);
 
     return(
-        <AuthContext.Provider value={{...state,dispatch}}>
+        <AuthContext.Provider value={{...state,dispatch,showNav,setShowNav,toggleNavItems}}>
             { children }
         </AuthContext.Provider>
     )
