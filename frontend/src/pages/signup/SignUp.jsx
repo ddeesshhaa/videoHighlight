@@ -22,33 +22,38 @@ const SignUp = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsLoading(true)
-    setError(null)
 
-    let response = await axios.post(
-      "http://localhost:8080/signup",
-      {
-        firstName: e.target.firstName.value,
-        lastName: e.target.secondName.value,
-        email: e.target.email.value,
-        password: e.target.password.value,
-        image:profilePic
-      },
-      {
-        headers: {
-          'Content-Type': 'multipart/form-data',
+    try{
+      let response = await axios.post(
+        "http://localhost:8080/signup",
+        {
+          firstName: e.target.firstName.value,
+          lastName: e.target.secondName.value,
+          email: e.target.email.value,
+          password: e.target.password.value,
+          image:profilePic
         },
-      }
-    );
-
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        }
+      );
+  
+      
+  
+      let user = await response.data;
+      console.log(user);
+      navigate('/login');
+    }catch(err){
+      console.log(err);
+      setError(err);
+    }
     
-
-    let user = await response.data;
-    console.log(user);
     
     //console.log(res2);
 
-    if (response.status === 200){
+    /* if (response.status === 200){
 
       setIsLoading(false);
 
@@ -58,7 +63,7 @@ const SignUp = () => {
       console.log("snjdnjkan");
       setIsLoading(false)
       setError("Email is already exist")
-    }
+    } */
     
 
   };
@@ -119,7 +124,7 @@ const SignUp = () => {
             </button>
 
             {error && <div class="alert alert-danger" role="alert">
-                            error
+                            {error.response.data}
                        </div>
             }
           </div>

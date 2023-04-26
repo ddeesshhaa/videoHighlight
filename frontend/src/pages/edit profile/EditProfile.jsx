@@ -7,11 +7,18 @@ import { useAuthContext } from "../../hooks/useAuthContext";
 
 const EditProfile = () => {
 
-  /* const [error, setError] = useState(null)
-  const [isLoading, setIsLoading] = useState(null)
-  const[profilePic,setProfilePic] = useState(); */
+  const [error, setError] = useState(null);
+  const { user ,dispatch,toggleNavItems} = useAuthContext();
 
-  const user = JSON.parse(localStorage.getItem('vh_user'));
+  const logOut = () => {
+    localStorage.removeItem('vh_user');
+    dispatch({type: 'LOGOUT'});
+    toggleNavItems(false);
+    navigate('/');
+}
+  
+
+  //const user = JSON.parse(localStorage.getItem('vh_user'));
   const logUser = user.userData;
   console.log(logUser);
 
@@ -20,32 +27,36 @@ const EditProfile = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    let response = await axios.post(
-      "http://localhost:8080/profile/editProfile",
-      {
-        firstName: e.target.firstName.value,
-        lastName: e.target.secondName.value,
-        email: e.target.email.value,
-        newPassword:e.target.Newpassword.value,
-        oldPassword: e.target.Oldpassword.value,
-      },
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          "Authorization" : JSON.parse(localStorage.getItem('vh_user')).token
+    try{
+      let response = await axios.post(
+        "http://localhost:8080/profile/editProfile",
+        {
+          firstName: e.target.firstName.value,
+          lastName: e.target.secondName.value,
+          email: e.target.email.value,
+          newPassword:e.target.Newpassword.value,
+          oldPassword: e.target.Oldpassword.value,
         },
-      }
-    );
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            "Authorization" : JSON.parse(localStorage.getItem('vh_user')).token
+          },
+        }
+      );
+  
+      
+  
+      let user = await response.data;
+      console.log(user);
 
-    
+      logOut();
 
-    let user = await response.data;
-    console.log(user);
-
-    if (response.status === 200){
       navigate('/login');
+    }catch(err){
+      setError(err);
     }
-    
+     
 
   };
   return (
@@ -61,6 +72,7 @@ const EditProfile = () => {
               name="firstName"
               className="form-control mt-1"
               placeholder="Update FirstName"
+              id="validationDefault02"
             />
           </div>
 
@@ -109,7 +121,11 @@ const EditProfile = () => {
             <button type="submit" className="btn btn-primary">
               Update 
             </button>
-
+            
+            {error && <div className="alert alert-danger" role="alert">
+                            {error.response.data}
+                       </div>
+            }
           </div>
           <p
             className="forgot-password text-center mt-2"

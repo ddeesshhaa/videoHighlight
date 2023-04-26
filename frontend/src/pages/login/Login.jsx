@@ -14,37 +14,39 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const[error,setError] = useState(null);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    try{
+        let res = await axios.post(
+          "http://localhost:8080/login",
+          {
+            email: email,
+            password: password,
+          },
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
     
-    let res = await axios.post(
-      "http://localhost:8080/login",
-      {
-        email: email,
-        password: password,
-      },
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
+        const userData = await res.data;
+        console.log(userData);
+        console.log(res.data);
 
-    const userData = await res.data;
-    console.log(userData);
-    console.log(res.data);
-
-    if (res.status === 200) {
-      
-      localStorage.setItem('vh_user', JSON.stringify(userData))
+        localStorage.setItem('vh_user', JSON.stringify(userData))
 
       dispatch({type: 'LOGIN', payload: userData});
 
       navigate("/");
-    } else {
-      console.log(res.status);
-     
+    }catch(err){
+        setError(err);
     }
+    
+
+    
   };
 
   return (
@@ -82,6 +84,11 @@ const Login = () => {
             <button type="submit" className="btn btn-primary">
               Submit
             </button>
+
+            {error && <div className="alert alert-danger" role="alert">
+                            {error.response.data}
+                       </div>
+            }
           </div>
           <p
             className="forgot-password text-center mt-2"
