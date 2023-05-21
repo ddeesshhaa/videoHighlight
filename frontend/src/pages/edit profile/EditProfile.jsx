@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Style from "./AuthStyle.module.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -7,8 +7,12 @@ import { useAuthContext } from "../../hooks/useAuthContext";
 
 const EditProfile = () => {
 
+  const user = JSON.parse(localStorage.getItem('vh_user'));
+  const logUser = user.userData;
+  console.log(logUser);
+
   const [error, setError] = useState(null);
-  const { user ,dispatch,toggleNavItems} = useAuthContext();
+  const { dispatch,toggleNavItems} = useAuthContext();
 
   const logOut = () => {
     localStorage.removeItem('vh_user');
@@ -16,13 +20,26 @@ const EditProfile = () => {
     toggleNavItems(false);
     navigate('/');
 }
-  
 
-  //const user = JSON.parse(localStorage.getItem('vh_user'));
-  const logUser = user.userData;
-  console.log(logUser);
 
   const navigate = useNavigate();
+
+  const[profilePic,setProfilePic] = useState(null);
+  const [previewUrl, setPreviewUrl] = useState(null);
+
+  const handleChange = (event) => {
+    const file = event.target.files[0];
+    setProfilePic(file);
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      setPreviewUrl(reader.result);
+    };
+    reader.readAsDataURL(file);
+
+
+    console.log(file);
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -64,6 +81,23 @@ const EditProfile = () => {
       <form className={Style.Auth_form} onSubmit={handleSubmit}>
         <div className={Style.Auth_form_content}>
           <h3 className={Style.Auth_form_title}>Edit Profile</h3>
+
+          <div>
+
+        <div className="d-flex justify-content-center mb-4">
+            <img src={profilePic?previewUrl:`data:${logUser.pic?.image.contentType};base64,${logUser.pic.image.data}`}
+            className="rounded-circle" alt="example placeholder" style={{width:'5rem',height:'5rem'}} />
+        </div>
+
+        <div className="d-flex justify-content-center">
+            <div className="btn btn-primary btn-rounded">
+                <label className="form-label text-white m-1" htmlFor="customFile2">Choose file</label>
+                <input type="file" className="form-control d-none" id="customFile2" onChange={handleChange}
+                multiple accept="image/*" required/>
+            </div>
+        </div>
+
+      </div>
 
           <div className="form-group mt-3">
             <label>First Name</label>

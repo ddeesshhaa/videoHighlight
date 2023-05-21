@@ -8,15 +8,23 @@ const SignUp = () => {
 
   const [error, setError] = useState(null)
   const [isLoading, setIsLoading] = useState(null)
-  const[profilePic,setProfilePic] = useState();
+  const[profilePic,setProfilePic] = useState(null);
+  const [previewUrl, setPreviewUrl] = useState(null);
   
 
   const navigate = useNavigate();
 
   const handleChange = (event) => {
     const file = event.target.files[0];
-    //const url = URL.createObjectURL(file);
     setProfilePic(file);
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      setPreviewUrl(reader.result);
+    };
+    reader.readAsDataURL(file);
+
+
     console.log(file);
   }
 
@@ -73,6 +81,24 @@ const SignUp = () => {
         <div className={Style.Auth_form_content}>
           <h3 className={Style.Auth_form_title}>Sign up</h3>
 
+      <div>
+
+        <div className="d-flex justify-content-center mb-4">
+            <img src={profilePic?previewUrl:"https://mdbootstrap.com/img/Photos/Others/placeholder-avatar.jpg"}
+            className="rounded-circle" alt="example placeholder" style={{width:'5rem',height:'5rem'}} />
+        </div>
+
+        <div className="d-flex justify-content-center">
+            <div className="btn btn-primary btn-rounded">
+                <label className="form-label text-white m-1" htmlFor="customFile2">Choose file</label>
+                <input type="file" className="form-control d-none" id="customFile2" onChange={handleChange}
+                multiple accept="image/*" required/>
+            </div>
+        </div>
+
+      </div>
+
+
           <div className="form-group mt-3">
             <label>First Name</label>
             <input
@@ -116,7 +142,7 @@ const SignUp = () => {
               required
             />
           </div>
-          <input type="file" name="image" multiple accept="image/*"   onChange={handleChange}/>
+          {/* <input type="file" name="image" multiple accept="image/*" required onChange={handleChange}/> */}
 
           <div className="d-grid gap-2 mt-3">
             <button type="submit" className="btn btn-primary">
@@ -124,7 +150,7 @@ const SignUp = () => {
             </button>
 
             {error && <div class="alert alert-danger" role="alert">
-                            {error.response.data}
+                            {error.response?.data}
                        </div>
             }
           </div>

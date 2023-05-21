@@ -1,30 +1,25 @@
 .vedio-highlight-adv{
-    background-color: #1c1b21;
+    background-color: #212529;
     margin-top: 10rem;
+    width: 100%;
 }
-.cards-cont{
-    display: flex;
-    gap:2rem;
+
+
+.card-img-top{
+    width: 100% !important;
+    height: 10rem !important;
 }
-.adv-card{
-    background-color: #6aac28;
-    display: flex;
-    flex-direction: column;
+
+.card{
+    /* background-color: #6aac28 !important; */
+    border: none !important;
+    outline: none !important;
+    max-width: 16rem;
+}
+
+.card-body{
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
     align-items: center;
-    justify-content: center;
-    width: 5rem;
-    padding: 3rem 0;
-    border-radius: 2rem;
-    text-align: center;
-}
-
-.adv-card img{
-    height: 5rem;
-    width: 5rem;
-    margin-bottom: 2rem;
-}
-
-.adv-card p{
-    font-size: 1rem;
-    font-weight: bolder;
 }

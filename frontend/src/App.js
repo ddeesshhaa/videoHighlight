@@ -24,22 +24,16 @@ function App() {
 
   window.addEventListener('scroll', checkScrollTop);
 
-  const[pic,setPic] = useState('football');
-
-  const handleSport = (sport) => {
-    setPic(sport);
-    console.log(pic);
-  }
 
   //console.log(localStorage.getItem('data'));
   return (
     <div className="App">
 
       <FaArrowCircleUp className="scrollTop" onClick={scrollTop} style={{height: 40, display: showScroll ? 'flex' : 'none' , color:'grey'}}/>
-      <Header handleSport={handleSport} />
+      <Header />
 
       <Routes>
-          <Route exact path="/" element={<Home pic={pic}/>}/>
+          <Route exact path="/" element={<Home />}/>
           <Route  path="/login"  element={<Login />}/>
           <Route  path="/signup"  element={<SignUP />}/>
           <Route  path="/profile"  element={<Profile />}/>
