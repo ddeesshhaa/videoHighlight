@@ -82,12 +82,12 @@ def convert_ucf101_csv_to_json(label_csv_path, test_csv_path, video_dir_path, ds
 
 if __name__ == '__main__':
 
-    label_csv_path = Path(r"C:\Users\ALKODS\Downloads\json\classInd.txt")
+    label_csv_path = Path(r"C:\Users\marsellinomedhat10\Downloads\json\classInd.txt")
     #train_csv_path = Path(r"C:\Users\ALKODS\Downloads\json\trainlist0.txt")
     #val_csv_path = Path(r"C:\Users\ALKODS\Downloads\json\testlist0.txt")
-    test_csv_path = Path(r"C:\Users\ALKODS\Downloads\json\testlist.txt")
-    dst_json_path = Path(r"C:\Users\ALKODS\Downloads\json\soccerShoubra.json")
-    jpg_path = Path(r"C:\Users\ALKODS\Downloads\SoccerShoubra")
+    test_csv_path = Path(r"C:\Users\marsellinomedhat10\Downloads\json\test.txt")
+    dst_json_path = Path(r"C:\Users\marsellinomedhat10\Downloads\json\SoccerShoubra_test.json")
+    jpg_path = Path(r"C:\Users\marsellinomedhat10\Downloads\test")
 
 
 

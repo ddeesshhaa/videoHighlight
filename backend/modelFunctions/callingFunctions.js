@@ -30,20 +30,20 @@ exports.callingFunctions = async (videoName, ext, tempDir, highlightPath) => {
                     runModel(video.tempPath)
                       .then((video) => {
                         console.log("5- Model Done ");
-                        merge(video, ext)
-                          .then((video) => {
-                            console.log("6- Merge Done , Path: " + video);
+                        // merge(video, ext)
+                        //   .then((video) => {
+                        //     console.log("6- Merge Done , Path: " + video);
 
-                            // mkdir(path.join(tempDir, "result")),
-                            copyFile(
-                              path.join(video, "highlighted." + ext),
-                              path.join(highlightPath, "highlighted." + ext)
-                            );
-                            res();
-                          })
-                          .catch((err) => {
-                            console.error(err);
-                          });
+                        //     // mkdir(path.join(tempDir, "result")),
+                        //     copyFile(
+                        //       path.join(video, "highlighted." + ext),
+                        //       path.join(highlightPath, "highlighted." + ext)
+                        //     );
+                        //     res();
+                        //   })
+                        //   .catch((err) => {
+                        //     console.error(err);
+                        //   });
                       })
 
                       .catch((err) => {

@@ -17,7 +17,7 @@ exports.runModel = (tempDir) => {
       tempDir + "/",
     ]);
     splitVideo.stdout.on("data", (data) => {
-      // console.log(`stdout: ${data}`);
+      console.log(`stdout: ${data}`);
       // console.log("1-Splitting Video");
     });
 

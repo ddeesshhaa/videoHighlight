@@ -8,33 +8,34 @@ import sys
 tempPath = sys.argv[1]
 ext = sys.argv[2]
 
-with open(os.path.join(tempPath,"result","test.json"), 'r') as f: #path of output json result
+with open(os.path.join(tempPath, "result", "test.json"), 'r') as f:  # path of output json result
     distros_dict = load(f)
 
 
-root = (os.path.join(tempPath,"clips"))+"/" #path of directory that contains videoclips
+# path of directory that contains videoclips
+root = (os.path.join(tempPath, "clips"))+"/"
 clips = []
 for distro in distros_dict['results']:
     clip_name = distro
     label = distros_dict['results'][clip_name][0]['label']
     score = float(distros_dict['results'][clip_name][0]['score'])
-    if score > 0.1 and label =="Goals":
-        required_video_file = root + clip_name +"."+ ext
+    if score > 0.5 and label == "Goals":
+        required_video_file = root + clip_name + "." + ext
         clip = VideoFileClip(required_video_file)
         clips.append(clip)
-    if score > 0.1 and label ==("Subs"):
-        required_video_file = root + clip_name + "."+ ext
-
-        clip = VideoFileClip(required_video_file)
-        clips.append(clip)
-
-    if score > 0.1 and label ==("Cards"):
-        required_video_file = root + clip_name + "."+ ext
+    if score > 0.7 and label == ("Subs"):
+        required_video_file = root + clip_name + "." + ext
 
         clip = VideoFileClip(required_video_file)
         clips.append(clip)
 
+    if score > 0.9 and label == ("Cards"):
+        required_video_file = root + clip_name + "." + ext
+
+        clip = VideoFileClip(required_video_file)
+        clips.append(clip)
 
 
 highlight = concatenate_videoclips(clips)
-highlight.write_videofile(tempPath+"/highlighted."+ext, codec="libx264", temp_audiofile='temp-audio.m4a', remove_temp=True, audio_codec='aac')
+highlight.write_videofile(tempPath+"/highlighted."+ext, codec="libx264",
+                          temp_audiofile='temp-audio.m4a', remove_temp=True, audio_codec='aac')

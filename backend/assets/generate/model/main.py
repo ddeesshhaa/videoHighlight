@@ -40,7 +40,7 @@ def json_serial(obj):
         return str(obj)
 
 
-def get_opt(root):
+def get_opt():
     opt = parse_opts(root)
 
     if opt.root_path is not None:
@@ -318,7 +318,7 @@ def save_checkpoint(save_file_path, epoch, arch, model, optimizer, scheduler):
     torch.save(save_states, save_file_path)
 
 
-def main_worker(index, opt,root):
+def main_worker(index, opt):
     random.seed(opt.manual_seed)
     np.random.seed(opt.manual_seed)
     torch.manual_seed(opt.manual_seed)
@@ -413,8 +413,7 @@ def main_worker(index, opt,root):
                             inference_class_names, opt.inference_no_average,
                             opt.output_topk)
 
-
-    my_file = open(os.path.join(root,"json","classInd.txt"), "r")
+    my_file = open(os.path.join(root, "json", "classInd.txt"), "r")
     # reading the file
     data = my_file.read()
     data_into_list = data.split("\n")
@@ -422,14 +421,15 @@ def main_worker(index, opt,root):
     print(data_into_list)
     my_file.close()
 
-    #drawconfusion(train_loader, model, criterion, data_into_list, "train")
+    # drawconfusion(train_loader, model, criterion, data_into_list, "train")
 
-    #drawconfusion(val_loader, model, criterion, data_into_list, "valid")
+    # drawconfusion(val_loader, model, criterion, data_into_list, "valid")
 
 
 if __name__ == '__main__':
     root = sys.argv[2]
-    opt = get_opt(root)
+
+    opt = get_opt()
 
     opt.device = torch.device('cpu' if opt.no_cuda else 'cuda')
     if not opt.no_cuda:
@@ -440,6 +440,6 @@ if __name__ == '__main__':
     opt.ngpus_per_node = torch.cuda.device_count()
     if opt.distributed:
         opt.world_size = opt.ngpus_per_node * opt.world_size
-        mp.spawn(main_worker, nprocs=opt.ngpus_per_node, args=(opt,root)),
+        mp.spawn(main_worker, nprocs=opt.ngpus_per_node, args=(opt,))
     else:
-        main_worker(-1, opt,root)
+        main_worker(-1, opt)
