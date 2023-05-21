@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Bellefair&family=Dancing+Script:wght@700&family=Epilogue:wght@500;700&family=Josefin+Sans:wght@300;400;600&family=Montserrat&family=Outfit:wght@400;700&display=swap');
+
 .vedio-highlight-home{
     display: flex;
     flex-direction: column;
@@ -5,4 +7,19 @@
     align-items: center;
     transform: translateZ(-200px);
     
+}
+
+.header-text{
+    font-family: 'Dancing Script', cursive;
+    font-size: 7rem;
+    font-weight: bold;
+}
+
+.header-btn{
+    transition: transform 0.3s ease-in-out;
+}
+
+.header-btn:hover{
+    color: white;
+    transform: scaleX(1.1);
 }

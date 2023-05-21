@@ -30,7 +30,7 @@ const Header = ({handleSport}) => {
                 Home</Link></p>
               <p className='login'><Link to='/popular' >Popular</Link></p>
               {/* <p className='login'><Link to={`/profile`}>Profile</Link></p> */}
-              <p className='login'><HashLink to='/#gene'>Generate</HashLink></p>
+              <p className='login'><HashLink to='/#gene'>Highlight</HashLink></p>
               {/* <div className="dropdown show flex drop-div">
                 <a className="btn-drop dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   Sports
@@ -67,7 +67,7 @@ const Header = ({handleSport}) => {
       <div className="vedio-highlight-navbar">
 
             <div className="logo">
-              <Link to='/'><img src={logo} alt="" /></Link>
+              <Link to='/'><p style={{fontWeight:'bold'}}>Highlight</p></Link>
             </div>
 
             <Menu />
@@ -81,7 +81,7 @@ const Header = ({handleSport}) => {
                     
                   <p className='login' onClick={() => toggleNavItems(false)}><Link to='/'>Home</Link></p>
                   <p className='login' onClick={() => toggleNavItems(false)}><Link to='/popular'>Popular</Link></p>
-                  <p className='login' onClick={() => toggleNavItems(false)}><HashLink to='/#gene'>Generate</HashLink></p>
+                  <p className='login' onClick={() => toggleNavItems(false)}><HashLink to='/#gene'>Highlight</HashLink></p>
 
                   {user? 
                     <>
