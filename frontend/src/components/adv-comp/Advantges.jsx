@@ -9,6 +9,8 @@ import AOS from 'aos';
 
 
 import saveTime from '../../assests/pexels-jordan-benton-1095602.jpg';
+import downloadAndSave from '../../assests/pexels-kaboompics-com-6335.jpg';
+import missMatch from '../../assests/miss.jpg'
 
 import './adv.css';
 
@@ -16,23 +18,50 @@ const Advantges = () => {
 
   useEffect(() => {
     AOS.init({
-      duration: 750,
-      offset: 200,
+      duration: 1000,
+      offset: 250,
     });
   }, []);
 
 
   return (
     <div className='vedio-highlight-adv section__padding' data-aos="fade-up">
-
-        <Row xs={1} sm={3} md={4} className="g-4" data-aos="fade-up" style={{display:'flex' , alignItems:'center',justifyContent:'center'}}>
+        <h1 style={{textAlign:'center',fontFamily:'Dancing Script',fontSize:'4rem'}} className='mb-5 '
+        data-aos='fade-down'>
+          Why use video Highlight ?
+        </h1>
+        <Row xs={1} md={2} lg={3} className="g-4" data-aos="fade-up-left" style={{display:'flex' , alignItems:'center',justifyContent:'center'}}>
         <Col  style={{display:'flex' , alignItems:'center',justifyContent:'center'}}>
-          <Card data-aos="flip-right" >
+          <Card data-aos="flip-right" style={{borderRadius:'0.5rem'}}>
             <Card.Img variant="top" src={saveTime} />
             <Card.Body>
-              <Card.Title>Save Time</Card.Title>
+              <Card.Title style={{color:'white'}}>Save Time</Card.Title>
+              <Card.Text style={{color:'white'}}>
+                Save your time, now you can watch the highlighted video not all the match.
+              </Card.Text>
+            </Card.Body>
+          </Card>
+        </Col>
+
+        {/* <Col style={{display:'flex' , alignItems:'center',justifyContent:'center'}}>
+          <Card data-aos="flip-right">
+            <Card.Img variant="top" src={saveTime} />
+            <Card.Body>
+              <Card.Title>Card title</Card.Title>
               <Card.Text>
-                Save your time and watch the highlighted video.
+                This is a longer card with supporting text
+              </Card.Text>
+            </Card.Body>
+          </Card>
+        </Col> */}
+
+        <Col style={{display:'flex' , alignItems:'center',justifyContent:'center'}}>
+          <Card data-aos="flip-right">
+            <Card.Img variant="top" src={missMatch} />
+            <Card.Body>
+              <Card.Title style={{color:'white'}}>Don't miss any match</Card.Title>
+              <Card.Text style={{color:'white'}}>
+                If you missed the match you can whatch your own highlighted video.  
               </Card.Text>
             </Card.Body>
           </Card>
@@ -40,41 +69,11 @@ const Advantges = () => {
 
         <Col style={{display:'flex' , alignItems:'center',justifyContent:'center'}}>
           <Card data-aos="flip-right">
-            <Card.Img variant="top" src={saveTime} />
+            <Card.Img variant="top" src={downloadAndSave} />
             <Card.Body>
-              <Card.Title>Card title</Card.Title>
-              <Card.Text>
-                This is a longer card with supporting text below as a natural
-                lead-in to additional content. This content is a little bit
-                longer.
-              </Card.Text>
-            </Card.Body>
-          </Card>
-        </Col>
-
-        <Col style={{display:'flex' , alignItems:'center',justifyContent:'center'}}>
-          <Card data-aos="flip-right">
-            <Card.Img variant="top" src={saveTime} />
-            <Card.Body>
-              <Card.Title>Card title</Card.Title>
-              <Card.Text>
-                This is a longer card with supporting text below as a natural
-                lead-in to additional content. This content is a little bit
-                longer.
-              </Card.Text>
-            </Card.Body>
-          </Card>
-        </Col>
-
-        <Col style={{display:'flex' , alignItems:'center',justifyContent:'center'}}>
-          <Card data-aos="flip-right">
-            <Card.Img variant="top" src={saveTime} />
-            <Card.Body>
-              <Card.Title>Card title</Card.Title>
-              <Card.Text>
-                This is a longer card with supporting text below as a natural
-                lead-in to additional content. This content is a little bit
-                longer.
+              <Card.Title style={{color:'white'}}>Download and Save</Card.Title>
+              <Card.Text style={{color:'white'}}>
+                You can download and save all your highlighted videos in your profile. 
               </Card.Text>
             </Card.Body>
           </Card>

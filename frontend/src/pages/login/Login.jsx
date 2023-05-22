@@ -51,6 +51,7 @@ const Login = () => {
 
   return (
     <div className={Style.Auth_form_container}>
+
       <form className={Style.Auth_form} onSubmit={handleSubmit}>
         <div className={Style.Auth_form_content}>
           <h3 className={Style.Auth_form_title}>Sign In</h3>
@@ -81,7 +82,7 @@ const Login = () => {
             />
           </div>
           <div className="d-grid gap-2 mt-3">
-            <button type="submit" className="btn btn-primary">
+            <button type="submit" className="btn btn-primary ">
               Submit
             </button>
 
@@ -100,6 +101,11 @@ const Login = () => {
           </p>
         </div>
       </form>
+
+      {/* <div className="d-none d-sm-block"
+      style={{backgroundColor:'#6aac28' ,maxWidth: '22rem' , height: '25.1rem' , width:'22rem'}}>
+        
+      </div> */}
     </div>
   );
 }

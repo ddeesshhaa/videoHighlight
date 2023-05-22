@@ -1,7 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Bellefair&family=Dancing+Script:wght@700&family=Epilogue:wght@500;700&family=Josefin+Sans:wght@300;400;600&family=Montserrat&family=Outfit:wght@400;700&display=swap');
+
 .vedio-highlight-adv{
-    background-color: #212529;
+    background-color: #6aac28;
     margin-top: 10rem;
-    width: 100%;
+    width: 80%;
+    border-radius: 0.5rem;
 }
 
 
@@ -22,4 +25,11 @@
     flex-direction: column !important;
     justify-content: center !important;
     align-items: center;
+    background-color: black;
+    color: white;
 }
+
+/*
+#0d3515
+#373737
+*/
