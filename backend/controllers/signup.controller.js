@@ -2,6 +2,8 @@ const user = require("../models/user.model");
 const users = require("../models/user.model");
 const bcrypt = require("bcrypt");
 
+// const passwordRegex ='(?=^.{8,}$)((?=.*d)|(?=.*W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$"';
+
 exports.addUser = async (req, res) => {
   if (Object.keys(req.body).length == 4) {
     const hash = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10));

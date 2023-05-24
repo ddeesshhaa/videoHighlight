@@ -9,12 +9,14 @@ const path = require("path");
 const fs = require("fs");
 
 const { promisify } = require("util");
+const { ExtractJson } = require("./jsonExtract");
 const copyFile = promisify(fs.copyFile);
 
 // const mkdir = promisify(fs.mkdir);
 
 exports.callingFunctions = async (videoName, ext, tempDir, highlightPath) => {
   return new Promise((res, rej) => {
+    console.log("working on:" + videoName);
     splitVideo(videoName, ext, tempDir)
       .then((video) => {
         console.log("1- Creating Clips Done");
@@ -30,20 +32,28 @@ exports.callingFunctions = async (videoName, ext, tempDir, highlightPath) => {
                     runModel(video.tempPath)
                       .then((video) => {
                         console.log("5- Model Done ");
-                        // merge(video, ext)
-                        //   .then((video) => {
-                        //     console.log("6- Merge Done , Path: " + video);
+                        ExtractJson(videoName, tempDir)
+                          .then((video) => {
+                            console.log("6- Extract Json Done");
 
-                        //     // mkdir(path.join(tempDir, "result")),
-                        //     copyFile(
-                        //       path.join(video, "highlighted." + ext),
-                        //       path.join(highlightPath, "highlighted." + ext)
-                        //     );
-                        //     res();
-                        //   })
-                        //   .catch((err) => {
-                        //     console.error(err);
-                        //   });
+                            merge(tempDir, ext)
+                              .then(() => {
+                                console.log("7- Merge Done , Path: " + tempDir);
+
+                                // mkdir(path.join(tempDir, "result")),
+                                copyFile(
+                                  path.join(tempDir, "highlighted." + ext),
+                                  path.join(highlightPath, "highlighted." + ext)
+                                );
+                                res();
+                              })
+                              .catch((err) => {
+                                console.error(err);
+                              });
+                          })
+                          .catch((err) => {
+                            console.error("Error on Json Extract");
+                          });
                       })
 
                       .catch((err) => {
