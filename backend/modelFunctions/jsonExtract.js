@@ -11,14 +11,14 @@ exports.ExtractJson = (videoName, tempPath) => {
       "utils",
       "jsonExtract.py"
     );
-    resultJsonPath = path.join(jsonExtractPath, "result", "test.json");
+    resultJsonPath = path.join(tempPath, "result", "test.json");
     const jsonExtract = spawn("python", [jsonExtractPath, resultJsonPath]);
     jsonExtract.stdout.on("data", (data) => {
       // console.log(`stdout: ${data}`);
     });
 
     jsonExtract.stderr.on("data", (data) => {
-      // console.error(`stderr: ${data}`);
+      console.error(`stderr: ${data}`);
       // reject("Error on step 3");
     });
 
