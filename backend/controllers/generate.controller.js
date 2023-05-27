@@ -48,6 +48,7 @@ exports.generateVideo = async (req, res) => {
       tempDir,
       highlightPath
     );
+
     fsExtra.remove(tempDir),
       await user.findByIdAndUpdate(userId, {
         $push: { doneVideos: req.body.id },

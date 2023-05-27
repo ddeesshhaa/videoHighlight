@@ -1,7 +1,7 @@
 const { spawn } = require("child_process");
 const path = require("path");
 
-exports.merge = (tempPath, ext) => {
+exports.merge = (tempPath, videoName, ext) => {
   return new Promise((resolve, reject) => {
     jpgPyPath = path.join(
       __dirname,
@@ -12,7 +12,7 @@ exports.merge = (tempPath, ext) => {
       "utils",
       "merge.py"
     );
-    const splitVideo = spawn("python", [jpgPyPath, tempPath, ext]);
+    const splitVideo = spawn("python", [jpgPyPath, tempPath, videoName, ext]);
     splitVideo.stdout.on("data", (data) => {
       // console.log(`stdout: ${data}`);
     });

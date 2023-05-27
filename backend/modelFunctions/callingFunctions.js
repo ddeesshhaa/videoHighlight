@@ -10,6 +10,8 @@ const fs = require("fs");
 
 const { promisify } = require("util");
 const { ExtractJson } = require("./jsonExtract");
+const { uploadToCloud } = require("./uploadToCloud");
+const videoModel = require("../models/video.model");
 const copyFile = promisify(fs.copyFile);
 
 // const mkdir = promisify(fs.mkdir);
@@ -36,16 +38,29 @@ exports.callingFunctions = async (videoName, ext, tempDir, highlightPath) => {
                           .then((video) => {
                             console.log("6- Extract Json Done");
 
-                            merge(tempDir, ext)
+                            merge(tempDir, videoName, ext)
                               .then(() => {
                                 console.log("7- Merge Done , Path: " + tempDir);
 
                                 // mkdir(path.join(tempDir, "result")),
-                                copyFile(
-                                  path.join(tempDir, "highlighted." + ext),
-                                  path.join(highlightPath, "highlighted." + ext)
-                                );
-                                res();
+                                // copyFile(
+                                //   path.join(
+                                //     tempDir,
+                                //     videoName + "-Highlight." + ext
+                                //   ),
+                                //   path.join(
+                                //     highlightPath,
+                                //     videoName + "-Highlight." + ext
+                                //   )
+                                // );
+                                // res();
+
+                                uploadToCloud(
+                                  videoName,
+                                  path.join(tempDir, videoName + "." + ext)
+                                ).then(() => {
+                                  res();
+                                });
                               })
                               .catch((err) => {
                                 console.error(err);

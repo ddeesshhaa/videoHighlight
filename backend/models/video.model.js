@@ -10,6 +10,11 @@ const videoSchema = mongoose.Schema(
       type: String,
     },
     ext: String,
+    videoName: String,
+    highlightUrl: {
+      type: String,
+      default: "#",
+    },
   },
   { timestamps: true }
 );

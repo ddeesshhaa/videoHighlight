@@ -6,9 +6,13 @@ const { promisify } = require("util");
 const user = require("../models/user.model");
 const ObjectId = require("mongo-objectid");
 const mkdir = promisify(fs.mkdir);
+const multer = require("multer");
+const cloudinary = require("cloudinary").v2;
 
 exports.uploadVideo = async (req, res) => {
   if (req.files) {
+    console.log(req.files);
+
     let video = req.files.video;
     let videoBaseName = video.name;
     videoBaseNameArray = videoBaseName.split(".");
@@ -42,6 +46,7 @@ exports.uploadVideo = async (req, res) => {
       title: vn,
       ext: ext,
       owner: req.user._id,
+      videoName: videoNewName,
     };
     myVid = new videoModel(data);
     await myVid.save();
@@ -50,5 +55,32 @@ exports.uploadVideo = async (req, res) => {
     });
     res.send(data);
   }
-  console.log(req.files);
 };
+
+// exports.uploadVideo = async (req, res) => {
+//   if (!req.file) {
+//     res.status(400).send("No file uploaded");
+//     return;
+//   }
+//   cloudinary.config({
+//     cloud_name: "dbc3nc7vb",
+//     api_key: "991987112235953",
+//     api_secret: "y90XLdfxRWgjXoVBHZA1dSjPUMQ",
+//   });
+//   cloudinary.uploader.upload(
+//     filePath,
+//     { resource_type: "video" },
+//     (error, result) => {
+//       if (error) {
+//         console.error("Error uploading video to Cloudinary:", error);
+//         res.status(500).send("Error uploading video");
+//         return;
+//       }
+
+//       // Do something with the Cloudinary result, such as saving the URL to a database
+//       console.log("Video URL:", result.secure_url);
+
+//       res.status(200).send("Video uploaded to Cloudinary");
+//     }
+//   );
+// };

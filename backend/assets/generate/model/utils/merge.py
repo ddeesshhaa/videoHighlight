@@ -6,7 +6,8 @@ import re
 import sys
 
 tempPath = sys.argv[1]
-ext = sys.argv[2]
+videoName = sys.argv[2]
+ext = sys.argv[3]
 
 with open(os.path.join(tempPath, "result", "test.json"), 'r') as f:  # path of output json result
     distros_dict = load(f)
@@ -19,7 +20,7 @@ for distro in distros_dict['results']:
     clip_name = distro
     label = distros_dict['results'][clip_name][0]['label']
     score = float(distros_dict['results'][clip_name][0]['score'])
-    if score > 0.5 and label == "Goals":
+    if score > 0.7 and label == "Goals":
         required_video_file = root + clip_name + "." + ext
         clip = VideoFileClip(required_video_file)
         clips.append(clip)
@@ -37,5 +38,5 @@ for distro in distros_dict['results']:
 
 
 highlight = concatenate_videoclips(clips)
-highlight.write_videofile(tempPath+"/highlighted."+ext, codec="libx264",
+highlight.write_videofile(tempPath+"\\"+videoName+"-Highlight."+ext, codec="libx264",
                           temp_audiofile='temp-audio.m4a', remove_temp=True, audio_codec='aac')
