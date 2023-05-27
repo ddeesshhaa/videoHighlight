@@ -34,7 +34,7 @@ const VedioInput = () => {
 
   const styles = {
     header: {
-      backgroundImage: `url(${sports})`,
+      /* backgroundImage: `url(${sports})`, */
       backgroundPosition: 'center',
       backgroundRepeat: 'no-repeat',
       backgroundSize: 'cover'
