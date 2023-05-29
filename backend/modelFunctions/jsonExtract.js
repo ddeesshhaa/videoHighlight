@@ -19,7 +19,7 @@ exports.ExtractJson = (videoName, tempPath) => {
 
     jsonExtract.stderr.on("data", (data) => {
       // console.error(`stderr: ${data}`);
-      // reject("Error on step 3");
+      // reject("Error on Extracting Json");
     });
 
     jsonExtract.on("close", (code) => {

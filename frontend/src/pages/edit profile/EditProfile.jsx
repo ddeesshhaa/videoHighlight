@@ -53,10 +53,11 @@ const EditProfile = () => {
           email: e.target.email.value,
           newPassword:e.target.Newpassword.value,
           oldPassword: e.target.Oldpassword.value,
+		  image:profilePic
         },
         {
           headers: {
-            'Content-Type': 'application/json',
+            'Content-Type': 'multipart/form-data',
             "Authorization" : JSON.parse(localStorage.getItem('vh_user')).token
           },
         }
@@ -93,7 +94,7 @@ const EditProfile = () => {
             <div className="btn btn-primary btn-rounded">
                 <label className="form-label text-white m-1" htmlFor="customFile2">Choose file</label>
                 <input type="file" className="form-control d-none" id="customFile2" onChange={handleChange}
-                multiple accept="image/*" required/>
+                multiple accept="image/*" />
             </div>
         </div>
 

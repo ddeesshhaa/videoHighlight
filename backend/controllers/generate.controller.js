@@ -9,14 +9,15 @@ const copyFile = promisify(fs.copyFile);
 const mkdir = promisify(fs.mkdir);
 const user = require("../models/user.model");
 const modelFunctions = require("../modelFunctions/callingFunctions");
+const apiError = require("../errorHandler/apiError");
 
-exports.generateVideo = async (req, res) => {
-  if (req.user !== undefined) {
+exports.generateVideo = async (req, res, next) => {
+  try {
     let video = await videoModel.findById(req.body.id);
     let userId = req.user._id;
     videoName = "Video-" + req.body.id;
     rootFolderName = videoName;
-    ext = video.ext;
+    let ext = video.ext;
 
     const classIndPath = path.join(
       __dirname,
@@ -31,9 +32,9 @@ exports.generateVideo = async (req, res) => {
       "assets",
       "uploads",
       "videos",
-      rootFolderName
+      video.title
     );
-    const tempDir = await mkdtemp(path.join(os.tmpdir(), rootFolderName));
+    const tempDir = await mkdtemp(path.join(os.tmpdir(), video.title));
     await Promise.all([
       mkdir(path.join(tempDir, "clips")),
       mkdir(path.join(tempDir, "jpgs")),
@@ -42,19 +43,19 @@ exports.generateVideo = async (req, res) => {
       copyFile(classIndPath, path.join(tempDir, "json", "classInd.txt")),
     ]);
 
-    await modelFunctions.callingFunctions(
-      videoName,
-      ext,
-      tempDir,
-      highlightPath
-    );
-
-    fsExtra.remove(tempDir),
-      await user.findByIdAndUpdate(userId, {
-        $push: { doneVideos: req.body.id },
+    await modelFunctions
+      .callingFunctions(videoName, ext, tempDir, highlightPath)
+      .then(() => {
+        fsExtra.remove(tempDir);
+        user.findByIdAndUpdate(userId, {
+          $push: { doneVideos: req.body.id },
+        });
+        res.status(200).send("generated successfully");
+      })
+      .catch((err) => {
+        next(apiError.intErr(err));
       });
-    res.status(200).send("generated successfully");
-  } else {
-    // res.status(40 1).send(" The user is not authorized");
+  } catch (error) {
+    next(apiError.intErr("Error on generating"));
   }
 };

@@ -21,7 +21,7 @@ exports.getVideoName = (videoName, tempPath) => {
 
     splitVideo.stderr.on("data", (data) => {
       // console.error(`stderr: ${data}`);
-      // reject("Error on step 3");
+      // reject("Error on getting Video Names");
     });
 
     splitVideo.on("close", (code) => {

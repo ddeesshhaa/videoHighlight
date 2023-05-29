@@ -2,14 +2,15 @@ import subprocess
 import argparse
 from pathlib import Path
 from joblib import Parallel, delayed
-import os 
+import os
 import sys
 
+
 def getDura(path):
-    result = subprocess.run(['ffprobe', '-v', 'error', '-show_entries', 'format=duration', '-of', 'default=noprint_wrappers=1:nokey=1', path], stdout=subprocess.PIPE)
+    result = subprocess.run(['ffprobe', '-v', 'error', '-show_entries', 'format=duration',
+                            '-of', 'default=noprint_wrappers=1:nokey=1', path], stdout=subprocess.PIPE)
     duration = float(result.stdout)
     return duration
-
 
 
 def video_process(video_file_path, dst_root_path, ext, fps=-1, size=240):
@@ -31,9 +32,9 @@ def video_process(video_file_path, dst_root_path, ext, fps=-1, size=240):
     frame_rate = frame_rate[0] / frame_rate[1]
     print(res[2])
     duration = getDura(video_file_path)
-    print("*" *10)
+    print("*" * 10)
     print(duration)
-    print("*" *10)
+    print("*" * 10)
     n_frames = int(frame_rate * duration)
 
     name = video_file_path.stem
@@ -79,25 +80,25 @@ def class_process(class_dir_path, dst_root_path, ext, fps=-1, size=240):
 if __name__ == '__main__':
     name = sys.argv[1]
     tempPath = sys.argv[2]
-    clipPath = os.path.join(tempPath,"clips")+"/"
-    jpgPath = os.path.join(tempPath,"jpgs")+"/"
-    dir_path=Path(clipPath)
-    dst_path=Path(jpgPath)
+    clipPath = os.path.join(tempPath, "clips")+"/"
+    jpgPath = os.path.join(tempPath, "jpgs")+"/"
+    dir_path = Path(clipPath)
+    dst_path = Path(jpgPath)
     print("*"*20)
     print(dir_path)
     print(dst_path)
-    dataset="activitynet"
-    n_jobs=1
-    fps=-1
-    size=240
-    ext="."+sys.argv[3]
+    dataset = "activitynet"
+    n_jobs = 1
+    fps = -1
+    size = 240
+    ext = "."+sys.argv[3]
     if dataset == 'activitynet':
         video_file_paths = [x for x in sorted(dir_path.iterdir())]
         status_list = Parallel(
             n_jobs=n_jobs,
             backend='threading')(delayed(video_process)(
                 video_file_path, dst_path, ext, fps, size)
-                                 for video_file_path in video_file_paths)
+            for video_file_path in video_file_paths)
     else:
         class_dir_paths = [x for x in sorted(dir_path.iterdir())]
         test_set_video_path = dir_path / 'test'
@@ -108,6 +109,4 @@ if __name__ == '__main__':
             n_jobs=n_jobs,
             backend='threading')(delayed(class_process)(
                 class_dir_path, dst_path, ext, fps, size)
-                                 for class_dir_path in class_dir_paths)
-
-
+            for class_dir_path in class_dir_paths)

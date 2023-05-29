@@ -18,7 +18,8 @@ const copyFile = promisify(fs.copyFile);
 
 exports.callingFunctions = async (videoName, ext, tempDir, highlightPath) => {
   return new Promise((res, rej) => {
-    console.log("working on:" + videoName);
+    console.log("Working on => " + videoName);
+
     splitVideo(videoName, ext, tempDir)
       .then((video) => {
         console.log("1- Creating Clips Done");
@@ -42,7 +43,6 @@ exports.callingFunctions = async (videoName, ext, tempDir, highlightPath) => {
                               .then(() => {
                                 console.log("7- Merge Done , Path: " + tempDir);
 
-                                // mkdir(path.join(tempDir, "result")),
                                 // copyFile(
                                 //   path.join(
                                 //     tempDir,
@@ -57,38 +57,42 @@ exports.callingFunctions = async (videoName, ext, tempDir, highlightPath) => {
 
                                 uploadToCloud(
                                   videoName,
-                                  path.join(tempDir, videoName + "." + ext)
-                                ).then(() => {
+                                  path.join(
+                                    tempDir,
+                                    videoName + "-Highlight." + ext
+                                  )
+                                ).then((url) => {
+                                  console.log(url);
                                   res();
                                 });
                               })
                               .catch((err) => {
-                                console.error(err);
+                                rej(err);
                               });
                           })
                           .catch((err) => {
-                            console.error("Error on Json Extract");
+                            rej(err);
                           });
                       })
 
                       .catch((err) => {
-                        console.error(err);
+                        rej(err);
                       });
                   })
                   .catch((err) => {
-                    console.error(err);
+                    rej(err);
                   });
               })
               .catch((err) => {
-                console.error(err);
+                rej(err);
               });
           })
           .catch((err) => {
-            console.error(err);
+            rej(err);
           });
       })
       .catch((err) => {
-        console.log(err);
+        rej(err);
       });
   });
 };

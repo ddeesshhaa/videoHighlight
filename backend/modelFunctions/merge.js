@@ -19,7 +19,7 @@ exports.merge = (tempPath, videoName, ext) => {
 
     splitVideo.stderr.on("data", (data) => {
       // console.error(`stderr: ${data}`);
-      // reject("error on step 2");
+      // reject("error on Merging");
     });
 
     splitVideo.on("close", (code) => {
