@@ -8,9 +8,9 @@ import 'aos/dist/aos.css';
 import AOS from 'aos';
 
 
-import saveTime from '../../assests/pexels-jordan-benton-1095602.jpg';
-import downloadAndSave from '../../assests/pexels-kaboompics-com-6335.jpg';
-import missMatch from '../../assests/miss.jpg'
+import saveTime from '../../assests/saveTime.jpg';
+import downloadAndSave from '../../assests/saveAndDown.jpg';
+import missMatch from '../../assests/nooMiss.jpg'
 
 import './adv.css';
 
@@ -34,7 +34,7 @@ const Advantges = () => {
         <Col  style={{display:'flex' , alignItems:'center',justifyContent:'center'}}>
           <Card data-aos="flip-right" style={{borderRadius:'0.5rem'}}>
             <Card.Img variant="top" src={saveTime} />
-            <Card.Body>
+            <Card.Body >
               <Card.Title style={{color:'white'}}>Save Time</Card.Title>
               <Card.Text style={{color:'white'}}>
                 Save your time, now you can watch the highlighted video not all the match.

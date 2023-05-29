@@ -23,3 +23,21 @@
     color: white;
     transform: scaleX(1.1);
 }
+
+@media screen and (max-width:767px) {
+    .header-text{
+        font-size: 5rem;
+    }
+
+    
+}
+
+@media screen and (max-width:550px) {
+    .header-text{
+        font-size: 3rem;
+    }
+    .cover-pic{
+        width: 100% !important;
+        height: 35rem !important;
+    }
+}

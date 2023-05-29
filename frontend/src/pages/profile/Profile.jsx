@@ -1,4 +1,4 @@
-import React, { useState} from 'react';
+import React, { useState , useEffect} from 'react';
 import { Link } from 'react-router-dom';
 
 import {MdOutlineVideoLibrary , MdOutlineFavorite} from 'react-icons/md';
@@ -6,6 +6,8 @@ import {MdOutlineVideoLibrary , MdOutlineFavorite} from 'react-icons/md';
 import vod2 from '../../assests/2015-02-21 - 18-00 Crystal Palace 1 - 2 Arsenalc1.mkv';
 import vod3 from '../../assests/2015-05-17 - 18-00 Manchester United 1 - 1 Arsenalg6.mkv';
 import vod4 from '../../assests/2015-02-21 - 18-00 Swansea 2 - 1 Manchester Unitedg2.mkv';
+
+import axios from 'axios'
 
 import './profile.css';
 
@@ -19,6 +21,15 @@ const Profile = () => {
   const enc = logUser.pic.image.data;
 
   const[activeClass,setActiveClass] = useState('left');
+
+  /* useEffect(async () => {
+      try{await axios.get(
+        "http://localhost:8080/new"
+      ).then(response => console.log(response.data));}
+      catch(error){
+        console.log(error);
+      }
+  },[]); */
 
   return (
     <div className='profile-page'>
