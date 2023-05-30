@@ -53,7 +53,7 @@ const EditProfile = () => {
           email: e.target.email.value,
           newPassword:e.target.Newpassword.value,
           oldPassword: e.target.Oldpassword.value,
-		  image:profilePic
+		      image:profilePic
         },
         {
           headers: {
@@ -65,8 +65,8 @@ const EditProfile = () => {
   
       
   
-      let user = await response.data;
-      console.log(user);
+      /* let user = await response.data;
+      console.log(user); */
 
       logOut();
 

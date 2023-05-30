@@ -1,5 +1,5 @@
 import React,{useEffect} from 'react';
-import { VedioInput,Advantges } from '../../components';
+import { VedioInput,Advantges,MyFooter } from '../../components';
 import { HashLink } from 'react-router-hash-link';
 
 import 'aos/dist/aos.css';
@@ -8,7 +8,7 @@ import AOS from 'aos';
 
 /* import coverPhoto from '../../assests/pexels-jeshootscom-1201996.jpg';
 import coverPhoto2 from '../../assests/pexels-serkan-göktay-94953.jpg'; */
-import coverPhoto3 from '../../assests/pexels-zac-frith-918798.jpg';
+import coverPhoto3 from '../../assests/headerr.jpg';
 import reels from '../../assests/video-reelz.mp4';
 
 
@@ -25,11 +25,11 @@ const Home = () => {
 
   return (
     <div className='vedio-highlight-home'>
-      <header style={{
+      <header className='cover-pic' style={{
         backgroundImage: `url(${coverPhoto3})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
-        height: '100vh',
+        height: '48rem',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
@@ -45,9 +45,10 @@ const Home = () => {
       </header>
       <Advantges />
       <video src={reels} className='video' autoPlay muted loop style={{marginTop:'10rem' , width:'100%'}}
-        data-aos="flip-left"> 
+        data-aos="fade-up"> 
       </video>
       <VedioInput/>
+      <MyFooter />
     </div>
   )
 }

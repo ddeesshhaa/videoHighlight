@@ -63,7 +63,7 @@ const Header = ({handleSport}) => {
   }
 
   return (
-    <div className='vedio-highlight-header'>
+    <div className='vedio-highlight-header' >
       <div className="vedio-highlight-navbar">
 
             <div className="logo">

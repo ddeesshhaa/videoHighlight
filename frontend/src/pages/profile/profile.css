@@ -71,6 +71,11 @@ button:hover{
     border-radius: 0.5rem;
 }
 
+.del{
+    color: white;
+    cursor: pointer;
+    
+}
 
 
 @media screen and (max-width:768px){
