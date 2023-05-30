@@ -7,6 +7,8 @@ import vod2 from '../../assests/2015-02-21 - 18-00 Crystal Palace 1 - 2 Arsenalc
 import vod3 from '../../assests/2015-05-17 - 18-00 Manchester United 1 - 1 Arsenalg6.mkv';
 import vod4 from '../../assests/2015-02-21 - 18-00 Swansea 2 - 1 Manchester Unitedg2.mkv';
 
+import {MdDelete} from 'react-icons/md';
+
 import axios from 'axios'
 
 import './profile.css';
@@ -30,6 +32,37 @@ const Profile = () => {
         console.log(error);
       }
   },[]); */
+
+  const highlightedVideos = [
+    {
+      id: 2,
+      title: 'Swanseacity 1 1 chealsea',
+      url: vod2,
+    },
+    {
+      id: 3,
+      title: 'Video 3',
+      url: vod3,
+    },
+    {
+      id: 4,
+      title: 'Video 4',
+      url: vod4,
+    },
+  ];
+
+  const favoriteVideos = [
+    {
+      id: 3,
+      title: 'Video 3',
+      url: vod3,
+    },
+    {
+      id: 4,
+      title: 'Video 4',
+      url: vod4,
+    },
+  ];
 
   return (
     <div className='profile-page'>
@@ -110,31 +143,25 @@ const Profile = () => {
     <div className="vedio-div">
         {activeClass === 'left' ? 
         <div className='vedio-cont'>
-          <div className="vedio-card">
-                    <video src={vod2} controls> </video>
-                    <p>Crystal Palace 1 - 2 Arsenal</p>
-                </div>
 
+              {highlightedVideos.map(vod => 
                 <div className="vedio-card">
-                    <video src={vod3} controls> </video>
-                    <p>Manchester United 1 - 1 Arsenal</p>
-                </div>
-
-                <div className="vedio-card">
-                    <video src={vod4} controls> </video>
-                    <p>Swansea 2 - 1 Manchester United</p>
-                </div>
+                    <video src={vod.url} controls> </video>
+                    <div className='d-flex w-100 mt-2' style={{justifyContent:'space-between' , alignItems:'center'}}>
+                      <p style={{margin:'0'}}>{vod.title}</p>
+                      <MdDelete className='del'/>
+                    </div>
+                </div>)}
         </div> : 
         <div className='vedio-cont'>
-          <div className="vedio-card">
-                    <video src={vod3} controls> </video>
-                    <p>Manchester United 1 - 1 Arsenal</p>
-                </div>
-
+              {favoriteVideos.map(vod => 
                 <div className="vedio-card">
-                    <video src={vod4} controls> </video>
-                    <p>Swansea 2 - 1 Manchester United</p>
-                </div>
+                    <video src={vod.url} controls> </video>
+                    <div className='d-flex w-100 mt-2' style={{justifyContent:'space-between' , alignItems:'center'}}>
+                      <p style={{margin:'0'}}>{vod.title}</p>
+                      <MdDelete className='del'/>
+                    </div>
+                </div>)}  
           </div>} 
     </div>
       

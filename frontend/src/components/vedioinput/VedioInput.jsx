@@ -5,7 +5,7 @@ import axios from 'axios';
 import {Row , Col} from 'react-bootstrap';
 
 import {MdCloudUpload , MdDelete} from 'react-icons/md';
-import {AiFillFileImage} from 'react-icons/ai';
+//import {AiFillFileImage} from 'react-icons/ai';
 import { useAuthContext } from '../../hooks/useAuthContext';
 import { useNavigate } from 'react-router-dom';
 
