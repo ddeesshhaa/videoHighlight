@@ -5,6 +5,7 @@ const {
   removeFromFav,
   uploadProfilePic,
   editProfile,
+  removeFromHighlight,
 } = require("../controllers/profile.controller");
 const { auth } = require("../controllers/token.controller");
 
