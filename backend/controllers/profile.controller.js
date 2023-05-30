@@ -23,9 +23,13 @@ exports.getData = (req, res, next) => {
 
 exports.addToFav = async (req, res, next) => {
   try {
-    await user.findByIdAndUpdate(req.user._id, {
-      $push: { favVideos: req.body.videoId },
-    });
+    await user.findByIdAndUpdate(
+      req.user._id,
+      {
+        $push: { favVideos: req.body.videoId },
+      },
+      { new: true }
+    );
     res
       .status(200)
       .send(`Added ${req.body.videoId} to User ${req.user._id} Fav List`);
@@ -36,9 +40,28 @@ exports.addToFav = async (req, res, next) => {
 
 exports.removeFromFav = async (req, res, next) => {
   try {
-    await user.findByIdAndUpdate(req.user._id, {
-      $pull: { favVideos: req.body.videoId },
-    });
+    await user.findByIdAndUpdate(
+      req.user._id,
+      {
+        $pull: { favVideos: req.body.videoId },
+      },
+      { new: true }
+    );
+    res.status(200).send(req.user._id);
+  } catch (error) {
+    next(apiError.er(404, "Error"));
+  }
+};
+
+exports.removeFromHighlight = async (req, res, next) => {
+  try {
+    await user.findByIdAndUpdate(
+      req.user._id,
+      {
+        $pull: { doneVideos: req.body.videoId },
+      },
+      { new: true }
+    );
     res.status(200).send(req.user._id);
   } catch (error) {
     next(apiError.er(404, "Error"));
@@ -53,9 +76,13 @@ exports.uploadProfilePic = async (req, res) => {
       contentType: req.file.mimetype,
     },
   };
-  await user.findByIdAndUpdate(req.user._id, {
-    pic: pict,
-  });
+  await user.findByIdAndUpdate(
+    req.user._id,
+    {
+      pic: pict,
+    },
+    { new: true }
+  );
 
   res
     .status(200)
@@ -88,13 +115,17 @@ exports.editProfile = async (req, res, next) => {
           let inputPass = req.body.newPassword || req.body.oldPassword;
           const hash = bcrypt.hashSync(inputPass, bcrypt.genSaltSync(10));
           user
-            .findByIdAndUpdate(req.user._id, {
-              firstName: req.body.firstName || req.user.firstName,
-              lastName: req.body.lastName || req.user.lastName,
-              email: req.body.email || req.user.email,
-              password: hash,
-              pic: pict,
-            })
+            .findByIdAndUpdate(
+              req.user._id,
+              {
+                firstName: req.body.firstName || req.user.firstName,
+                lastName: req.body.lastName || req.user.lastName,
+                email: req.body.email || req.user.email,
+                password: hash,
+                pic: pict,
+              },
+              { new: true }
+            )
             .then(() => {
               res.status(200).send("Edited");
             })

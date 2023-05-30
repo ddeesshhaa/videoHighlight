@@ -48,10 +48,16 @@ exports.uploadVideo = async (req, res, next) => {
     };
     myVid = new videoModel(data);
     await myVid.save();
-    await user.findByIdAndUpdate(req.user._id, {
-      $push: { uploadedVideos: myId.toString() },
-    });
-    res.status(200).send("Video Uploaded");
+    await user.findByIdAndUpdate(
+      req.user._id,
+      {
+        $push: { uploadedVideos: myId.toString() },
+      },
+      { new: true }
+    );
+    // res.status(200).send("Video Uploaded");
+    req.body.id = myId.toString();
+    next();
   } catch (error) {
     next(apiError.intErr("Error on Uploading"));
   }

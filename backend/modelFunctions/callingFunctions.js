@@ -63,7 +63,7 @@ exports.callingFunctions = async (videoName, ext, tempDir, highlightPath) => {
                                   )
                                 ).then((url) => {
                                   console.log(url);
-                                  res();
+                                  res(url);
                                 });
                               })
                               .catch((err) => {

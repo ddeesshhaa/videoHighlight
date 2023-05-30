@@ -50,7 +50,11 @@ exports.uploadToCloud = async (videoName, path) => {
 
   async function updateVideoHighlightUrl(videoName, highlightUrl) {
     try {
-      await videoModel.findOneAndUpdate({ videoName }, { highlightUrl });
+      await videoModel.findOneAndUpdate(
+        { videoName },
+        { highlightUrl },
+        { new: true }
+      );
     } catch (error) {
       console.error("Error updating video highlight URL:", error);
       throw error;

@@ -45,12 +45,16 @@ exports.generateVideo = async (req, res, next) => {
 
     await modelFunctions
       .callingFunctions(videoName, ext, tempDir, highlightPath)
-      .then(() => {
+      .then((url) => {
         fsExtra.remove(tempDir);
-        user.findByIdAndUpdate(userId, {
-          $push: { doneVideos: req.body.id },
-        });
-        res.status(200).send("generated successfully");
+        user.findByIdAndUpdate(
+          userId,
+          {
+            $push: { doneVideos: req.body.id },
+          },
+          { new: true }
+        );
+        res.status(200).send(url);
       })
       .catch((err) => {
         next(apiError.intErr(err));
