@@ -20,8 +20,8 @@ exports.jpgToJson = (videoName, tempPath) => {
     });
 
     splitVideo.stderr.on("data", (data) => {
-      console.error(`stderr: ${data}`);
-      // reject(data);
+      // console.error(`stderr: ${data}`);
+      // reject("Making Json of JPGs");
     });
 
     splitVideo.on("close", (code) => {

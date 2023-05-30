@@ -1,5 +1,4 @@
 const videoModel = require("../models/video.model");
-const slugify = require("slugify");
 const path = require("path");
 const fs = require("fs");
 const { promisify } = require("util");
@@ -7,12 +6,10 @@ const user = require("../models/user.model");
 const ObjectId = require("mongo-objectid");
 const mkdir = promisify(fs.mkdir);
 const multer = require("multer");
-const cloudinary = require("cloudinary").v2;
+const apiError = require("../errorHandler/apiError");
 
-exports.uploadVideo = async (req, res) => {
-  if (req.files) {
-    console.log(req.files);
-
+exports.uploadVideo = async (req, res, next) => {
+  try {
     let video = req.files.video;
     let videoBaseName = video.name;
     videoBaseNameArray = videoBaseName.split(".");
@@ -35,10 +32,11 @@ exports.uploadVideo = async (req, res) => {
     mkdir(rootPath),
       video
         .mv(path.join(rootPath, videoNewName + "." + ext))
-        .then((video) => {
+        .then(() => {
           console.log("Uploaded successfully " + videoNewName);
         })
         .catch((err) => {
+          next(apiError.intErr("Video Upload Error"));
           console.error("Video Upload Error: " + err);
         });
     let data = {
@@ -53,7 +51,9 @@ exports.uploadVideo = async (req, res) => {
     await user.findByIdAndUpdate(req.user._id, {
       $push: { uploadedVideos: myId.toString() },
     });
-    res.send(data);
+    res.status(200).send("Video Uploaded");
+  } catch (error) {
+    next(apiError.intErr("Error on Uploading"));
   }
 };
 
