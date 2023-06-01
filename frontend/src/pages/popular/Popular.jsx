@@ -6,8 +6,11 @@ import vod3 from '../../assests/2015-05-17 - 18-00 Manchester United 1 - 1 Arsen
 import vod4 from '../../assests/2015-02-21 - 18-00 Swansea 2 - 1 Manchester Unitedg2.mkv';
 
 import { DribbbleShot } from '../../components';
+import LoaderBall from '../../components/loader/LoaderBall';
 import {BiTrendingUp , BiFootball} from 'react-icons/bi';
 
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Tooltip from 'react-bootstrap/Tooltip';
 
 import './popular.css'
 
@@ -15,9 +18,11 @@ import './popular.css'
 const Popular = () => {
 
   const[popularVideos,setPopularVideos] = useState([]);
+  const[isLoading,setIsLoading] = useState(true);
 
   useEffect(() => {
      const getPopularData = async () => {
+      setIsLoading(true);
       try{
         let voood = await axios.get(
           'http://localhost:8080/videos/all'
@@ -32,6 +37,7 @@ const Popular = () => {
         });
         console.log(updatedVideos)
         setPopularVideos(updatedVideos);
+        setIsLoading(false);
         //console.log(popularVideos);
     }catch(err){
       console.log(err);
@@ -46,32 +52,6 @@ const Popular = () => {
     console.log(popularVideos);
   }, [popularVideos]);
 
-  const [videos, setVideos] = useState([
-    {
-      id: 1,
-      title: 'Video 1',
-      url: vod1,
-      isFavourite: false,
-    },
-    {
-      id: 2,
-      title: 'Video 2',
-      url: vod2,
-      isFavourite: false,
-    },
-    {
-      id: 3,
-      title: 'Video 3',
-      url: vod3,
-      isFavourite: false,
-    },
-    {
-      id: 4,
-      title: 'Video 4',
-      url: vod4,
-      isFavourite: false,
-    },
-  ]);
 
   const handleAddToFavourites = (id) => {
     const updatedVideos2 = popularVideos.map((video) => {
@@ -95,16 +75,18 @@ const Popular = () => {
       </div>
       
 
-      <div className="sports-cont">
+      {isLoading?<LoaderBall message={"Loading popular videos"}/>:<div className="sports-cont">
        
         <div className="sport-cont">
             
             <div className="vedio-cont">
 
-                {popularVideos.map((video) => (
+                {popularVideos.slice(0,22).map((video) => (
                   <div className="veedio-card">
                       <video src={video.highlightUrl} controls> </video>
-                      <p style={{maxWidth:'50'}}>{video.title}</p>
+                      <OverlayTrigger overlay={<Tooltip placement="bottom" id={video._id}>{video.title}</Tooltip>}>
+                      <p className='paragraph-text'>{video.title}</p>
+                      </OverlayTrigger>
                       <button className={video.isFavourite?'btnn-primary':'btnn-danger'} 
                       onClick={() => handleAddToFavourites(video._id)}>
                           {video.isFavourite ?'Add to Favourites':'Remove from Favourites'}
@@ -117,7 +99,7 @@ const Popular = () => {
 
         
         
-      </div>
+      </div>}
     </div>
   )
 }

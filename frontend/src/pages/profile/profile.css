@@ -77,6 +77,14 @@ button:hover{
     
 }
 
+.paragraph-text {
+    max-width: 23rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin: 0;
+  }
+
 
 @media screen and (max-width:768px){
     .profile-data{
@@ -92,6 +100,8 @@ button:hover{
     }
     
 }
+
+
 
 @media screen and (max-width:490px){
     .profile-img{

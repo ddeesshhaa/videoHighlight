@@ -9,7 +9,13 @@ import vod4 from '../../assests/2015-02-21 - 18-00 Swansea 2 - 1 Manchester Unit
 
 import {MdDelete} from 'react-icons/md';
 
+import LoaderBall from '../../components/loader/LoaderBall';
+
 import axios from 'axios'
+
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Tooltip from 'react-bootstrap/Tooltip';
+
 
 import './profile.css';
 
@@ -23,15 +29,34 @@ const Profile = () => {
   const enc = logUser.pic.image.data;
 
   const[activeClass,setActiveClass] = useState('left');
+  const[userHighlightedVideos,setUserHighlightedVideos] = useState([]);
+  const[isLoading,setIsLoading] = useState(true);
 
-  /* useEffect(async () => {
+  useEffect(() => {
+    setIsLoading(true);
+     const getVideos = async () => {
       try{await axios.get(
-        "http://localhost:8080/new"
-      ).then(response => console.log(response.data));}
+        "http://localhost:8080/profile/getVideos",
+        {
+          headers: {
+            Authorization: JSON.parse(localStorage.getItem('vh_user')).token
+          }
+        }
+      ).then(response => {
+        console.log(response.data);
+        setUserHighlightedVideos(response.data);
+        setIsLoading(false);
+      }
+      )
+    }
       catch(error){
         console.log(error);
       }
-  },[]); */
+     }
+
+     getVideos();
+      
+  },[]);
 
   const highlightedVideos = [
     {
@@ -144,11 +169,13 @@ const Profile = () => {
         {activeClass === 'left' ? 
         <div className='vedio-cont'>
 
-              {highlightedVideos.map(vod => 
-                <div className="vedio-card">
-                    <video src={vod.url} controls> </video>
+              {isLoading?<LoaderBall message={"loading highlighted videos"}/>:userHighlightedVideos.map(vod => 
+                <div className="vedio-card" key={vod._id}>
+                    <video src={vod.highlightUrl} controls> </video>
                     <div className='d-flex w-100 mt-2' style={{justifyContent:'space-between' , alignItems:'center'}}>
-                      <p style={{margin:'0'}}>{vod.title}</p>
+                    <OverlayTrigger overlay={<Tooltip placement="bottom" id={vod._id}>{vod.title}</Tooltip>}>
+                      <p className='paragraph-text'>{vod.title}</p>
+                      </OverlayTrigger>
                       <MdDelete className='del'/>
                     </div>
                 </div>)}
