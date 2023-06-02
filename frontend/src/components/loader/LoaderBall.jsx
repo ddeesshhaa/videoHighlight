@@ -5,7 +5,7 @@ import './loaderball.css';
 
 const LoaderBall = ({message}) => {
   return (
-    <div className="main-fader" responsive-height-comments>
+    <div className="main-fader" responsive-height-comments="true">
   <div className="loader">
 <svg viewBox="0 0 866 866" xmlns="http://www.w3.org/2000/svg">
             <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 164.83 151.5">

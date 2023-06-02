@@ -34,7 +34,9 @@ const VedioInput = () => {
   const[vedio,setVedio] = useState();
   const[filevideo,setFileVideo] = useState();
   const [uploadProgress, setUploadProgress] = useState(0);
+  const[highlightedVideo,setHighlightedVideo] = useState();
   const[isLoading,setIsLoading] = useState(false);
+  const[isHighlight,setIsHighlight] = useState(false);
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -59,13 +61,18 @@ const VedioInput = () => {
   };
 
 
-  const styles = {
+ /*  const styles = {
     header: {
-      /* backgroundImage: `url(${sports})`, */
+      backgroundImage: `url(${sports})`,
       backgroundPosition: 'center',
       backgroundRepeat: 'no-repeat',
       backgroundSize: 'cover'
     }
+  } */
+
+  const handleNewClick = () => {
+    setIsLoading(false);
+    setIsHighlight(false);
   }
 
   const handleClick = () => {
@@ -92,7 +99,7 @@ const VedioInput = () => {
         },
       }
       )
-      //console.log(JSON.parse(localStorage.getItem('vh_user')).token);
+      
 
       const vood = await res;
       console.log('This is video  '+vood);
@@ -107,7 +114,7 @@ const VedioInput = () => {
 
       <Col style={{backgroundColor:'#161616' , padding:'3rem 10rem' , borderRadius:'1rem' }} data-aos='fade-up'>
       <h1 className='input-main-header'>Highlight your match now</h1>
-      {!isLoading?<div id='gene'>
+      {!isLoading && !isHighlight?<div id='gene'>
       <form action="" className='input-form' onClick={() => handleClick()}>
 
         <input type="file" 
@@ -145,8 +152,20 @@ const VedioInput = () => {
          </button>
       </div>
       
-    </div>:
-      <LoaderBall message={"It will take few minutes"}/>
+    </div>:isLoading && !isHighlight?
+      <LoaderBall message={"It will take few minutes"}/>:
+        <div>
+            <div className='data-div' style={{flexDirection:'row'}}>
+          
+          <button type="button" className="btn">
+            Download
+          </button>
+
+          <button type="button" className="btn" onClick={() => handleNewClick()}>
+            New
+          </button>
+        </div>
+      </div>  
     }
       </Col>
        

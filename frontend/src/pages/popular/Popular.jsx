@@ -82,7 +82,7 @@ const Popular = () => {
             <div className="vedio-cont">
 
                 {popularVideos.slice(0,22).map((video) => (
-                  <div className="veedio-card">
+                  <div className="veedio-card" key={video._id}>
                       <video src={video.highlightUrl} controls> </video>
                       <OverlayTrigger overlay={<Tooltip placement="bottom" id={video._id}>{video.title}</Tooltip>}>
                       <p className='paragraph-text'>{video.title}</p>
