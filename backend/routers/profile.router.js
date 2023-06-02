@@ -26,6 +26,6 @@ router.post(
   uploadProfilePic
 );
 router.post("/editProfile", auth, upload.single("image"), editProfile);
-router.delete("/deleteHighligh", auth, removeFromHighlight);
+router.delete("/deleteHighlight", auth, removeFromHighlight);
 
 module.exports = router;

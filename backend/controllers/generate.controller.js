@@ -47,19 +47,20 @@ exports.generateVideo = async (req, res, next) => {
       .callingFunctions(videoName, ext, tempDir, highlightPath)
       .then((url) => {
         fsExtra.remove(tempDir);
-        user.findByIdAndUpdate(
-          userId,
-          {
-            $push: { doneVideos: req.body.id },
-          },
-          { new: true }
-        );
-        res.status(200).send(url);
+        res.status(200).json({ urlH: url });
       })
       .catch((err) => {
         next(apiError.intErr(err));
       });
+    await user.findByIdAndUpdate(
+      userId,
+      {
+        $push: { doneVideos: req.body.id },
+      },
+      { new: true }
+    );
   } catch (error) {
+    console.error(error);
     next(apiError.intErr("Error on generating"));
   }
 };
