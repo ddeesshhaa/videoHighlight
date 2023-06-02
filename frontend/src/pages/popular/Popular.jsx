@@ -48,14 +48,27 @@ const Popular = () => {
     
   },[]);
 
-  useEffect(() => {
+  /* useEffect(() => {
     console.log(popularVideos);
-  }, [popularVideos]);
+  }, [popularVideos]); */
 
 
   const handleAddToFavourites = (id) => {
     const updatedVideos2 = popularVideos.map((video) => {
       if (video._id === id) {
+        try{
+            axios.put("http://localhost:8080/profile/addToFav",
+            {
+              videoId:id
+            },
+            {headers: {
+               Authorization: JSON.parse(localStorage.getItem("vh_user")).token,
+            }
+          }
+            )
+        }catch(err){
+          console.log(err);
+        }
         return { ...video, isFavourite: !(video.isFavourite) };
       } else {
         return video;
