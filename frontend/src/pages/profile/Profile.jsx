@@ -23,7 +23,7 @@ const Profile = () => {
 
   const user = JSON.parse(localStorage.getItem('vh_user'));
   const logUser = user.userData;
-  console.log(logUser);
+  //console.log(logUser);
 
   //console.log(` sgajdgh ${logUser.pic.image.data.$binary.base64}`);
   const enc = logUser.pic.image.data;
@@ -58,23 +58,24 @@ const Profile = () => {
       
   },[]);
 
-  const highlightedVideos = [
+  const handleDeleteVideo = async (videoid) => {
+    try{
+      await axios.delete("http://localhost:8080/profile/deleteHighlight",
     {
-      id: 2,
-      title: 'Swanseacity 1 1 chealsea',
-      url: vod2,
+      videoId: videoid
     },
     {
-      id: 3,
-      title: 'Video 3',
-      url: vod3,
-    },
-    {
-      id: 4,
-      title: 'Video 4',
-      url: vod4,
-    },
-  ];
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: JSON.parse(localStorage.getItem('vh_user')).token
+      }
+    }
+
+    )
+    }catch(err){
+      console.log(err);
+    }
+  }
 
   const favoriteVideos = [
     {
@@ -176,7 +177,7 @@ const Profile = () => {
                     <OverlayTrigger overlay={<Tooltip placement="bottom" id={vod._id}>{vod.title}</Tooltip>}>
                       <p className='paragraph-text'>{vod.title}</p>
                       </OverlayTrigger>
-                      <MdDelete className='del'/>
+                      <MdDelete className='del' onClick={() => handleDeleteVideo(vod._id)}/>
                     </div>
                 </div>)}
         </div> : 
@@ -186,7 +187,7 @@ const Profile = () => {
                     <video src={vod.url} controls> </video>
                     <div className='d-flex w-100 mt-2' style={{justifyContent:'space-between' , alignItems:'center'}}>
                       <p style={{margin:'0'}}>{vod.title}</p>
-                      <MdDelete className='del'/>
+                      <MdDelete className='del' />
                     </div>
                 </div>)}  
           </div>} 
