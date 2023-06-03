@@ -84,7 +84,7 @@ const VedioInput = () => {
     try {
       await axios
         .post(
-          "http://localhost:8080/upload",
+          `${process.env.REACT_APP_API_URL}/upload`,
           {
             video: vedio,
           },

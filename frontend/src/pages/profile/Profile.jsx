@@ -35,7 +35,7 @@ const Profile = () => {
     const getVideos = async () => {
       try {
         await axios
-          .get("http://localhost:8080/profile/getVideos", {
+          .get(`${process.env.REACT_APP_API_URL}/profile/getVideos`, {
             headers: {
               Authorization: JSON.parse(localStorage.getItem("vh_user")).token,
             },
@@ -55,7 +55,7 @@ const Profile = () => {
 
   const handleDeleteVideo = async (videoid) => {
     try {
-      await axios.delete("http://localhost:8080/profile/deleteHighlight", {
+      await axios.delete(`${process.env.REACT_APP_API_URL}/profile/deleteHighlight`, {
         data: { videoId: videoid },
         headers: {
           "Content-Type": "application/json",
