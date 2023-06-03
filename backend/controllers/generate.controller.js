@@ -34,7 +34,7 @@ exports.generateVideo = async (req, res, next) => {
       "videos",
       video.title
     );
-    const tempDir = await mkdtemp(path.join(os.tmpdir(), video.title));
+    const tempDir = await mkdtemp(path.join(os.tmpdir(), videoName));
     await Promise.all([
       mkdir(path.join(tempDir, "clips")),
       mkdir(path.join(tempDir, "jpgs")),

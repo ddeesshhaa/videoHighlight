@@ -17,12 +17,12 @@ exports.runModel = (tempDir) => {
       tempDir + "/",
     ]);
     splitVideo.stdout.on("data", (data) => {
-      // console.log(`stdout: ${data}`);
+      console.log(`stdout: ${data}`);
       // console.log("1-Splitting Video");
     });
 
     splitVideo.stderr.on("data", (data) => {
-      // console.error(`stderr: ${data}`);
+      console.error(`stderr: ${data}`);
       // reject("error on step 1");
     });
 
