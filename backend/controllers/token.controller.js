@@ -1,13 +1,16 @@
 const jwt = require("jsonwebtoken");
 const user = require("../models/user.model");
+const apiError = require("../errorHandler/apiError");
 
 exports.auth = (req, res, next) => {
   const authHeader = req.header("Authorization");
   //check token
   if (authHeader == null) {
     // return res.status(401).json({ error: "Access-denied" });
+    next(apiError.er(401, "Access Denied"));
+
     // req.user = null;
-    next();
+    // next();
   }
 
   //check validity
@@ -23,11 +26,12 @@ exports.auth = (req, res, next) => {
       .catch((err) => {
         // res.send(false);
         // req.user = null;
-        next();
+        next(apiError.er(401, "Access Denied"));
+        // next();
       });
   } catch (e) {
-    // res.status(401).json({ error: "Invalid-token" });
+    next(apiError.er(401, "Invalid-token")); // res.status(401).json({ error: "Invalid-token" });
     // req.user = null;
-    next();
+    // next();
   }
 };

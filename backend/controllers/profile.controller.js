@@ -62,8 +62,9 @@ exports.removeFromHighlight = async (req, res, next) => {
       },
       { new: true }
     );
-    res.status(200).send(req.user._id);
+    res.status(200).send("Deleted");
   } catch (error) {
+    // console.error(error);
     next(apiError.er(404, "Error"));
   }
 };
