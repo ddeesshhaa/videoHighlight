@@ -33,7 +33,7 @@ const SignUp = () => {
 
     try{
       let response = await axios.post(
-        "http://localhost:8080/signup",
+        `${process.env.REACT_APP_API_URL}/signup`,
         {
           firstName: e.target.firstName.value,
           lastName: e.target.secondName.value,
