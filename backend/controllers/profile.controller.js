@@ -3,10 +3,37 @@ const user = require("../models/user.model");
 const videoModel = require("../models/video.model");
 const bcrypt = require("bcrypt");
 
-exports.getVideosById = (req, res, next) => {
+// exports.getVideosById = (req, res, next) => {
+//   try {
+//     videoModel.find({ owner: req.user._id }).then((videos) => {
+//       res.send(videos);
+//     });
+//   } catch (error) {
+//     next(apiError.er(404, "Profile Videos Error"));
+//   }
+// };
+exports.getVideosById = async (req, res, next) => {
   try {
-    videoModel.find({ owner: req.user._id }).then((videos) => {
-      res.send(videos);
+    let userData = await user.findById(req.user._id);
+
+    userData["doneVideos"].forEach((videoId) => {
+      videoModel.find({ _id: videoId }).then((videos) => {
+        res.status(200).send(videos);
+      });
+    });
+  } catch (error) {
+    next(apiError.er(404, "Profile Videos Error"));
+  }
+};
+
+exports.getFavVideosById = async (req, res, next) => {
+  try {
+    let userData = await user.findById(req.user._id);
+
+    userData["favVideos"].forEach((videoId) => {
+      videoModel.find({ _id: videoId }).then((videos) => {
+        res.status(200).send(videos);
+      });
     });
   } catch (error) {
     next(apiError.er(404, "Profile Videos Error"));

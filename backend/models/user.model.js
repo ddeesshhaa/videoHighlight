@@ -39,6 +39,7 @@ const userSchema = mongoose.Schema(
       type: Array,
       default: [],
     },
+    lastRequest: Date,
   },
   { timestamps: true }
 );

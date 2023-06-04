@@ -3,6 +3,7 @@ const path = require("path");
 const fs = require("fs");
 const videoModel = require("../models/video.model");
 const { promisify } = require("util");
+const apiError = require("../errorHandler/apiError");
 
 exports.uploadToCloud = async (videoName, path) => {
   var x = "";
@@ -43,7 +44,10 @@ exports.uploadToCloud = async (videoName, path) => {
       // console.log('Video URL:', result.secure_url);
       return result.secure_url;
     } catch (error) {
-      console.error("Error uploading video to Cloudinary:", error);
+      reject(error);
+
+      // console.error("Error uploading video to Cloudinary:", error);
+      // next(apiError.er(500, "Error uploading video to Cloudinary"));
       throw error;
     }
   }
@@ -56,7 +60,11 @@ exports.uploadToCloud = async (videoName, path) => {
         { new: true }
       );
     } catch (error) {
-      console.error("Error updating video highlight URL:", error);
+      reject(error);
+
+      // next(apiError.er(500, "Error updating video highlight URL"));
+
+      // console.error("Error updating video highlight URL:", error);
       throw error;
     }
   }
@@ -68,7 +76,9 @@ exports.uploadToCloud = async (videoName, path) => {
       return x;
     } catch (error) {
       // Handle any errors that occur during the process
-      console.error("An error occurred during video processing:", error);
+      // next(apiError.er(500, "An error occurred during video processing"));
+
+      // console.error("An error occurred during video processing:", error);
       // Optionally, throw the error to propagate it further
       throw error;
     }
@@ -80,6 +90,8 @@ exports.uploadToCloud = async (videoName, path) => {
       })
       .catch((error) => {
         reject(error);
+        // next(apiError.er(500, "Video processing failed"));
+
         console.error("Video processing failed:", error);
       });
   });

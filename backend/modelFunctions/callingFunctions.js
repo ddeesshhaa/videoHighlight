@@ -10,9 +10,16 @@ const { promisify } = require("util");
 const { ExtractJson } = require("./jsonExtract");
 const { uploadToCloud } = require("./uploadToCloud");
 const videoModel = require("../models/video.model");
+const apiError = require("../errorHandler/apiError");
 const copyFile = promisify(fs.copyFile);
 
-exports.callingFunctions = async (videoName, ext, tempDir, highlightPath) => {
+exports.callingFunctions = async (
+  videoName,
+  ext,
+  tempDir,
+  highlightPath,
+  next
+) => {
   console.log("Working on => " + videoName);
 
   try {
@@ -43,11 +50,12 @@ exports.callingFunctions = async (videoName, ext, tempDir, highlightPath) => {
     );
     // await copyFile(highlightFilePath, path.join(highlightPath, videoName + "-Highlight." + ext));
 
-    const url = await uploadToCloud(videoName, highlightFilePath);
-    console.log(url);
+    let url = await uploadToCloud(videoName, highlightFilePath);
 
     return url;
   } catch (error) {
     throw error;
+
+    // next(apiError.intErr("error"));
   }
 };

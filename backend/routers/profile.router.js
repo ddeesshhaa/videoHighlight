@@ -6,6 +6,7 @@ const {
   uploadProfilePic,
   editProfile,
   removeFromHighlight,
+  getFavVideosById,
 } = require("../controllers/profile.controller");
 const { auth } = require("../controllers/token.controller");
 
@@ -26,6 +27,8 @@ router.post(
   uploadProfilePic
 );
 router.post("/editProfile", auth, upload.single("image"), editProfile);
+router.get("/getFavVideos", auth, getFavVideosById);
+
 router.delete("/deleteHighlight", auth, removeFromHighlight);
 
 module.exports = router;
