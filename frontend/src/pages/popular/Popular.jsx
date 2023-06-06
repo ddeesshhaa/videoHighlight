@@ -17,19 +17,19 @@ const Popular = () => {
     const getPopularData = async () => {
       setIsLoading(true);
       try {
-        let voood = await axios.get(`http://localhost:8080/videos/all`);
-        let ww = await voood.data;
-        //console.log(ww);
-        const updatedVideos = await ww.map((video) => {
-          return {
-            ...video,
-            isFavourite: "false",
-          };
-        });
-        console.log(updatedVideos);
-        setPopularVideos(updatedVideos);
-        setIsLoading(false);
-        //console.log(popularVideos);
+         await axios.get(`http://localhost:8080/videos/all`
+         ).then(async (popvideos) => {
+          await axios.get('http://localhost:8080/profile/getFavVideos'
+          ).then((favVideos) => {
+            const favVideosIds = favVideos.map((voood) => voood._id);
+            const updatedVideos = popvideos.map((voood) => ({
+              ...voood,
+              isFavourite: favVideosIds.includes(voood._id)
+            }));
+            setPopularVideos(updatedVideos);
+          });
+         });
+        
       } catch (err) {
         console.log(err);
       }
@@ -50,11 +50,18 @@ const Popular = () => {
         Authorization: JSON.parse(localStorage.getItem("vh_user")).token,
       };
 
-      const response = await axios.put(
+       await axios.put(
         "http://localhost:8080/profile/addToFav",
         data,
         { headers }
       );
+      
+      setPopularVideos(
+        popularVideos.map((video) =>
+          video._id === id ? { ...video, isFavorite: true } : video
+        )
+      );
+
     } catch (error) {
       console.log("Error making PUT request:", error);
     }
