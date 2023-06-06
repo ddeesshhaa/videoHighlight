@@ -48,7 +48,10 @@ exports.callingFunctions = async (
       tempDir,
       videoName + "-Highlight." + ext
     );
-    // await copyFile(highlightFilePath, path.join(highlightPath, videoName + "-Highlight." + ext));
+    await copyFile(
+      highlightFilePath,
+      path.join(highlightPath, videoName + "-Highlight." + ext)
+    );
 
     let url = await uploadToCloud(videoName, highlightFilePath);
 

@@ -57,9 +57,7 @@ exports.addToFav = async (req, res, next) => {
       },
       { new: true }
     );
-    res
-      .status(200)
-      .send(`Added ${req.body.videoId} to User ${req.user._id} Fav List`);
+    res.status(200).send("Done");
   } catch (error) {
     next(apiError.er(404, "Error"));
   }

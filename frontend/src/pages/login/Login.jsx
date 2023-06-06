@@ -3,55 +3,50 @@ import Style from "./AuthStyle.module.css";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useAuthContext } from '../../hooks/useAuthContext';
+import { useAuthContext } from "../../hooks/useAuthContext";
 
 const Login = () => {
-
   const navigate = useNavigate();
 
-  const { dispatch } = useAuthContext()
+  const { dispatch } = useAuthContext();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const[error,setError] = useState(null);
+  const [error, setError] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try{
-        let res = await axios.post(
-          `${process.env.REACT_APP_API_URL}/login`,
-          {
-            email: email,
-            password: password,
+    try {
+      let res = await axios.post(
+        `http://localhost:8080/login`,
+        {
+          email: email,
+          password: password,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
           },
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-    
-        const userData = await res.data;
-        console.log(userData);
-        console.log(res.data);
+        }
+      );
 
-        localStorage.setItem('vh_user', JSON.stringify(userData))
+      const userData = await res.data;
+      console.log(userData);
+      console.log(res.data);
 
-      dispatch({type: 'LOGIN', payload: userData});
+      localStorage.setItem("vh_user", JSON.stringify(userData));
+
+      dispatch({ type: "LOGIN", payload: userData });
 
       navigate("/");
-    }catch(err){
-        setError(err);
+    } catch (err) {
+      setError(err);
     }
-    
-
-    
   };
 
   return (
     <div className={Style.Auth_form_container}>
-
       <form className={Style.Auth_form} onSubmit={handleSubmit}>
         <div className={Style.Auth_form_content}>
           <h3 className={Style.Auth_form_title}>Sign In</h3>
@@ -86,10 +81,11 @@ const Login = () => {
               Submit
             </button>
 
-            {error && <div className="alert alert-danger" role="alert">
-                            {error.response.data}
-                       </div>
-            }
+            {error && (
+              <div className="alert alert-danger" role="alert">
+                {error.response.data}
+              </div>
+            )}
           </div>
           <p
             className="forgot-password text-center mt-2"
@@ -108,6 +104,6 @@ const Login = () => {
       </div> */}
     </div>
   );
-}
+};
 
 export default Login;
