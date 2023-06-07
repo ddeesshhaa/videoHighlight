@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Audio , ThreeDots } from 'react-loader-spinner'
+import { ThreeDots } from 'react-loader-spinner'
 
 import { MdOutlineVideoLibrary, MdOutlineFavorite } from "react-icons/md";
+import {AiOutlineArrowDown} from 'react-icons/ai';
 
 //import vod2 from "../../assests/2015-02-21 - 18-00 Crystal Palace 1 - 2 Arsenalc1.mkv";
 import vod3 from "../../assests/2015-05-17 - 18-00 Manchester United 1 - 1 Arsenalg6.mkv";
@@ -227,6 +228,7 @@ const Profile = () => {
                     >
                       <p className="paragraph-text">{vod.title}</p>
                     </OverlayTrigger>
+                    <div>
                     {!deleteLoader?<MdDelete
                       className="del"
                       onClick={() => handleDeleteVideo(vod._id)}
@@ -239,6 +241,11 @@ const Profile = () => {
                           wrapperStyle
                           wrapperClass
                         />}
+                        <a download="" href={vod.highlightUrl}>
+                          <AiOutlineArrowDown style={{color:'white' , marginLeft:'0.5rem' ,cursor:'pointer'}}/>
+                        </a>
+                    </div>
+                    
                   </div>
                 </div>
               ))
@@ -259,7 +266,13 @@ const Profile = () => {
                   }}
                 >
                   <p style={{ margin: "0" }}>{vod.title}</p>
-                  <MdDelete className="del" onClick={() => handleDeleteFavVideo(vod._id)}/>
+                  <div>
+                    <MdDelete className="del" onClick={() => handleDeleteFavVideo(vod._id)}/>
+                    <a download="" href={vod.highlightUrl}>
+                      <AiOutlineArrowDown style={{color:'white' , marginLeft:'0.5rem' ,cursor:'pointer'}}/>
+                    </a>
+                    
+                  </div>
                 </div>
               </div>
             ))}
