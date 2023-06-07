@@ -20,7 +20,7 @@ const Popular = () => {
         await axios
           .get(`http://localhost:8080/videos/all`)
           .then(async (popvideos) => {
-            //console.log(popvideos.data);
+            console.log(popvideos.data);
             await axios
               .get("http://localhost:8080/profile/getFavVideos", {
                 headers: {
@@ -30,7 +30,7 @@ const Popular = () => {
                 },
               })
               .then((favVideos) => {
-                //console.log(favVideos.data);
+                console.log(favVideos.data);
                 const favVideosIds = favVideos.data.map((voood) => voood._id);
                 //console.log("sanjkas" + favVideosIds);
                 
@@ -38,7 +38,7 @@ const Popular = () => {
                   ...voood,
                   isFavorite: favVideosIds.includes(voood._id),
                 }));
-                //updatedVideos.map((voood) => console.log(voood));
+                updatedVideos.map((voood) => console.log(voood));
                 setPopularVideos(updatedVideos);
                 setIsLoading(false);
               });
@@ -112,7 +112,7 @@ const Popular = () => {
         <div className="sports-cont">
           <div className="sport-cont">
             <div className="vedio-cont">
-              {popularVideos.slice(12, 22).map((video) => (
+              {popularVideos.slice(0, 22).map((video) => (
                 <div className="veedio-card" key={video._id}>
                   <video src={video?.highlightUrl} controls>
                     {" "}
