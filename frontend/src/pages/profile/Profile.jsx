@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { Audio , ThreeDots } from 'react-loader-spinner'
 
 import { MdOutlineVideoLibrary, MdOutlineFavorite } from "react-icons/md";
 
-import vod2 from "../../assests/2015-02-21 - 18-00 Crystal Palace 1 - 2 Arsenalc1.mkv";
+//import vod2 from "../../assests/2015-02-21 - 18-00 Crystal Palace 1 - 2 Arsenalc1.mkv";
 import vod3 from "../../assests/2015-05-17 - 18-00 Manchester United 1 - 1 Arsenalg6.mkv";
 import vod4 from "../../assests/2015-02-21 - 18-00 Swansea 2 - 1 Manchester Unitedg2.mkv";
 
@@ -28,14 +29,16 @@ const Profile = () => {
 
   const [activeClass, setActiveClass] = useState("left");
   const [userHighlightedVideos, setUserHighlightedVideos] = useState([]);
+  const [userFavVideos,setUserFavVideos] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [deleteLoader,setDeleteLoader] = useState(false);
 
   useEffect(() => {
     setIsLoading(true);
     const getVideos = async () => {
       try {
         await axios
-          .get(`${process.env.REACT_APP_API_URL}/profile/getVideos`, {
+          .get(`http://localhost:8080/profile/getVideos`, {
             headers: {
               Authorization: JSON.parse(localStorage.getItem("vh_user")).token,
             },
@@ -45,6 +48,21 @@ const Profile = () => {
             setUserHighlightedVideos(response.data);
             setIsLoading(false);
           });
+
+          await axios
+              .get("http://localhost:8080/profile/getFavVideos", {
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization: JSON.parse(localStorage.getItem("vh_user"))
+                    .token,
+                },
+              }).then(res => {
+                setUserFavVideos(res.data);
+                console.log(userFavVideos);
+              });
+
+              
+
       } catch (error) {
         console.log(error);
       }
@@ -54,18 +72,38 @@ const Profile = () => {
   }, []);
 
   const handleDeleteVideo = async (videoid) => {
+    setDeleteLoader(false)
     try {
-      await axios.delete(`${process.env.REACT_APP_API_URL}/profile/deleteHighlight`, {
+      await axios.delete(`http://localhost:8080/profile/deleteHighlight`, {
         data: { videoId: videoid },
         headers: {
           "Content-Type": "application/json",
           Authorization: JSON.parse(localStorage.getItem("vh_user")).token,
         },
-      });
+      }).then(res => console.log(res));
+      const updated = userHighlightedVideos.filter((video) => video._id !== videoid);
+      setUserHighlightedVideos(updated);
+      setDeleteLoader(true);
     } catch (err) {
       console.log(err);
     }
   };
+
+  const handleDeleteFavVideo = async (videoid) => {
+      try{await axios.delete('http://localhost:8080/profile/removeFromFav' ,
+      {
+        data: { videoId: videoid },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: JSON.parse(localStorage.getItem("vh_user")).token,
+        },
+      }).then(res => console.log(res))
+      const updated = userFavVideos.filter((video) => video._id !== videoid);
+      setUserFavVideos(updated);
+    }catch(err){
+      console.log(err);
+    }
+  }
 
   const favoriteVideos = [
     {
@@ -94,12 +132,12 @@ const Profile = () => {
 
             <div className="stat-data">
               <div className="highlighted d-flex gap-2 fw-bold">
-                <p>{logUser.doneVideos.length}</p>
+                <p>{userHighlightedVideos.length}</p>
                 <p>Highlighted</p>
               </div>
 
               <div className="fav d-flex gap-2 fw-bold">
-                <p>{logUser.favVideos.length}</p>
+                <p>{userFavVideos.length}</p>
                 <p>Favourites</p>
               </div>
             </div>
@@ -189,10 +227,18 @@ const Profile = () => {
                     >
                       <p className="paragraph-text">{vod.title}</p>
                     </OverlayTrigger>
-                    <MdDelete
+                    {!deleteLoader?<MdDelete
                       className="del"
                       onClick={() => handleDeleteVideo(vod._id)}
-                    />
+                    />:<ThreeDots
+                          height="10"
+                          width="10"
+                          radius="9"
+                          color="green"
+                          ariaLabel="loading"
+                          wrapperStyle
+                          wrapperClass
+                        />}
                   </div>
                 </div>
               ))
@@ -200,9 +246,9 @@ const Profile = () => {
           </div>
         ) : (
           <div className="vedio-cont">
-            {favoriteVideos.map((vod) => (
+            {userFavVideos.map((vod) => (
               <div className="vedio-card">
-                <video src={vod.url} controls>
+                <video src={vod.highlightUrl} controls>
                   {" "}
                 </video>
                 <div
@@ -213,7 +259,7 @@ const Profile = () => {
                   }}
                 >
                   <p style={{ margin: "0" }}>{vod.title}</p>
-                  <MdDelete className="del" />
+                  <MdDelete className="del" onClick={() => handleDeleteFavVideo(vod._id)}/>
                 </div>
               </div>
             ))}

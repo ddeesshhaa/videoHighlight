@@ -18,13 +18,9 @@ const Popular = () => {
       setIsLoading(true);
       try {
         await axios
-          .get(`http://localhost:8080/videos/all`, {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: JSON.parse(localStorage.getItem("vh_user")).token,
-            },
-          })
+          .get(`http://localhost:8080/videos/all`)
           .then(async (popvideos) => {
+            //console.log(popvideos.data);
             await axios
               .get("http://localhost:8080/profile/getFavVideos", {
                 headers: {
@@ -34,13 +30,17 @@ const Popular = () => {
                 },
               })
               .then((favVideos) => {
-                console.log(favVideos);
+                //console.log(favVideos.data);
                 const favVideosIds = favVideos.data.map((voood) => voood._id);
+                //console.log("sanjkas" + favVideosIds);
+                
                 const updatedVideos = popvideos.data.map((voood) => ({
                   ...voood,
-                  isFavourite: favVideosIds.includes(voood._id),
+                  isFavorite: favVideosIds.includes(voood._id),
                 }));
+                //updatedVideos.map((voood) => console.log(voood));
                 setPopularVideos(updatedVideos);
+                setIsLoading(false);
               });
           });
       } catch (err) {
@@ -51,30 +51,52 @@ const Popular = () => {
     getPopularData();
   }, []);
 
-  /* useEffect(() => {
-    console.log(popularVideos);
-  }, [popularVideos]); */
 
   const handleAddToFavourites = async (id) => {
-    try {
-      let data = { videoId: id };
-      let headers = {
-        "Content-Type": "application/json",
-        Authorization: JSON.parse(localStorage.getItem("vh_user")).token,
-      };
+    const targetObject = popularVideos.find((obj) => obj._id === id);
+    const checkVideo = targetObject.isFavorite;
+    console.log(checkVideo);
+    if(!checkVideo){
+      try {
+        let data = { videoId: id };
+        let headers = {
+          "Content-Type": "application/json",
+          Authorization: JSON.parse(localStorage.getItem("vh_user")).token,
+        };
+  
+        await axios.put("http://localhost:8080/profile/addToFav", data, {
+          headers,
+        });
 
-      await axios.put("http://localhost:8080/profile/addToFav", data, {
-        headers,
-      });
+        console.log("snnaksnkksk");
+        const updatedVideos = popularVideos.map((voood) => 
+          voood._id === id ? { ...voood, isFavorite:  true} : voood
+        );
+        console.log(updatedVideos);
+        setPopularVideos(updatedVideos);
+      } catch (error) {
+        console.log("Error making PUT request:", error);
+      }
+    } else{
+      try{
+        await axios.delete('http://localhost:8080/profile/removeFromFav' ,
+      {
+        data: { videoId: id },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: JSON.parse(localStorage.getItem("vh_user")).token,
+        },
+      })
 
-      setPopularVideos(
-        popularVideos.map((video) =>
-          video._id === id ? { ...video, isFavorite: true } : video
-        )
-      );
-    } catch (error) {
-      console.log("Error making PUT request:", error);
+      const updatedVideos = popularVideos.map((voood) => 
+          voood._id === id ? { ...voood, isFavorite:  false} : voood
+        );
+        setPopularVideos(updatedVideos);
+    }catch(err){
+      console.log(err);
     }
+    }
+    
   };
 
   return (
@@ -90,9 +112,9 @@ const Popular = () => {
         <div className="sports-cont">
           <div className="sport-cont">
             <div className="vedio-cont">
-              {popularVideos.slice(0, 22).map((video) => (
+              {popularVideos.slice(12, 22).map((video) => (
                 <div className="veedio-card" key={video._id}>
-                  <video src={video.highlightUrl} controls>
+                  <video src={video?.highlightUrl} controls>
                     {" "}
                   </video>
                   <OverlayTrigger
@@ -106,11 +128,11 @@ const Popular = () => {
                   </OverlayTrigger>
                   <button
                     className={
-                      video.isFavourite ? "btnn-primary" : "btnn-danger"
+                      !video.isFavorite ? "btnn-primary" : "btnn-danger"
                     }
-                    onClick={() => handleAddToFavourites(video._id)}
+                    onClick={() => handleAddToFavourites(video?._id)}
                   >
-                    {video.isFavourite
+                    {!video.isFavorite
                       ? "Add to Favourites"
                       : "Remove from Favourites"}
                   </button>
