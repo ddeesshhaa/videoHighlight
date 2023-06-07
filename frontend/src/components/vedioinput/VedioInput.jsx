@@ -185,7 +185,7 @@ const VedioInput = () => {
             />
             <div className="data-div" style={{ flexDirection: "row" }}>
               <button type="button" className="btn">
-                Download
+                <a download="" href={highlightedVideo}>download</a>
               </button>
 
               <button
