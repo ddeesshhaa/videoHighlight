@@ -17,6 +17,7 @@ exports.uploadVideo = async (req, res, next) => {
     vn = vn.join(".");
     ext = videoBaseNameArray[videoBaseNameArray.length - 1];
     var myId = new ObjectId();
+    req.body.id = myId;
     // FolderName = "Video-" + myId.toString();
     videoNewName = "Video-" + myId.toString();
     // videoNewName = FolderName + "." + ext;
@@ -29,16 +30,16 @@ exports.uploadVideo = async (req, res, next) => {
       "videos",
       videoNewName
     );
-    mkdir(rootPath),
-      video
-        .mv(path.join(rootPath, videoNewName + "." + ext))
-        .then(() => {
-          console.log("Uploaded successfully " + videoNewName);
-        })
-        .catch((err) => {
-          next(apiError.intErr("Video Upload Error"));
-          console.error("Video Upload Error: " + err);
-        });
+    mkdir(rootPath);
+    video
+      .mv(path.join(rootPath, videoNewName + "." + ext))
+      .then(() => {
+        console.log("Uploaded successfully " + videoNewName);
+      })
+      .catch((err) => {
+        console.error("Video Upload Error: " + err);
+        // next(apiError.intErr("Video Upload Error"));
+      });
     let data = {
       _id: myId,
       title: vn,
@@ -48,6 +49,7 @@ exports.uploadVideo = async (req, res, next) => {
     };
     myVid = new videoModel(data);
     await myVid.save();
+
     await user.findByIdAndUpdate(
       req.user._id,
       {
@@ -55,10 +57,11 @@ exports.uploadVideo = async (req, res, next) => {
       },
       { new: true }
     );
-    // res.status(200).send("Video Uploaded");
-    req.body.id = myId.toString();
     next();
+
+    // res.status(200).send("Video Uploaded");
   } catch (error) {
+    // console.log(error);
     next(apiError.intErr("Error on Uploading"));
   }
 };

@@ -14,6 +14,7 @@ const apiError = require("../errorHandler/apiError");
 exports.generateVideo = async (req, res, next) => {
   try {
     let video = await videoModel.findById(req.body.id);
+
     let userId = req.user._id;
     videoName = "Video-" + req.body.id;
     rootFolderName = videoName;
@@ -43,22 +44,26 @@ exports.generateVideo = async (req, res, next) => {
       copyFile(classIndPath, path.join(tempDir, "json", "classInd.txt")),
     ]);
 
-    await modelFunctions
-      .callingFunctions(videoName, ext, tempDir, highlightPath)
-      .then((url) => {
-        fsExtra.remove(tempDir);
-        res.status(200).json({ urlH: url });
-      })
-      .catch((err) => {
-        next(apiError.intErr(err));
-      });
+    let url = await modelFunctions.callingFunctions(
+      videoName,
+      ext,
+      tempDir,
+      highlightPath
+    );
+    // .then((url) => {})
+    // .catch((err) => {
+    //   // console.log(err);
+    //   next(apiError.intErr(err));
+    // });
     await user.findByIdAndUpdate(
       userId,
       {
-        $push: { doneVideos: req.body.id },
+        $push: { doneVideos: req.body.id.toString() },
       },
       { new: true }
     );
+    fsExtra.remove(tempDir);
+    res.status(200).json({ urlH: url });
   } catch (error) {
     console.error(error);
     next(apiError.intErr("Error on generating"));

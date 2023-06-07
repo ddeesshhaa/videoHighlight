@@ -1,3 +1,4 @@
+const { default: mongoose } = require("mongoose");
 const apiError = require("../errorHandler/apiError");
 const user = require("../models/user.model");
 const videoModel = require("../models/video.model");
@@ -16,27 +17,43 @@ exports.getVideosById = async (req, res, next) => {
   try {
     let userData = await user.findById(req.user._id);
 
-    userData["doneVideos"].forEach((videoId) => {
-      videoModel.find({ _id: videoId }).then((videos) => {
-        res.status(200).send(videos);
-      });
-    });
-  } catch (error) {
+    let videos = [];
+    for (let videoIdx of userData.doneVideos) {
+      let foundVideo = await videoModel.find({ _id: videoIdx });
+      videos.push(...foundVideo);
+    }
+    res.status(200).send(videos);
+  } catch (err) {
+    // console.log(err);
     next(apiError.er(404, "Profile Videos Error"));
   }
 };
 
+//     userData["doneVideos"].forEach((videoId) => {
+//       videoModel.find({ _id: videoId }).then((videos) => {
+//         res.status(200).send("videos");
+//       });
+//     });
+//   } catch (error) {
+//     next(apiError.er(404, "Profile Videos Error"));
+//   }
+// };
+
 exports.getFavVideosById = async (req, res, next) => {
   try {
+    var videos = [];
     let userData = await user.findById(req.user._id);
 
-    userData["favVideos"].forEach((videoId) => {
-      videoModel.find({ _id: videoId }).then((videos) => {
-        res.status(200).send(videos);
+    for (let videoId of userData.favVideos) {
+      let foundVideos = await videoModel.find({
+        _id: videoId,
       });
-    });
+      videos.push(...foundVideos);
+    }
+    res.status(200).send(videos);
   } catch (error) {
     next(apiError.er(404, "Profile Videos Error"));
+    // console.log(error);
   }
 };
 
@@ -50,14 +67,20 @@ exports.getData = (req, res, next) => {
 
 exports.addToFav = async (req, res, next) => {
   try {
-    await user.findByIdAndUpdate(
-      req.user._id,
-      {
-        $push: { favVideos: req.body.videoId },
-      },
-      { new: true }
-    );
-    res.status(200).send("Done");
+    user.findOne(req.user._id).then((x) => {
+      if (x.favVideos.includes(req.body.videoId)) {
+        return res.status(204).send("Already fav");
+      }
+      user
+        .findByIdAndUpdate(
+          req.user._id,
+          {
+            $push: { favVideos: req.body.videoId },
+          },
+          { new: true }
+        )
+        .then(res.status(200).send("Done"));
+    });
   } catch (error) {
     next(apiError.er(404, "Error"));
   }

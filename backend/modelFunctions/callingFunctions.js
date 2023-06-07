@@ -35,10 +35,10 @@ exports.callingFunctions = async (
     const video4 = await jpgToJson(videoName, video3.tempPath);
     console.log("4- Json Created Successfully");
 
-    const video5 = await runModel(video4.tempPath);
+    await runModel(video4.tempPath);
     console.log("5- Model Done");
 
-    const video6 = await ExtractJson(videoName, tempDir);
+    await ExtractJson(videoName, tempDir);
     console.log("6- Extract Json Done");
 
     await merge(tempDir, videoName, ext);
@@ -48,17 +48,16 @@ exports.callingFunctions = async (
       tempDir,
       videoName + "-Highlight." + ext
     );
-    await copyFile(
-      highlightFilePath,
-      path.join(highlightPath, videoName + "-Highlight." + ext)
-    );
-
+    // await copyFile(
+    //   highlightFilePath,
+    //   path.join(highlightPath, videoName + "-Highlight." + ext)
+    // );
     let url = await uploadToCloud(videoName, highlightFilePath);
+    console.log("8- Upload Done, Url: " + url);
 
     return url;
   } catch (error) {
+    next(apiError.intErr("error"));
     throw error;
-
-    // next(apiError.intErr("error"));
   }
 };

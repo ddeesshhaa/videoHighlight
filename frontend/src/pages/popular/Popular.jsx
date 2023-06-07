@@ -17,19 +17,32 @@ const Popular = () => {
     const getPopularData = async () => {
       setIsLoading(true);
       try {
-         await axios.get(`http://localhost:8080/videos/all`
-         ).then(async (popvideos) => {
-          await axios.get('http://localhost:8080/profile/getFavVideos'
-          ).then((favVideos) => {
-            const favVideosIds = favVideos.map((voood) => voood._id);
-            const updatedVideos = popvideos.map((voood) => ({
-              ...voood,
-              isFavourite: favVideosIds.includes(voood._id)
-            }));
-            setPopularVideos(updatedVideos);
+        await axios
+          .get(`http://localhost:8080/videos/all`, {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: JSON.parse(localStorage.getItem("vh_user")).token,
+            },
+          })
+          .then(async (popvideos) => {
+            await axios
+              .get("http://localhost:8080/profile/getFavVideos", {
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization: JSON.parse(localStorage.getItem("vh_user"))
+                    .token,
+                },
+              })
+              .then((favVideos) => {
+                console.log(favVideos);
+                const favVideosIds = favVideos.data.map((voood) => voood._id);
+                const updatedVideos = popvideos.data.map((voood) => ({
+                  ...voood,
+                  isFavourite: favVideosIds.includes(voood._id),
+                }));
+                setPopularVideos(updatedVideos);
+              });
           });
-         });
-        
       } catch (err) {
         console.log(err);
       }
@@ -50,18 +63,15 @@ const Popular = () => {
         Authorization: JSON.parse(localStorage.getItem("vh_user")).token,
       };
 
-       await axios.put(
-        "http://localhost:8080/profile/addToFav",
-        data,
-        { headers }
-      );
-      
+      await axios.put("http://localhost:8080/profile/addToFav", data, {
+        headers,
+      });
+
       setPopularVideos(
         popularVideos.map((video) =>
           video._id === id ? { ...video, isFavorite: true } : video
         )
       );
-
     } catch (error) {
       console.log("Error making PUT request:", error);
     }
