@@ -106,18 +106,6 @@ const Profile = () => {
     }
   }
 
-  const favoriteVideos = [
-    {
-      id: 3,
-      title: "Video 3",
-      url: vod3,
-    },
-    {
-      id: 4,
-      title: "Video 4",
-      url: vod4,
-    },
-  ];
 
   return (
     <div className="profile-page">
@@ -254,7 +242,7 @@ const Profile = () => {
         ) : (
           <div className="vedio-cont">
             {userFavVideos.map((vod) => (
-              <div className="vedio-card">
+              <div className="vedio-card" key={vod._id}>
                 <video src={vod.highlightUrl} controls>
                   {" "}
                 </video>

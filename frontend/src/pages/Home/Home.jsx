@@ -54,7 +54,7 @@ const Home = () => {
       <video src={reels} className='video' autoPlay muted loop style={{marginTop:'10rem' , width:'100%'}}
         data-aos="fade-up"> 
       </video>
-      <VedioInput/>
+      {/* <VedioInput/> */}
       <MyFooter />
     </div>
   )

@@ -26,7 +26,7 @@ const Advantges = () => {
 
   return (
     <div className='vedio-highlight-adv' data-aos="fade-up" style={{padding:'4rem 2rem'}}>
-        <h1 style={{textAlign:'center',fontFamily:'Dancing Script',fontSize:'4rem'}} className='mb-5 '
+        <h1 style={{textAlign:'center',fontSize:'3rem'}} className='mb-5 '
         data-aos='fade-down'>
           Why use video Highlight ?
         </h1>
@@ -42,18 +42,6 @@ const Advantges = () => {
             </Card.Body>
           </Card>
         </Col>
-
-        {/* <Col style={{display:'flex' , alignItems:'center',justifyContent:'center'}}>
-          <Card data-aos="flip-right">
-            <Card.Img variant="top" src={saveTime} />
-            <Card.Body>
-              <Card.Title>Card title</Card.Title>
-              <Card.Text>
-                This is a longer card with supporting text
-              </Card.Text>
-            </Card.Body>
-          </Card>
-        </Col> */}
 
         <Col style={{display:'flex' , alignItems:'center',justifyContent:'center'}}>
           <Card data-aos="flip-right">
