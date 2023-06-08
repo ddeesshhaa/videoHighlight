@@ -5,7 +5,7 @@ import axios from "axios";
 import { Row, Col } from "react-bootstrap";
 
 import { MdCloudUpload, MdDelete } from "react-icons/md";
-//import {AiFillFileImage} from 'react-icons/ai';
+import {AiFillFileImage} from 'react-icons/ai';
 import { useAuthContext } from "../../hooks/useAuthContext";
 import { useNavigate } from "react-router-dom";
 
@@ -36,12 +36,14 @@ const VedioInput = () => {
   const [highlightedVideo, setHighlightedVideo] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const [isHighlight, setIsHighlight] = useState(false);
+  const [fileName,setFileName] = useState("No selected file");
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     const url = URL.createObjectURL(file);
     setFileVideo(url);
     setVedio(file);
+    setFileName(file.name);
 
     const formData = new FormData();
     formData.append("video", file);
@@ -107,12 +109,16 @@ const VedioInput = () => {
     }
   };
 
+  const handleDelete = () => {
+    setFileName("No selected file");
+    setVedio(null);
+  }
+
   return (
     <Row style={{ margin: "10rem 0 5rem" }}>
-      <Col
+      <Col className="main-col"
         style={{
           backgroundColor: "#161616",
-          padding: "3rem 10rem",
           borderRadius: "1rem",
         }}
         data-aos="fade-up"
@@ -120,7 +126,16 @@ const VedioInput = () => {
         <h1 className="input-main-header">Highlight your match now</h1>
         {!isLoading && !isHighlight ? (
           <div id="gene">
-            <form
+            
+            {vedio ? (
+                <video
+                  className="VideoInput_video"
+                  width={600}
+                  height={305}
+                  controls
+                  src={filevideo}
+                />
+              ) : (<form
               action=""
               className="input-form"
               onClick={() => handleClick()}
@@ -134,21 +149,13 @@ const VedioInput = () => {
                 name="video"
               />
 
-              {vedio ? (
-                <video
-                  className="VideoInput_video"
-                  width={600}
-                  height={305}
-                  controls
-                  src={filevideo}
-                />
-              ) : (
+              
                 <>
                   <MdCloudUpload color="#6aac28" size={60} />
                   <p style={{ fontWeight: "bold" }}>Upload The Match</p>
                 </>
-              )}
-            </form>
+
+            </form>)}
 
             <div style={{ marginTop: "1rem !important" }}>
               {vedio && uploadProgress < 100 && (
@@ -162,6 +169,10 @@ const VedioInput = () => {
             </div>
 
             <div className="data-div">
+              <span className='span' style={{color:'white'}}>
+                  {fileName}
+                  <MdDelete onClick={() => handleDelete()} style={{cursor:'pointer'}}/>
+              </span>
               <button
                 type="button"
                 className="btn"
