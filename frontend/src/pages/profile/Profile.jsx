@@ -144,7 +144,7 @@ const Profile = () => {
             </div>
 
             <button className="py-2 px-4 rounded">
-              <Link to="/edit">Edit Profile</Link>
+              <Link to="/edit" className="editLink">Edit Profile</Link>
             </button>
           </div>
         </div>

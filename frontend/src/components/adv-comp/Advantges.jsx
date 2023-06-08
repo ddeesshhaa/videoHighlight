@@ -25,7 +25,7 @@ const Advantges = () => {
 
 
   return (
-    <div className='vedio-highlight-adv section__padding' data-aos="fade-up">
+    <div className='vedio-highlight-adv' data-aos="fade-up" style={{padding:'4rem 2rem'}}>
         <h1 style={{textAlign:'center',fontFamily:'Dancing Script',fontSize:'4rem'}} className='mb-5 '
         data-aos='fade-down'>
           Why use video Highlight ?
