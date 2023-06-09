@@ -3,6 +3,8 @@ const {
   getUserVideos,
 } = require("../controllers/videos.controller");
 
+const { auth } = require("../controllers/token.controller");
+
 const router = require("express").Router();
 
 router.get("/all", getAllVideos);

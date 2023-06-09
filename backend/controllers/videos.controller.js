@@ -20,9 +20,8 @@ exports.getUserVideos = async (req, res, next) => {
         videos.push(...vid);
       });
     }
-
-    res.send(videos);
+    res.status(200).json({ user: userData, videoData: videos });
   } catch (error) {
-    next(apiError.intErr("Error on loading videos"));
+    next(apiError.badReq("User not found"));
   }
 };
