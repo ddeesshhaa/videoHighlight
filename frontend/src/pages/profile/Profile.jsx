@@ -197,7 +197,7 @@ const Profile = () => {
           <div className="vedio-cont">
             {isLoading ? (
               <LoaderBall message={"loading highlighted videos"} />
-            ) : (
+            ) : userHighlightedVideos.length?(
               userHighlightedVideos.map((vod) => (
                 <div className="vedio-card" key={vod._id}>
                   <video src={vod.highlightUrl} controls>
@@ -221,7 +221,7 @@ const Profile = () => {
                     </OverlayTrigger>
                     <div>
                       {
-                        id === 1 && <MdDelete
+                        id == 1 && <MdDelete
                         className="del"
                         onClick={() => handleDeleteVideo(vod._id)}
                       />  
@@ -246,33 +246,62 @@ const Profile = () => {
                   </div>
                 </div>
               ))
-            )}
+            ):<p style={{color:'white' , fontSize:'1.2rem'}} className='mt-5'>Nothing to show</p>}
           </div>
         ) : (
           <div className="vedio-cont">
-            {userFavVideos.map((vod) => (
-              <div className="vedio-card" key={vod._id}>
-                <video src={vod.highlightUrl} controls>
-                  {" "}
-                </video>
-                <div
-                  className="d-flex w-100 mt-2"
-                  style={{
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                  }}
-                >
-                  <p style={{ margin: "0" }}>{vod.title}</p>
-                  <div>
-                    {id == 1 && <MdDelete className="del" onClick={() => handleDeleteFavVideo(vod._id)}/>}
-                    <a download="" href={vod.highlightUrl}>
-                      <AiOutlineArrowDown style={{color:'white' , marginLeft:'0.5rem' ,cursor:'pointer'}}/>
-                    </a>
+            {isLoading ? (
+              <LoaderBall message={"loading Favorite videos"} />
+            ) : userFavVideos.length?(
+              userFavVideos.map((vod) => (
+                <div className="vedio-card" key={vod._id}>
+                  <video src={vod.highlightUrl} controls>
+                    {" "}
+                  </video>
+                  <div
+                    className="d-flex w-100 mt-2"
+                    style={{
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                    }}
+                  >
+                    <OverlayTrigger
+                      overlay={
+                        <Tooltip placement="bottom" id={vod._id}>
+                          {vod.title}
+                        </Tooltip>
+                      }
+                    >
+                      <p className="paragraph-text">{vod.title}</p>
+                    </OverlayTrigger>
+                    <div>
+                      {
+                        id == 1 && <MdDelete
+                        className="del"
+                        onClick={() => handleDeleteVideo(vod._id)}
+                      />  
+                      }
+                    {/* {!deleteLoader?<MdDelete
+                      className="del"
+                      onClick={() => handleDeleteVideo(vod._id)}
+                    />:<ThreeDots
+                          height="10"
+                          width="10"
+                          radius="9"
+                          color="green"
+                          ariaLabel="loading"
+                          wrapperStyle
+                          wrapperClass
+                        />} */}
+                        <a download="" href={vod.highlightUrl}>
+                          <AiOutlineArrowDown style={{color:'white' , marginLeft:'0.5rem' ,cursor:'pointer'}}/>
+                        </a>
+                    </div>
                     
                   </div>
                 </div>
-              </div>
-            ))}
+              ))
+            ):<p style={{color:'white' , fontSize:'1.2rem'}} className='mt-5'>Nothing to show</p>}
           </div>
         )}
       </div>
