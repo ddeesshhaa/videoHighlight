@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link , useParams } from "react-router-dom";
 import { ThreeDots } from 'react-loader-spinner'
 
 import { MdOutlineVideoLibrary, MdOutlineFavorite } from "react-icons/md";
@@ -27,6 +27,9 @@ const Profile = () => {
 
   //console.log(` sgajdgh ${logUser.pic.image.data.$binary.base64}`);
   const enc = logUser.pic.image.data;
+
+  const {id} = useParams();
+  console.log(id);
 
   const [activeClass, setActiveClass] = useState("left");
   const [userHighlightedVideos, setUserHighlightedVideos] = useState([]);
@@ -217,7 +220,13 @@ const Profile = () => {
                       <p className="paragraph-text">{vod.title}</p>
                     </OverlayTrigger>
                     <div>
-                    {!deleteLoader?<MdDelete
+                      {
+                        id === 1 && <MdDelete
+                        className="del"
+                        onClick={() => handleDeleteVideo(vod._id)}
+                      />  
+                      }
+                    {/* {!deleteLoader?<MdDelete
                       className="del"
                       onClick={() => handleDeleteVideo(vod._id)}
                     />:<ThreeDots
@@ -228,7 +237,7 @@ const Profile = () => {
                           ariaLabel="loading"
                           wrapperStyle
                           wrapperClass
-                        />}
+                        />} */}
                         <a download="" href={vod.highlightUrl}>
                           <AiOutlineArrowDown style={{color:'white' , marginLeft:'0.5rem' ,cursor:'pointer'}}/>
                         </a>
@@ -255,7 +264,7 @@ const Profile = () => {
                 >
                   <p style={{ margin: "0" }}>{vod.title}</p>
                   <div>
-                    <MdDelete className="del" onClick={() => handleDeleteFavVideo(vod._id)}/>
+                    {id == 1 && <MdDelete className="del" onClick={() => handleDeleteFavVideo(vod._id)}/>}
                     <a download="" href={vod.highlightUrl}>
                       <AiOutlineArrowDown style={{color:'white' , marginLeft:'0.5rem' ,cursor:'pointer'}}/>
                     </a>

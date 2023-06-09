@@ -7,6 +7,10 @@ import { BiTrendingUp } from "react-icons/bi";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
 
+import { Link } from "react-router-dom";
+
+import imgg from '../../assests/cov.jpeg';
+
 import "./popular.css";
 
 const Popular = () => {
@@ -20,7 +24,7 @@ const Popular = () => {
         await axios
           .get(`http://localhost:8080/videos/all`)
           .then(async (popvideos) => {
-            console.log(popvideos.data);
+            //console.log(popvideos.data);
             await axios
               .get("http://localhost:8080/profile/getFavVideos", {
                 headers: {
@@ -30,7 +34,7 @@ const Popular = () => {
                 },
               })
               .then((favVideos) => {
-                console.log(favVideos.data);
+                //console.log(favVideos.data);
                 const favVideosIds = favVideos.data.map((voood) => voood._id);
                 //console.log("sanjkas" + favVideosIds);
                 
@@ -38,7 +42,6 @@ const Popular = () => {
                   ...voood,
                   isFavorite: favVideosIds.includes(voood._id),
                 }));
-                updatedVideos.map((voood) => console.log(voood));
                 setPopularVideos(updatedVideos);
                 setIsLoading(false);
               });
@@ -114,6 +117,18 @@ const Popular = () => {
             <div className="vedio-cont">
               {popularVideos.slice(0, 22).map((video) => (
                 <div className="veedio-card" key={video._id}>
+                  <div className="owner d-flex justify-content-space-between ">
+                    <p style={{cursor:'pointer' , alignSelf:'center' , margin:'0 !important'}}>
+                      <Link to={`/profile/${video.owner}`} style={{color:'unset',textDecoration:'none'}}>
+                        by Martin sameh
+                      </Link>
+                      </p>
+                      <Link to={`/profile/${video.owner}`} style={{color:'unset', textDecoration:'none'}}>
+                    <img src={imgg} alt="" 
+                      style={{width:'2rem' , height:'2rem' , borderRadius:'50%' , cursor:'pointer'}} 
+                    />
+                    </Link>
+                  </div>
                   <video src={video?.highlightUrl} controls>
                     {" "}
                   </video>

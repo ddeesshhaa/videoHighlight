@@ -84,7 +84,15 @@
     margin: 0;
   }
   
+  .owner{
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 1rem;
+  }
   
+  .owner p{
+    margin-bottom: 0 !important;
+  }
 
 @media screen and (max-width:587px) {
     .sport-cont{
