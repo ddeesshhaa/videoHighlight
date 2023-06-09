@@ -1,8 +1,8 @@
 .vedio-highlight-input{
     background-color: black;
     margin-top: 10rem;
-    width: 100%;
-    padding: 4rem 0;
+    /* width: 100%; */
+    /* padding: 4rem 0; */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -40,7 +40,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-   
+    gap: 1rem;
     border-radius: 1rem;
     padding: 1rem 1.2rem;
     flex-direction: column;
@@ -59,17 +59,63 @@
     font-size: 1.2rem !important;
 }
 
+.main-col{
+    padding: 3rem 10rem !important;
+}
 
+.span{
+    display: flex;
+    gap: 0.4rem;
+    align-items: center;
+    
+}
+
+@media screen and (max-width:992px){
+    .main-col{
+        padding: 3rem 5rem !important;
+    }
+    .input-main-header{
+        margin-left: 3rem;
+    }
+}
+
+@media screen and (max-width:676px){
+    .main-col{
+        padding: 2rem 3rem !important;
+    }
+    .input-main-header{
+        font-size: 2rem;
+        margin-left: 0;
+    }
+
+    .VideoInput_video{
+        height: 25rem !important;
+        width: 25rem !important;
+    }
+
+    .input-form{
+        border: 2px dashed #6aac28 !important;
+        height: 14rem;
+        width: 25rem;
+        border-radius: 2rem;
+    }
+}
 
 
 @media screen and (max-width:550px){
     .input-form{
-        height: 14rem;
-        width: 25rem;
+        height: 12rem;
+        width: 20rem;
     }
     .VideoInput_video{
-        height: 205px;
+        height: 12rem !important;
+        width: 20rem !important;
     }
+    .input-main-header{
+        font-size: 1.5rem;
+        margin-left: 1.5rem;
+    }
+
 }
 
 @media screen and (max-width:450px){

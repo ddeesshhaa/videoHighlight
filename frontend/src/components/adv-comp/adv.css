@@ -29,6 +29,15 @@
     color: white;
 }
 
+@media screen and (max-width:750px) {
+    .vedio-highlight-adv{
+        width: 60%;
+    }
+    .vedio-highlight-adv h1{
+        font-size: 2rem;
+    }
+}
+
 /*
 #0d3515
 #373737

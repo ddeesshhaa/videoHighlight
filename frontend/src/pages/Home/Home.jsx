@@ -43,7 +43,14 @@ const Home = () => {
         </button></HashLink>
         
       </header>
-      <Advantges />
+      {/* <div style={{ width: '100%', overflow: 'hidden' }}>
+        <img
+          src={coverPhoto3}
+          alt="Cover"
+          style={{ width: '100%', height: 'auto' , maxHeight:'94vh'}}
+        />
+      </div> */}
+       <Advantges />
       <video src={reels} className='video' autoPlay muted loop style={{marginTop:'10rem' , width:'100%'}}
         data-aos="fade-up"> 
       </video>

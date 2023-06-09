@@ -36,7 +36,7 @@ function App() {
           <Route exact path="/" element={<Home />}/>
           <Route  path="/login"  element={<Login />}/>
           <Route  path="/signup"  element={<SignUP />}/>
-          <Route  path="/profile"  element={<Profile />}/>
+          <Route  path="/profile/:id"  element={<Profile />}/>
           <Route  path="/popular"  element={<Popular />}/>
           <Route  path="/edit"  element={<EditProfile />}/>
       </Routes>

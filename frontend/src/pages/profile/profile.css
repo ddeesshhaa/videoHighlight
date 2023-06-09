@@ -85,10 +85,19 @@ button:hover{
     margin: 0;
   }
 
+  .editLink{
+    color: unset !important;
+    text-decoration: none !important;
+  }
+
+  .editLink:hover{
+    color: unset !important;
+    text-decoration: none !important;
+  }
 
 @media screen and (max-width:768px){
     .profile-data{
-        justify-content: flex-start;
+        /* justify-content: flex-start; */
         gap: 1rem;
     }
     .profile-img{
