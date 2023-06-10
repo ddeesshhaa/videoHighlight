@@ -24,7 +24,7 @@ const Popular = () => {
         await axios
           .get(`http://localhost:8080/videos/all`)
           .then(async (popvideos) => {
-            //console.log(popvideos.data);
+            console.log(popvideos.data);
             await axios
               .get("http://localhost:8080/profile/getFavVideos", {
                 headers: {
@@ -116,20 +116,20 @@ const Popular = () => {
           <div className="sport-cont">
             <div className="vedio-cont">
               {popularVideos.slice(0, 22).map((video) => (
-                <div className="veedio-card" key={video._id}>
+                <div className="veedio-card" key={video._id} style={{maxWidth:'450px'}}>
                   <div className="owner d-flex justify-content-space-between ">
                     <p style={{cursor:'pointer' , alignSelf:'center' , margin:'0 !important'}}>
-                      <Link to={`/profile/${video.owner}`} style={{color:'unset',textDecoration:'none'}}>
-                        By Martin sameh
+                      <Link to={`/profile/${video.owner.id}`} style={{color:'unset',textDecoration:'none'}}>
+                        By {video.owner.firstName}
                       </Link>
                       </p>
-                      <Link to={`/profile/${video.owner}`} style={{color:'unset', textDecoration:'none'}}>
+                      <Link to={`/profile/${video.owner.id}`} style={{color:'unset', textDecoration:'none'}}>
                     <img src={imgg} alt="" 
                       style={{width:'2rem' , height:'2rem' , borderRadius:'50%' , cursor:'pointer'}} 
                     />
                     </Link>
                   </div>
-                  <video src={video?.highlightUrl} controls>
+                  <video src={video?.highlightUrl} controls style={{width:'90%'}}>
                     {" "}
                   </video>
                   <OverlayTrigger

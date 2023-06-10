@@ -4,6 +4,7 @@ import Advantges from "./adv-comp/Advantges";
 import Footer from "./footer/Footer";
 import DribbbleShot from "./DribbbleShot";
 import MyFooter from './MyFooter';
+import HeaderImage from "./HeaderImage/HeaderImage";
 
 export {
     Header,
@@ -12,4 +13,5 @@ export {
     Footer,
     DribbbleShot,
     MyFooter,
+    HeaderImage,
 }
