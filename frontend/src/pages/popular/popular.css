@@ -76,6 +76,12 @@
     align-items: center;
 }
 
+.titlee{
+    justify-content: space-between;
+    margin-top: 0.5rem;
+    width: 100%;
+}
+
 .paragraph-text {
     max-width: 70%;
     white-space: nowrap;
@@ -86,7 +92,7 @@
   
   .owner{
     justify-content: space-between;
-    width: 100%;
+    /* width: 100%; */
     margin-bottom: 1rem;
   }
   

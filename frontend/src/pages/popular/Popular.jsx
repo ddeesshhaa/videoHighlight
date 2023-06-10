@@ -28,7 +28,7 @@ const Popular = () => {
           .get(`http://localhost:8080/videos/all`)
           .then(async (popvideos) => {
             if(user){
-            console.log(popvideos.data);
+            console.log("asnd" + popvideos.data);
             await axios
               .get("http://localhost:8080/profile/getFavVideos", {
                 headers: {
@@ -129,27 +129,33 @@ const Popular = () => {
                   key={video._id}
                   style={{ maxWidth: "450px" }}
                 >
+                <div className="d-flex titlee" style={{}}>
                   <div className="owner d-flex justify-content-space-between ">
                 
-                      <Link
-                        to={`/profile/${video.owner?.id}`}
-                        style={{ color: "unset", textDecoration: "none" }}
-                        className="d-flex align-items-center gap-1"
-                      >
-                        <img
-                        src={`data:${video.owner.pic.image.contentType};base64,${video.owner.pic.image.data}`}
-                        alt=""
-                        style={{
-                          width: "2rem",
-                          height: "2rem",
-                          borderRadius: "50%",
-                          cursor: "pointer",
-                        }}
-                      />
-                        {video.owner.firstName}
-                      </Link>
-                    
+                        <Link
+                          to={`/profile/${video.owner?.id}`}
+                          style={{ color: "unset", textDecoration: "none" }}
+                          className="d-flex align-items-center gap-1"
+                        >
+                          <img
+                          src={`data:${video.owner?.pic?.image?.contentType};base64,${video.owner?.pic?.image?.data}`}
+                          alt=""
+                          style={{
+                            width: "2rem",
+                            height: "2rem",
+                            borderRadius: "50%",
+                            cursor: "pointer",
+                          }}
+                        />
+                          {video.owner.firstName}
+                        </Link>
+              
                   </div>
+                        <p >
+                          {video.createdAt.slice(0,10)}
+                        </p>
+                  </div>
+                  
                   <video
                     src={video?.highlightUrl}
                     controls
@@ -157,6 +163,7 @@ const Popular = () => {
                   >
                     {" "}
                   </video>
+                  <div className="d-flex titlee">
                   <OverlayTrigger
                     overlay={
                       <Tooltip placement="bottom" id={video._id}>
@@ -175,6 +182,7 @@ const Popular = () => {
                         <AiOutlineCloudDownload size={25} style={{cursor:'pointer'}}/>
                     </a>
                   </div>}
+                  </div>
                   
                 </div>
               ))}
