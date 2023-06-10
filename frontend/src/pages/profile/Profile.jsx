@@ -7,12 +7,18 @@ import { AiOutlineArrowDown } from "react-icons/ai";
 
 import { MdDelete } from "react-icons/md";
 
+import Skeleton, {SkeletonTheme} from 'react-loading-skeleton';
+
+
 import LoaderBall from "../../components/loader/LoaderBall";
 
 import axios from "axios";
 
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
+
+import 'react-loading-skeleton/dist/skeleton.css'
+
 
 import "./profile.css";
 
@@ -24,6 +30,7 @@ const Profile = () => {
 
   const { id } = useParams();
   //console.log(id);
+  
 
   const [activeClass, setActiveClass] = useState("left");
   const [userHighlightedVideos, setUserHighlightedVideos] = useState([]);
@@ -31,16 +38,12 @@ const Profile = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [deleteLoader, setDeleteLoader] = useState(false);
   const [deletedVideo, setDeletedVideo] = useState("");
+  const [userProfileData,setUserProfileData] = useState();
 
   useEffect(() => {
     setIsLoading(true);
     const getVideos = async () => {
       try {
-        await axios
-          .get(`http://localhost:8080/videos/user/647a07a36c961f8f4c562bcc`)
-          .then((res) =>
-            console.log("the data  " + JSON.stringify(res.data.videoData))
-          );
 
         await axios
           .get(`http://localhost:8080/profile/getVideos`, {
@@ -71,7 +74,22 @@ const Profile = () => {
       }
     };
 
-    getVideos();
+    const getUserData = async () => {
+      await axios
+          .get(`http://localhost:8080/videos/user/${id}`)
+          .then((res) =>{
+            console.log("the data  " + (res.data.user));
+            setUserHighlightedVideos(res.data.videoData);
+            setUserProfileData(res.data.user);
+            console.log(userHighlightedVideos);
+            setIsLoading(false);
+          }
+           
+          );
+          
+    }
+
+    id==1?getVideos():getUserData();
   }, []);
 
   const handleDeleteVideo = async (videoid) => {
@@ -128,7 +146,11 @@ const Profile = () => {
           />
 
           <div className="name-data mt-4">
-            <p className="profileName">{`${logUser.firstName} ${logUser.lastName}`}</p>
+            <p className="profileName">{id==1?`${logUser.firstName} ${logUser.lastName}`
+            :isLoading?<SkeletonTheme color='#202020' highlightColor='#444'>
+                <Skeleton height={10} width={250}/>
+              </SkeletonTheme>:`${userProfileData.firstName} ${userProfileData.lastName}`}
+            </p>
 
             <div className="stat-data">
               <div className="highlighted d-flex gap-2 fw-bold">
@@ -166,11 +188,11 @@ const Profile = () => {
               </div>
             </div>
 
-            <button className="py-2 px-4 rounded">
+            {id==1 && <button className="py-2 px-4 rounded">
               <Link to="/edit" className="editLink">
                 Edit Profile
               </Link>
-            </button>
+            </button>}
           </div>
         </div>
         <hr
@@ -233,8 +255,8 @@ const Profile = () => {
               <LoaderBall message={"loading highlighted videos"} />
             ) : userHighlightedVideos.length ? (
               userHighlightedVideos.map((vod) => (
-                <div className="vedio-card" key={vod._id}>
-                  <video src={vod.highlightUrl} controls>
+                <div className="vedio-card" key={vod._id} style={{maxWidth:'450px'}}>
+                  <video src={vod.highlightUrl} controls style={{width:'90%'}}>
                     {" "}
                   </video>
                   <div
@@ -260,7 +282,7 @@ const Profile = () => {
                           onClick={() => handleDeleteVideo(vod._id)}
                         />
                       ) : (
-                        <ThreeDots
+                        id==1 && <ThreeDots
                           height="15"
                           width="15"
                           radius="12"
@@ -299,8 +321,8 @@ const Profile = () => {
               <LoaderBall message={"loading Favorite videos"} />
             ) : userFavVideos.length ? (
               userFavVideos.map((vod) => (
-                <div className="vedio-card" key={vod._id}>
-                  <video src={vod.highlightUrl} controls>
+                <div className="vedio-card" key={vod._id} style={{maxWidth:'450px'}}>
+                  <video src={vod.highlightUrl} controls style={{width:'90%'}}>
                     {" "}
                   </video>
                   <div
@@ -326,7 +348,7 @@ const Profile = () => {
                           onClick={() => handleDeleteFavVideo(vod._id)}
                         />
                       ) : vod._id === deletedVideo ? (
-                        <ThreeDots
+                        id == 1 && <ThreeDots
                           height="15"
                           width="15"
                           radius="12"

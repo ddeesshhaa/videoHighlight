@@ -1,14 +1,12 @@
 import React,{useEffect} from 'react';
-import { VedioInput,Advantges,MyFooter } from '../../components';
+import { VedioInput,Advantges,MyFooter,HeaderImage } from '../../components';
 import { HashLink } from 'react-router-hash-link';
+import { Row, Col } from 'react-bootstrap';
 
 import 'aos/dist/aos.css';
 import AOS from 'aos';
 
 
-/* import coverPhoto from '../../assests/pexels-jeshootscom-1201996.jpg';
-import coverPhoto2 from '../../assests/pexels-serkan-göktay-94953.jpg'; */
-import coverPhoto3 from '../../assests/design.jpg';
 import reels from '../../assests/video-reelz.mp4';
 
 
@@ -44,13 +42,16 @@ const Home = () => {
         </button></HashLink>
         
       </header> */}
-      <div style={{ width: '100%', overflow: 'hidden' }}>
+      {/* <div style={{ width: '100%', overflow: 'hidden' }}>
         <img
           src={coverPhoto3}
           alt="Cover"
           style={{ width: '100%', height: 'auto' , maxHeight:'94vh'}}
         />
-      </div>
+      </div> */}
+
+
+       {/* <HeaderImage /> */}
        <Advantges />
       <video src={reels} className='video' autoPlay muted loop style={{marginTop:'10rem' , width:'100%'}}
         data-aos="fade-up"> 
