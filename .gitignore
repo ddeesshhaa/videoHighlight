@@ -1,7 +1,6 @@
 /backend/node_modules
 .DS_Store
 backend/.DS_Store
-.DS_Store
-.DS_Store
 backend/temp-audio.m4a
 backend/assets/generate/ClassificationModel/vgg16_model.h5
+backend/assets/generate/ClassificationModel/vgg16_model3.h5

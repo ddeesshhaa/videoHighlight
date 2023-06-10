@@ -10,7 +10,7 @@ const apiError = require("../errorHandler/apiError");
 
 const { runClassificationModel, extractFrames } = require("./runCheckModel");
 
-exports.checkVideo = async (videoName, ext, tempDir) => {
+exports.checkVideo = async (videoName, ext, tempDir, next) => {
   try {
     await Promise.all([
       mkdir(path.join(tempDir, "frames")).then(() => {
@@ -21,8 +21,6 @@ exports.checkVideo = async (videoName, ext, tempDir) => {
     let classPath = path.join(tempDir, "frames", "class1");
     await extractFrames(tempDir, classPath, videoName, ext);
     let res = await runClassificationModel(framesPath).then((result) => {
-      //do some shit
-      //   return result;
       if (result == true) {
         return true;
       } else {
@@ -31,6 +29,7 @@ exports.checkVideo = async (videoName, ext, tempDir) => {
     });
     return res;
   } catch (error) {
-    console.error(error);
+    next(apiError.intErr("Error on checkVideo"));
+    // console.error(error);
   }
 };

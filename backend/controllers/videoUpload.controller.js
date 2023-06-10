@@ -76,8 +76,8 @@ exports.uploadVideo = async (req, res, next) => {
 
     // res.status(200).send("Video Uploaded");
   } catch (error) {
-    console.log(error);
-    // next(apiError.intErr("Error on Uploading"));
+    // console.log(error);
+    next(apiError.intErr("Error on Uploading"));
   }
 };
 
