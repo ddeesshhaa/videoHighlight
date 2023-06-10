@@ -7,7 +7,9 @@ const videoSchema = mongoose.Schema(
       required: true,
     },
     owner: {
-      type: String,
+      id: String,
+      firstName: String,
+      pic: Object,
     },
     ext: String,
     videoName: String,

@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Link , useParams } from "react-router-dom";
-import { ThreeDots} from 'react-loader-spinner'
+import { Link, useParams } from "react-router-dom";
+import { ThreeDots } from "react-loader-spinner";
 
 import { MdOutlineVideoLibrary, MdOutlineFavorite } from "react-icons/md";
-import {AiOutlineArrowDown} from 'react-icons/ai';
-
+import { AiOutlineArrowDown } from "react-icons/ai";
 
 import { MdDelete } from "react-icons/md";
 
@@ -23,22 +22,25 @@ const Profile = () => {
 
   const enc = logUser.pic.image.data;
 
-  const {id} = useParams();
+  const { id } = useParams();
   //console.log(id);
 
   const [activeClass, setActiveClass] = useState("left");
   const [userHighlightedVideos, setUserHighlightedVideos] = useState([]);
-  const [userFavVideos,setUserFavVideos] = useState([]);
+  const [userFavVideos, setUserFavVideos] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [deleteLoader,setDeleteLoader] = useState(false);
-  const [deletedVideo,setDeletedVideo] = useState("");
+  const [deleteLoader, setDeleteLoader] = useState(false);
+  const [deletedVideo, setDeletedVideo] = useState("");
 
   useEffect(() => {
     setIsLoading(true);
     const getVideos = async () => {
       try {
-        await axios.get(`http://localhost:8080/videos/user/647a07a36c961f8f4c562bcc`
-        ).then(res => console.log("the data  " + res));
+        await axios
+          .get(`http://localhost:8080/videos/user/647a07a36c961f8f4c562bcc`)
+          .then((res) =>
+            console.log("the data  " + JSON.stringify(res.data.videoData))
+          );
 
         await axios
           .get(`http://localhost:8080/profile/getVideos`, {
@@ -51,20 +53,19 @@ const Profile = () => {
             setUserHighlightedVideos(response.data);
           });
 
-          await axios
-              .get("http://localhost:8080/profile/getFavVideos", {
-                headers: {
-                  "Content-Type": "application/json",
-                  Authorization: JSON.parse(localStorage.getItem("vh_user"))
-                    .token,
-                },
-              }).then(res => {
-                setUserFavVideos(res.data);
-                //console.log(userFavVideos);
-              });
+        await axios
+          .get("http://localhost:8080/profile/getFavVideos", {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: JSON.parse(localStorage.getItem("vh_user")).token,
+            },
+          })
+          .then((res) => {
+            setUserFavVideos(res.data);
+            //console.log(userFavVideos);
+          });
 
-              setIsLoading(false); 
-
+        setIsLoading(false);
       } catch (error) {
         console.log(error);
       }
@@ -74,18 +75,22 @@ const Profile = () => {
   }, []);
 
   const handleDeleteVideo = async (videoid) => {
-    setDeleteLoader(true)
+    setDeleteLoader(true);
     try {
-      await axios.delete(`http://localhost:8080/profile/deleteHighlight`, {
-        data: { videoId: videoid },
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: JSON.parse(localStorage.getItem("vh_user")).token,
-        },
-      }).then(res => console.log(res));
-      const updated = userHighlightedVideos.filter((video) => video._id !== videoid);
+      await axios
+        .delete(`http://localhost:8080/profile/deleteHighlight`, {
+          data: { videoId: videoid },
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: JSON.parse(localStorage.getItem("vh_user")).token,
+          },
+        })
+        .then((res) => console.log(res));
+      const updated = userHighlightedVideos.filter(
+        (video) => video._id !== videoid
+      );
       setDeleteLoader(false);
-      setUserHighlightedVideos(updated); 
+      setUserHighlightedVideos(updated);
     } catch (err) {
       console.log(err);
     }
@@ -95,22 +100,23 @@ const Profile = () => {
     setDeleteLoader(true);
     setDeletedVideo(videoid);
     //console.log(vid)
-      try{await axios.delete('http://localhost:8080/profile/removeFromFav' ,
-      {
-        data: { videoId: videoid },
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: JSON.parse(localStorage.getItem("vh_user")).token,
-        },
-      }).then(res => console.log(res))
+    try {
+      await axios
+        .delete("http://localhost:8080/profile/removeFromFav", {
+          data: { videoId: videoid },
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: JSON.parse(localStorage.getItem("vh_user")).token,
+          },
+        })
+        .then((res) => console.log(res));
       const updated = userFavVideos.filter((video) => video._id !== videoid);
       setDeleteLoader(false);
       setUserFavVideos(updated);
-    }catch(err){
+    } catch (err) {
       console.log(err);
     }
-  }
-
+  };
 
   return (
     <div className="profile-page">
@@ -126,34 +132,44 @@ const Profile = () => {
 
             <div className="stat-data">
               <div className="highlighted d-flex gap-2 fw-bold">
-                {isLoading?<ThreeDots
-                          height="15"
-                          width="15"
-                          radius="12"
-                          color="white"
-                          ariaLabel="loading"
-                          wrapperStyle
-                          wrapperClass
-                   />:<p>{userHighlightedVideos.length}</p>}
+                {isLoading ? (
+                  <ThreeDots
+                    height="15"
+                    width="15"
+                    radius="12"
+                    color="white"
+                    ariaLabel="loading"
+                    wrapperStyle
+                    wrapperClass
+                  />
+                ) : (
+                  <p>{userHighlightedVideos.length}</p>
+                )}
                 <p>Highlighted</p>
               </div>
 
               <div className="fav d-flex gap-2 fw-bold">
-                {isLoading?<ThreeDots
-                          height="15"
-                          width="15"
-                          radius="12"
-                          color="white"
-                          ariaLabel="loading"
-                          wrapperStyle
-                          wrapperClass
-                   />:<p>{userFavVideos.length}</p>}
+                {isLoading ? (
+                  <ThreeDots
+                    height="15"
+                    width="15"
+                    radius="12"
+                    color="white"
+                    ariaLabel="loading"
+                    wrapperStyle
+                    wrapperClass
+                  />
+                ) : (
+                  <p>{userFavVideos.length}</p>
+                )}
                 <p>Favourites</p>
               </div>
             </div>
 
             <button className="py-2 px-4 rounded">
-              <Link to="/edit" className="editLink">Edit Profile</Link>
+              <Link to="/edit" className="editLink">
+                Edit Profile
+              </Link>
             </button>
           </div>
         </div>
@@ -215,7 +231,7 @@ const Profile = () => {
           <div className="vedio-cont">
             {isLoading ? (
               <LoaderBall message={"loading highlighted videos"} />
-            ) : userHighlightedVideos.length?(
+            ) : userHighlightedVideos.length ? (
               userHighlightedVideos.map((vod) => (
                 <div className="vedio-card" key={vod._id}>
                   <video src={vod.highlightUrl} controls>
@@ -238,36 +254,50 @@ const Profile = () => {
                       <p className="paragraph-text">{vod.title}</p>
                     </OverlayTrigger>
                     <div className="d-flex align-items-center">
-                      {
-                        id == 1 && !deleteLoader?<MdDelete
-                        className="del"
-                        onClick={() => handleDeleteVideo(vod._id)}
-                      /> : <ThreeDots
-                              height="15"
-                              width="15"
-                              radius="12"
-                              color="white"
-                              ariaLabel="loading"
-                              wrapperStyle
-                              wrapperClass
-                           /> 
-                      }
+                      {id == 1 && !deleteLoader ? (
+                        <MdDelete
+                          className="del"
+                          onClick={() => handleDeleteVideo(vod._id)}
+                        />
+                      ) : (
+                        <ThreeDots
+                          height="15"
+                          width="15"
+                          radius="12"
+                          color="white"
+                          ariaLabel="loading"
+                          wrapperStyle
+                          wrapperClass
+                        />
+                      )}
 
-                        <a download="" href={vod.highlightUrl}>
-                          <AiOutlineArrowDown style={{color:'white' , marginLeft:'0.5rem' ,cursor:'pointer'}}/>
-                        </a>
+                      <a download="" href={vod.highlightUrl}>
+                        <AiOutlineArrowDown
+                          style={{
+                            color: "white",
+                            marginLeft: "0.5rem",
+                            cursor: "pointer",
+                          }}
+                        />
+                      </a>
                     </div>
-                    
                   </div>
                 </div>
               ))
-            ):<p style={{color:'white' , fontSize:'1.2rem'}} className='mt-5'>Nothing to show</p>}
+            ) : (
+              <p
+                style={{ color: "white", fontSize: "1.2rem" }}
+                className="mt-5"
+              >
+                Nothing to show
+              </p>
+            )}
           </div>
         ) : (
           <div className="vedio-cont">
             {isLoading ? (
               <LoaderBall message={"loading Favorite videos"} />
-            ) : userFavVideos.length?(
+            ) : userFavVideos.length ? (
               userFavVideos.map((vod) => (
                 <div className="vedio-card" key={vod._id}>
                   <video src={vod.highlightUrl} controls>
@@ -290,32 +320,48 @@ const Profile = () => {
                       <p className="paragraph-text">{vod.title}</p>
                     </OverlayTrigger>
                     <div className="d-flex align-items-center">
-                    {
-                        id == 1 && !deleteLoader?<MdDelete
-                        className="del"
-                        onClick={() => handleDeleteFavVideo(vod._id)}
-                      /> : vod._id === deletedVideo? <ThreeDots
-                              height="15"
-                              width="15"
-                              radius="12"
-                              color="white"
-                              ariaLabel="loading"
-                              wrapperStyle
-                              wrapperClass
-                           /> : <MdDelete
-                           className="del"
-                           onClick={() => handleDeleteFavVideo(vod._id)}
-                         /> 
-                      }
-                        <a download="" href={vod.highlightUrl}>
-                          <AiOutlineArrowDown style={{color:'white' , marginLeft:'0.5rem' ,cursor:'pointer'}}/>
-                        </a>
+                      {id == 1 && !deleteLoader ? (
+                        <MdDelete
+                          className="del"
+                          onClick={() => handleDeleteFavVideo(vod._id)}
+                        />
+                      ) : vod._id === deletedVideo ? (
+                        <ThreeDots
+                          height="15"
+                          width="15"
+                          radius="12"
+                          color="white"
+                          ariaLabel="loading"
+                          wrapperStyle
+                          wrapperClass
+                        />
+                      ) : (
+                        <MdDelete
+                          className="del"
+                          onClick={() => handleDeleteFavVideo(vod._id)}
+                        />
+                      )}
+                      <a download="" href={vod.highlightUrl}>
+                        <AiOutlineArrowDown
+                          style={{
+                            color: "white",
+                            marginLeft: "0.5rem",
+                            cursor: "pointer",
+                          }}
+                        />
+                      </a>
                     </div>
-                    
                   </div>
                 </div>
               ))
-            ):<p style={{color:'white' , fontSize:'1.2rem'}} className='mt-5'>Nothing to show</p>}
+            ) : (
+              <p
+                style={{ color: "white", fontSize: "1.2rem" }}
+                className="mt-5"
+              >
+                Nothing to show
+              </p>
+            )}
           </div>
         )}
       </div>

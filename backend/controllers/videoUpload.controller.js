@@ -44,7 +44,11 @@ exports.uploadVideo = async (req, res, next) => {
       _id: myId,
       title: vn,
       ext: ext,
-      owner: req.user._id,
+      owner: {
+        id: req.user._id,
+        firstName: req.user.firstName,
+        pic: req.user.pic,
+      },
       videoName: videoNewName,
     };
     myVid = new videoModel(data);
