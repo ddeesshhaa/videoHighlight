@@ -11,7 +11,7 @@ exports.runModel = (tempDir) => {
       "model",
       "main.py"
     );
-    const splitVideo = spawn("python", [
+    const splitVideo = spawn(process.env.PYTHON_VERSION, [
       mainPyPath,
       "--root_path",
       tempDir + "/",

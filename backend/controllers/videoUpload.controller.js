@@ -10,6 +10,7 @@ const apiError = require("../errorHandler/apiError");
 const { checkVideo } = require("../modelFunctions/checkVideoType");
 const mkdtemp = promisify(fs.mkdtemp);
 const os = require("os");
+const { default: mongoose } = require("mongoose");
 
 exports.uploadVideo = async (req, res, next) => {
   try {
@@ -40,15 +41,22 @@ exports.uploadVideo = async (req, res, next) => {
 
     let videoType = await checkVideo(videoNewName, ext, tempDir);
     if (videoType) {
+      // let data = {
+      //   _id: myId,
+      //   title: vn,
+      //   ext: ext,
+      //   owner: {
+      //     id: req.user._id,
+      //     firstName: req.user.firstName,
+      //     pic: req.user.pic,
+      //   },
+      //   videoName: videoNewName,
+      // };
       let data = {
         _id: myId,
         title: vn,
         ext: ext,
-        owner: {
-          id: req.user._id,
-          firstName: req.user.firstName,
-          pic: req.user.pic,
-        },
+        owner: req.user._id,
         videoName: videoNewName,
       };
       myVid = new videoModel(data);
@@ -76,8 +84,8 @@ exports.uploadVideo = async (req, res, next) => {
 
     // res.status(200).send("Video Uploaded");
   } catch (error) {
-    // console.log(error);
-    next(apiError.intErr("Error on Uploading"));
+    console.log(error);
+    // next(apiError.intErr("Error on Uploading"));
   }
 };
 

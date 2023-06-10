@@ -11,7 +11,7 @@ exports.runClassificationModel = (framesPath) => {
       "ClassificationModel",
       "main.py"
     );
-    const runClassificationModel = spawn("python", [
+    const runClassificationModel = spawn(process.env.PYTHON_VERSION, [
       mainPyPath,
       path.join(framesPath, "/"),
     ]);

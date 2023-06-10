@@ -14,7 +14,11 @@ exports.jpgToJson = (videoName, tempPath) => {
       "utils",
       "SoccerShoubra_json.py"
     );
-    const splitVideo = spawn("python", [jpgPyPath, videoName, tempPath]);
+    const splitVideo = spawn(process.env.PYTHON_VERSION, [
+      jpgPyPath,
+      videoName,
+      tempPath,
+    ]);
     splitVideo.stdout.on("data", (data) => {
       // console.log(`stdout: ${data}`);
     });

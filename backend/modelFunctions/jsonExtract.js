@@ -12,7 +12,10 @@ exports.ExtractJson = (videoName, tempPath) => {
       "jsonExtract.py"
     );
     resultJsonPath = path.join(tempPath, "result", "test.json");
-    const jsonExtract = spawn("python", [jsonExtractPath, resultJsonPath]);
+    const jsonExtract = spawn(process.env.PYTHON_VERSION, [
+      jsonExtractPath,
+      resultJsonPath,
+    ]);
     jsonExtract.stdout.on("data", (data) => {
       // console.log(`stdout: ${data}`);
     });

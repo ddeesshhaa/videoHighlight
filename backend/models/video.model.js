@@ -1,4 +1,5 @@
 const { default: mongoose } = require("mongoose");
+const user = require("./user.model");
 
 const videoSchema = mongoose.Schema(
   {
@@ -6,11 +7,7 @@ const videoSchema = mongoose.Schema(
       type: String,
       required: true,
     },
-    owner: {
-      id: String,
-      firstName: String,
-      pic: Object,
-    },
+    owner: { type: mongoose.Schema.Types.ObjectId, ref: user },
     ext: String,
     videoName: String,
     highlightUrl: {

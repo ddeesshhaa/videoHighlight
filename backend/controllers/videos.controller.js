@@ -4,8 +4,12 @@ const videoModel = require("../models/video.model");
 
 exports.getAllVideos = async (req, res, next) => {
   try {
-    let allVideos = await videoModel.find();
-    res.send(allVideos);
+    await videoModel
+      .find()
+      .populate("owner")
+      .then((videos) => {
+        res.status(200).send(videos);
+      });
   } catch (error) {
     next(apiError.intErr("Error on loading videos"));
   }

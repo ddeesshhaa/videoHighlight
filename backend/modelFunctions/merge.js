@@ -14,7 +14,7 @@ exports.merge = (tempPath, videoName, ext) => {
     );
 
     watermarkPath = path.join(__dirname, "../", "assets", "watermark.png");
-    const splitVideo = spawn("python", [
+    const splitVideo = spawn(process.env.PYTHON_VERSION, [
       jpgPyPath,
       tempPath,
       videoName,

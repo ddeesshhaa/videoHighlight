@@ -14,7 +14,12 @@ exports.clipToJpg = (videoName, tempPath, ext) => {
       "utils",
       "jpg.py"
     );
-    const splitVideo = spawn("python", [jpgPyPath, videoName, tempPath, ext]);
+    const splitVideo = spawn(process.env.PYTHON_VERSION, [
+      jpgPyPath,
+      videoName,
+      tempPath,
+      ext,
+    ]);
     splitVideo.stdout.on("data", (data) => {
       // console.log(`stdout: ${data}`);
     });

@@ -89,10 +89,10 @@ exports.uploadToCloud = async (videoName, path) => {
         resolve(x);
       })
       .catch((error) => {
-        reject(error);
-        // next(apiError.er(500, "Video processing failed"));
+        // reject(error);
+        next(apiError.er(500, "Video processing failed"));
 
-        console.error("Video processing failed:", error);
+        // console.error("Video processing failed:", error);
       });
   });
 };
