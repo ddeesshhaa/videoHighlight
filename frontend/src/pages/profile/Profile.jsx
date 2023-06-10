@@ -24,6 +24,7 @@ const Profile = () => {
   const enc = logUser.pic.image.data;
 
   const {id} = useParams();
+  //console.log(id);
 
   const [activeClass, setActiveClass] = useState("left");
   const [userHighlightedVideos, setUserHighlightedVideos] = useState([]);
@@ -36,6 +37,9 @@ const Profile = () => {
     setIsLoading(true);
     const getVideos = async () => {
       try {
+        await axios.get(`http://localhost:8080/videos/user/647a07a36c961f8f4c562bcc`
+        ).then(res => console.log("the data  " + res));
+
         await axios
           .get(`http://localhost:8080/profile/getVideos`, {
             headers: {
@@ -43,7 +47,7 @@ const Profile = () => {
             },
           })
           .then((response) => {
-            console.log(response.data);
+            //console.log(response.data);
             setUserHighlightedVideos(response.data);
           });
 
@@ -56,7 +60,7 @@ const Profile = () => {
                 },
               }).then(res => {
                 setUserFavVideos(res.data);
-                console.log(userFavVideos);
+                //console.log(userFavVideos);
               });
 
               setIsLoading(false); 

@@ -161,6 +161,18 @@ a{
     }
 }
 
+.navvv{
+    color: unset;
+    text-decoration: none;
+    border: 0 !important;
+}
+
+.navvv:hover{
+    color: unset;
+    text-decoration: none;
+    border: 0 !important;
+}
+
 
 @media screen and (max-width:576px) {
     .navbar-custom{

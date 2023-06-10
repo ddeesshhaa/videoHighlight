@@ -31,7 +31,9 @@
 
 @media screen and (max-width:750px) {
     .vedio-highlight-adv{
-        width: 60%;
+        width: 100%;
+        border-radius: 0;
+        
     }
     .vedio-highlight-adv h1{
         font-size: 2rem;

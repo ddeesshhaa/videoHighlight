@@ -169,7 +169,7 @@ const VedioInput = () => {
             </div>
 
             <div className="data-div">
-              <span className='span' style={{color:'white'}}>
+              <span className='span' style={{color:'#6aac28'}}>
                   {fileName}
                   <MdDelete onClick={() => handleDelete()} style={{cursor:'pointer'}}/>
               </span>
