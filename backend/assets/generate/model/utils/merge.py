@@ -8,6 +8,8 @@ import sys
 tempPath = sys.argv[1]
 videoName = sys.argv[2]
 ext = sys.argv[3]
+watermark_image_path = sys.argv[4]
+
 
 with open(os.path.join(tempPath, "result", "test.json"), 'r') as f:  # path of output json result
     distros_dict = load(f)
@@ -23,20 +25,48 @@ for distro in distros_dict['results']:
     if score > 0.7 and label == "Goals":
         required_video_file = root + clip_name + "." + ext
         clip = VideoFileClip(required_video_file)
-        clips.append(clip)
+        watermark = ImageClip(watermark_image_path).set_duration(
+            clip.duration).resize(height=0.1*clip.h)
+        watermark = watermark.set_position(
+            ("right", "bottom")).set_opacity(0.7)
+        clipWithWatermark = CompositeVideoClip([clip, watermark])
+        clips.append(clipWithWatermark)
+        # clips.append(clip)
+
     if score > 0.7 and label == ("Subs"):
         required_video_file = root + clip_name + "." + ext
 
         clip = VideoFileClip(required_video_file)
-        clips.append(clip)
+        watermark = ImageClip(watermark_image_path).set_duration(
+            clip.duration).resize(height=0.1*clip.h)
+        watermark = watermark.set_position(
+            ("right", "bottom")).set_opacity(0.7)
+        clipWithWatermark = CompositeVideoClip([clip, watermark])
+        clips.append(clipWithWatermark)
+
+        # clips.append(clip)
 
     if score > 0.9 and label == ("Cards"):
         required_video_file = root + clip_name + "." + ext
 
         clip = VideoFileClip(required_video_file)
-        clips.append(clip)
+        watermark = ImageClip(watermark_image_path).set_duration(
+            clip.duration).resize(height=0.1*clip.h)
+        watermark = watermark.set_position(
+            ("right", "bottom")).set_opacity(0.7)
+        clipWithWatermark = CompositeVideoClip([clip, watermark])
+        clips.append(clipWithWatermark)
+        # clips.append(clip)
 
 
 highlight = concatenate_videoclips(clips)
+
+
+# watermark = ImageClip(watermark_image_path).set_duration(
+#     highlight.duration).resize(height=0.8*highlight.h)
+# watermark = watermark.set_position(("right", "bottom")).set_opacity(0.7)
+# video_with_watermark = CompositeVideoClip([highlight, watermark])
+
+
 highlight.write_videofile(tempPath+"\\"+videoName+"-Highlight."+ext, codec="libx264",
                           temp_audiofile='temp-audio.m4a', remove_temp=True, audio_codec='aac')

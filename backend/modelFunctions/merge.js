@@ -12,7 +12,15 @@ exports.merge = (tempPath, videoName, ext) => {
       "utils",
       "merge.py"
     );
-    const splitVideo = spawn("python", [jpgPyPath, tempPath, videoName, ext]);
+
+    watermarkPath = path.join(__dirname, "../", "assets", "watermark.png");
+    const splitVideo = spawn("python", [
+      jpgPyPath,
+      tempPath,
+      videoName,
+      ext,
+      watermarkPath,
+    ]);
     splitVideo.stdout.on("data", (data) => {
       // console.log(`stdout: ${data}`);
     });

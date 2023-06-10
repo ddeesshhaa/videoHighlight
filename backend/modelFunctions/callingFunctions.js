@@ -57,7 +57,8 @@ exports.callingFunctions = async (
 
     return url;
   } catch (error) {
-    next(apiError.intErr("error"));
-    throw error;
+    // console.error(error);
+    next(apiError.intErr("Error on Model Functions"));
+    // throw error;
   }
 };

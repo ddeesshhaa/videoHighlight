@@ -7,6 +7,9 @@ const ObjectId = require("mongo-objectid");
 const mkdir = promisify(fs.mkdir);
 const multer = require("multer");
 const apiError = require("../errorHandler/apiError");
+const { checkVideo } = require("../modelFunctions/checkVideoType");
+const mkdtemp = promisify(fs.mkdtemp);
+const os = require("os");
 
 exports.uploadVideo = async (req, res, next) => {
   try {
@@ -31,42 +34,50 @@ exports.uploadVideo = async (req, res, next) => {
       videoNewName
     );
     mkdir(rootPath);
-    video
-      .mv(path.join(rootPath, videoNewName + "." + ext))
-      .then(() => {
-        console.log("Uploaded successfully " + videoNewName);
-      })
-      .catch((err) => {
-        console.error("Video Upload Error: " + err);
-        // next(apiError.intErr("Video Upload Error"));
-      });
-    let data = {
-      _id: myId,
-      title: vn,
-      ext: ext,
-      owner: {
-        id: req.user._id,
-        firstName: req.user.firstName,
-        pic: req.user.pic,
-      },
-      videoName: videoNewName,
-    };
-    myVid = new videoModel(data);
-    await myVid.save();
+    video.mv(path.join(rootPath, videoNewName + "." + ext));
 
-    await user.findByIdAndUpdate(
-      req.user._id,
-      {
-        $push: { uploadedVideos: myId.toString() },
-      },
-      { new: true }
-    );
-    next();
+    const tempDir = await mkdtemp(path.join(os.tmpdir(), videoNewName));
+
+    let videoType = await checkVideo(videoNewName, ext, tempDir);
+    if (videoType) {
+      let data = {
+        _id: myId,
+        title: vn,
+        ext: ext,
+        owner: {
+          id: req.user._id,
+          firstName: req.user.firstName,
+          pic: req.user.pic,
+        },
+        videoName: videoNewName,
+      };
+      myVid = new videoModel(data);
+      await myVid.save();
+
+      await user.findByIdAndUpdate(
+        req.user._id,
+        {
+          $push: { uploadedVideos: myId.toString() },
+        },
+        { new: true }
+      );
+      req.tempDir = tempDir;
+      next();
+    } else {
+      res.status(400).send("Not Soccer Video");
+    }
+    // .then(() => {
+    //   console.log("Uploaded successfully " + videoNewName);
+    // })
+    // .catch((err) => {
+    //   // console.error("Video Upload Error: " + err);
+    //   next(apiError.intErr("Video Upload Error"));
+    // });
 
     // res.status(200).send("Video Uploaded");
   } catch (error) {
-    // console.log(error);
-    next(apiError.intErr("Error on Uploading"));
+    console.log(error);
+    // next(apiError.intErr("Error on Uploading"));
   }
 };
 

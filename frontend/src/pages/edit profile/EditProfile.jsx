@@ -4,27 +4,24 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../../hooks/useAuthContext";
 
-
 const EditProfile = () => {
-
-  const user = JSON.parse(localStorage.getItem('vh_user'));
+  const user = JSON.parse(localStorage.getItem("vh_user"));
   const logUser = user.userData;
   console.log(logUser);
 
   const [error, setError] = useState(null);
-  const { dispatch,toggleNavItems} = useAuthContext();
+  const { dispatch, toggleNavItems } = useAuthContext();
 
   const logOut = () => {
-    localStorage.removeItem('vh_user');
-    dispatch({type: 'LOGOUT'});
+    localStorage.removeItem("vh_user");
+    dispatch({ type: "LOGOUT" });
     toggleNavItems(false);
-    navigate('/');
-}
-
+    navigate("/");
+  };
 
   const navigate = useNavigate();
 
-  const[profilePic,setProfilePic] = useState(null);
+  const [profilePic, setProfilePic] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
 
   const handleChange = (event) => {
@@ -37,45 +34,40 @@ const EditProfile = () => {
     };
     reader.readAsDataURL(file);
 
-
     console.log(file);
-  }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    try{
+    try {
       let response = await axios.post(
         "http://localhost:8080/profile/editProfile",
         {
           firstName: e.target.firstName.value,
           lastName: e.target.secondName.value,
           email: e.target.email.value,
-          newPassword:e.target.Newpassword.value,
+          newPassword: e.target.Newpassword.value,
           oldPassword: e.target.Oldpassword.value,
-		      image:profilePic
+          image: profilePic,
         },
         {
           headers: {
-            'Content-Type': 'multipart/form-data',
-            "Authorization" : JSON.parse(localStorage.getItem('vh_user')).token
+            "Content-Type": "multipart/form-data",
+            Authorization: JSON.parse(localStorage.getItem("vh_user")).token,
           },
         }
       );
-  
-      
-  
+
       /* let user = await response.data;
       console.log(user); */
 
       logOut();
 
-      navigate('/login');
-    }catch(err){
+      navigate("/login");
+    } catch (err) {
       setError(err);
     }
-     
-
   };
   return (
     <div className={Style.Auth_form_container}>
@@ -84,21 +76,38 @@ const EditProfile = () => {
           <h3 className={Style.Auth_form_title}>Edit Profile</h3>
 
           <div>
-
-        <div className="d-flex justify-content-center mb-4">
-            <img src={profilePic?previewUrl:`data:${logUser.pic?.image.contentType};base64,${logUser.pic.image.data}`}
-            className="rounded-circle" alt="example placeholder" style={{width:'5rem',height:'5rem'}} />
-        </div>
-
-        <div className="d-flex justify-content-center">
-            <div className="btn btn-primary btn-rounded">
-                <label className="form-label text-white m-1" htmlFor="customFile2">Choose file</label>
-                <input type="file" className="form-control d-none" id="customFile2" onChange={handleChange}
-                multiple accept="image/*" />
+            <div className="d-flex justify-content-center mb-4">
+              <img
+                src={
+                  profilePic
+                    ? previewUrl
+                    : `data:${logUser.pic?.image.contentType};base64,${logUser.pic.image.data}`
+                }
+                className="rounded-circle"
+                alt="example placeholder"
+                style={{ width: "5rem", height: "5rem" }}
+              />
             </div>
-        </div>
 
-      </div>
+            <div className="d-flex justify-content-center">
+              <div className="btn btn-primary btn-rounded">
+                <label
+                  className="form-label text-white m-1"
+                  htmlFor="customFile2"
+                >
+                  Choose file
+                </label>
+                <input
+                  type="file"
+                  className="form-control d-none"
+                  id="customFile2"
+                  onChange={handleChange}
+                  multiple
+                  accept="image/*"
+                />
+              </div>
+            </div>
+          </div>
 
           <div className="form-group mt-3">
             <label>First Name</label>
@@ -151,16 +160,17 @@ const EditProfile = () => {
               required
             />
           </div>
-          
+
           <div className="d-grid gap-2 mt-3">
             <button type="submit" className="btn btn-primary">
-              Update 
+              Update
             </button>
-            
-            {error && <div className="alert alert-danger" role="alert">
-                            {error.response.data}
-                       </div>
-            }
+
+            {error && (
+              <div className="alert alert-danger" role="alert">
+                {error.response.data}
+              </div>
+            )}
           </div>
           <p
             className="forgot-password text-center mt-2"
@@ -172,9 +182,8 @@ const EditProfile = () => {
           </p>
         </div>
       </form>
-      
     </div>
   );
-}
+};
 
 export default EditProfile;

@@ -9,7 +9,7 @@ import Tooltip from "react-bootstrap/Tooltip";
 
 import { Link } from "react-router-dom";
 
-import imgg from '../../assests/cov.jpeg';
+import imgg from "../../assests/cov.jpeg";
 
 import "./popular.css";
 
@@ -37,7 +37,7 @@ const Popular = () => {
                 //console.log(favVideos.data);
                 const favVideosIds = favVideos.data.map((voood) => voood._id);
                 //console.log("sanjkas" + favVideosIds);
-                
+
                 const updatedVideos = popvideos.data.map((voood) => ({
                   ...voood,
                   isFavorite: favVideosIds.includes(voood._id),
@@ -54,52 +54,49 @@ const Popular = () => {
     getPopularData();
   }, []);
 
-
   const handleAddToFavourites = async (id) => {
     const targetObject = popularVideos.find((obj) => obj._id === id);
     const checkVideo = targetObject.isFavorite;
     console.log(checkVideo);
-    if(!checkVideo){
+    if (!checkVideo) {
       try {
         let data = { videoId: id };
         let headers = {
           "Content-Type": "application/json",
           Authorization: JSON.parse(localStorage.getItem("vh_user")).token,
         };
-  
+
         await axios.put("http://localhost:8080/profile/addToFav", data, {
           headers,
         });
 
         console.log("snnaksnkksk");
-        const updatedVideos = popularVideos.map((voood) => 
-          voood._id === id ? { ...voood, isFavorite:  true} : voood
+        const updatedVideos = popularVideos.map((voood) =>
+          voood._id === id ? { ...voood, isFavorite: true } : voood
         );
         console.log(updatedVideos);
         setPopularVideos(updatedVideos);
       } catch (error) {
         console.log("Error making PUT request:", error);
       }
-    } else{
-      try{
-        await axios.delete('http://localhost:8080/profile/removeFromFav' ,
-      {
-        data: { videoId: id },
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: JSON.parse(localStorage.getItem("vh_user")).token,
-        },
-      })
+    } else {
+      try {
+        await axios.delete("http://localhost:8080/profile/removeFromFav", {
+          data: { videoId: id },
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: JSON.parse(localStorage.getItem("vh_user")).token,
+          },
+        });
 
-      const updatedVideos = popularVideos.map((voood) => 
-          voood._id === id ? { ...voood, isFavorite:  false} : voood
+        const updatedVideos = popularVideos.map((voood) =>
+          voood._id === id ? { ...voood, isFavorite: false } : voood
         );
         setPopularVideos(updatedVideos);
-    }catch(err){
-      console.log(err);
+      } catch (err) {
+        console.log(err);
+      }
     }
-    }
-    
   };
 
   return (
@@ -116,20 +113,47 @@ const Popular = () => {
           <div className="sport-cont">
             <div className="vedio-cont">
               {popularVideos.slice(0, 22).map((video) => (
-                <div className="veedio-card" key={video._id} style={{maxWidth:'450px'}}>
+                <div
+                  className="veedio-card"
+                  key={video._id}
+                  style={{ maxWidth: "450px" }}
+                >
                   <div className="owner d-flex justify-content-space-between ">
-                    <p style={{cursor:'pointer' , alignSelf:'center' , margin:'0 !important'}}>
-                      <Link to={`/profile/${video.owner.id}`} style={{color:'unset',textDecoration:'none'}}>
+                    <p
+                      style={{
+                        cursor: "pointer",
+                        alignSelf: "center",
+                        margin: "0 !important",
+                      }}
+                    >
+                      <Link
+                        to={`/profile/${video.owner.id}`}
+                        style={{ color: "unset", textDecoration: "none" }}
+                      >
                         By {video.owner.firstName}
                       </Link>
-                      </p>
-                      <Link to={`/profile/${video.owner.id}`} style={{color:'unset', textDecoration:'none'}}>
-                    <img src={imgg} alt="" 
-                      style={{width:'2rem' , height:'2rem' , borderRadius:'50%' , cursor:'pointer'}} 
-                    />
+                    </p>
+                    <Link
+                      to={`/profile/${video.owner.id}`}
+                      style={{ color: "unset", textDecoration: "none" }}
+                    >
+                      <img
+                        src={`data:${video.owner.pic.image.contentType};base64,${video.owner.pic.image.data}`}
+                        alt=""
+                        style={{
+                          width: "2rem",
+                          height: "2rem",
+                          borderRadius: "50%",
+                          cursor: "pointer",
+                        }}
+                      />
                     </Link>
                   </div>
-                  <video src={video?.highlightUrl} controls style={{width:'90%'}}>
+                  <video
+                    src={video?.highlightUrl}
+                    controls
+                    style={{ width: "90%" }}
+                  >
                     {" "}
                   </video>
                   <OverlayTrigger
