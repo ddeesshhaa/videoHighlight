@@ -72,10 +72,10 @@ const Profile = () => {
 
     const getUserData = async () => {
       await axios.get(`http://localhost:8080/videos/user/${id}`).then((res) => {
-        console.log("the data  " + res.data.user);
+        //console.log("the data  " + res.data.user);
         setUserHighlightedVideos(res.data.videoData);
         setUserProfileData(res.data.user);
-        console.log(userHighlightedVideos);
+        console.log(userProfileData)
         setIsLoading(false);
       });
     };
@@ -133,9 +133,15 @@ const Profile = () => {
         <div className="profile-data d-flex">
           <img
             className="profile-img"
-            src={`data:${logUser.pic.image.contentType};base64,${enc}`}
+            src={id==1?`data:${logUser.pic.image.contentType};base64,${enc}`
+            : isLoading ? (
+              <SkeletonTheme color="#202020" highlightColor="#444">
+                <Skeleton height={10} width={250} />
+              </SkeletonTheme>
+            ) : (
+              `data:${userProfileData?.pic?.image?.contentType};base64,${userProfileData.pic?.image?.data}`
+            )}
           />
-
           <div className="name-data mt-4">
             <p className="profileName">
               {id == 1 ? (
@@ -205,12 +211,12 @@ const Profile = () => {
         />
         <div className="mobile-data">
           <div className="highlighted d-flex flex-column align-items-center fw-bold">
-            <p>4</p>
+            <p>{userHighlightedVideos.length}</p>
             <p>Highlighted</p>
           </div>
 
           <div className="fav d-flex flex-column align-items-center fw-bold">
-            <p>2</p>
+            <p>{userFavVideos.length}</p>
             <p>Favourites</p>
           </div>
         </div>

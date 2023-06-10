@@ -3,17 +3,20 @@ import axios from "axios";
 
 import LoaderBall from "../../components/loader/LoaderBall";
 import { BiTrendingUp } from "react-icons/bi";
+import {AiFillHeart , AiOutlineCloudDownload} from 'react-icons/ai';
 
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
 
 import { Link } from "react-router-dom";
+import { useAuthContext } from "../../hooks/useAuthContext";
 
-import imgg from "../../assests/cov.jpeg";
 
 import "./popular.css";
 
 const Popular = () => {
+
+  const { user } = useAuthContext();
   const [popularVideos, setPopularVideos] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -70,12 +73,13 @@ const Popular = () => {
           headers,
         });
 
-        console.log("snnaksnkksk");
+        //console.log("snnaksnkksk");
         const updatedVideos = popularVideos.map((voood) =>
           voood._id === id ? { ...voood, isFavorite: true } : voood
         );
-        console.log(updatedVideos);
+        //console.log(updatedVideos);
         setPopularVideos(updatedVideos);
+        console.log(popularVideos);
       } catch (error) {
         console.log("Error making PUT request:", error);
       }
@@ -88,11 +92,12 @@ const Popular = () => {
             Authorization: JSON.parse(localStorage.getItem("vh_user")).token,
           },
         });
-
         const updatedVideos = popularVideos.map((voood) =>
           voood._id === id ? { ...voood, isFavorite: false } : voood
         );
+        //console.log(updatedVideos);
         setPopularVideos(updatedVideos);
+        console.log(popularVideos);
       } catch (err) {
         console.log(err);
       }
@@ -119,25 +124,13 @@ const Popular = () => {
                   style={{ maxWidth: "450px" }}
                 >
                   <div className="owner d-flex justify-content-space-between ">
-                    <p
-                      style={{
-                        cursor: "pointer",
-                        alignSelf: "center",
-                        margin: "0 !important",
-                      }}
-                    >
+                
                       <Link
-                        to={`/profile/${video.owner.id}`}
+                        to={`/profile/${video.owner?.id}`}
                         style={{ color: "unset", textDecoration: "none" }}
+                        className="d-flex align-items-center gap-1"
                       >
-                        By {video.owner.firstName}
-                      </Link>
-                    </p>
-                    <Link
-                      to={`/profile/${video.owner.id}`}
-                      style={{ color: "unset", textDecoration: "none" }}
-                    >
-                      <img
+                        <img
                         src={`data:${video.owner.pic.image.contentType};base64,${video.owner.pic.image.data}`}
                         alt=""
                         style={{
@@ -147,12 +140,14 @@ const Popular = () => {
                           cursor: "pointer",
                         }}
                       />
-                    </Link>
+                        {video.owner.firstName}
+                      </Link>
+                    
                   </div>
                   <video
                     src={video?.highlightUrl}
                     controls
-                    style={{ width: "90%" }}
+                    style={{ width: "100%" }}
                   >
                     {" "}
                   </video>
@@ -165,16 +160,16 @@ const Popular = () => {
                   >
                     <p className="paragraph-text">{video.title}</p>
                   </OverlayTrigger>
-                  <button
-                    className={
-                      !video.isFavorite ? "btnn-primary" : "btnn-danger"
-                    }
-                    onClick={() => handleAddToFavourites(video?._id)}
-                  >
-                    {!video.isFavorite
-                      ? "Add to Favourites"
-                      : "Remove from Favourites"}
-                  </button>
+      
+                  {user && <div className="d-flex gap-2">
+                    <AiFillHeart onClick={() => handleAddToFavourites(video?._id)}
+                    style={{color:!video.isFavorite
+                      ?'white':'red' , cursor:'pointer'}} size={25}/>
+                      <a download="" href={video.highlightUrl} style={{color:'unset'}}>
+                        <AiOutlineCloudDownload size={25} style={{cursor:'pointer'}}/>
+                    </a>
+                  </div>}
+                  
                 </div>
               ))}
             </div>
