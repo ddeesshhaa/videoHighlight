@@ -8,7 +8,7 @@ import AOS from 'aos';
 
 /* import coverPhoto from '../../assests/pexels-jeshootscom-1201996.jpg';
 import coverPhoto2 from '../../assests/pexels-serkan-göktay-94953.jpg'; */
-import coverPhoto3 from '../../assests/headerr.jpg';
+import coverPhoto3 from '../../assests/design.jpg';
 import reels from '../../assests/video-reelz.mp4';
 
 
@@ -25,16 +25,17 @@ const Home = () => {
 
   return (
     <div className='vedio-highlight-home'>
-      <header className='cover-pic' style={{
+      {/* <header className='cover-pic' style={{
         backgroundImage: `url(${coverPhoto3})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
-        height: '48rem',
+        height:'auto',
+        minHeight:'100vh',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
         width:'100%',
-        alignItems: 'center'
+        alignItems: 'center',
       }}>
         <h1 className='header-text' style={{ color: '#fff', textAlign: 'center' }}>Highlight Your football</h1>
         <h1 className='header-text' style={{ color: '#fff', textAlign: 'center' }}>Match</h1>
@@ -42,14 +43,14 @@ const Home = () => {
           Start Now
         </button></HashLink>
         
-      </header>
-      {/* <div style={{ width: '100%', overflow: 'hidden' }}>
+      </header> */}
+      <div style={{ width: '100%', overflow: 'hidden' }}>
         <img
           src={coverPhoto3}
           alt="Cover"
           style={{ width: '100%', height: 'auto' , maxHeight:'94vh'}}
         />
-      </div> */}
+      </div>
        <Advantges />
       <video src={reels} className='video' autoPlay muted loop style={{marginTop:'10rem' , width:'100%'}}
         data-aos="fade-up"> 

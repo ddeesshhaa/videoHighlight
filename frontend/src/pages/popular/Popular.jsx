@@ -120,7 +120,7 @@ const Popular = () => {
                   <div className="owner d-flex justify-content-space-between ">
                     <p style={{cursor:'pointer' , alignSelf:'center' , margin:'0 !important'}}>
                       <Link to={`/profile/${video.owner}`} style={{color:'unset',textDecoration:'none'}}>
-                        by Martin sameh
+                        By Martin sameh
                       </Link>
                       </p>
                       <Link to={`/profile/${video.owner}`} style={{color:'unset', textDecoration:'none'}}>
