@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 const SignUp = () => {
 
   const [error, setError] = useState(null)
-  const [isLoading, setIsLoading] = useState(null)
+  //const [isLoading, setIsLoading] = useState(null)
   const[profilePic,setProfilePic] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
   

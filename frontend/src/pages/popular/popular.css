@@ -16,7 +16,7 @@
 
 
 .veedio-card{
-    background-color: #161616;
+    background-color: #1c1e21;
     padding: 1.5rem;
     display: flex;
     flex-direction: column;
@@ -76,6 +76,13 @@
     align-items: center;
 }
 
+.titlee{
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 0.5rem;
+    width: 100%;
+}
+
 .paragraph-text {
     max-width: 70%;
     white-space: nowrap;
@@ -86,7 +93,7 @@
   
   .owner{
     justify-content: space-between;
-    width: 100%;
+    /* width: 100%; */
     margin-bottom: 1rem;
   }
   
