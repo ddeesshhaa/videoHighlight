@@ -41,17 +41,6 @@ exports.uploadVideo = async (req, res, next) => {
 
     let videoType = await checkVideo(videoNewName, ext, tempDir);
     if (videoType) {
-      // let data = {
-      //   _id: myId,
-      //   title: vn,
-      //   ext: ext,
-      //   owner: {
-      //     id: req.user._id,
-      //     firstName: req.user.firstName,
-      //     pic: req.user.pic,
-      //   },
-      //   videoName: videoNewName,
-      // };
       let data = {
         _id: myId,
         title: vn,
@@ -61,11 +50,10 @@ exports.uploadVideo = async (req, res, next) => {
       };
       myVid = new videoModel(data);
       await myVid.save();
-
       await user.findByIdAndUpdate(
         req.user._id,
         {
-          $push: { uploadedVideos: myId.toString() },
+          $push: { uploadedVideos: myId },
         },
         { new: true }
       );

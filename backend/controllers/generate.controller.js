@@ -59,7 +59,7 @@ exports.generateVideo = async (req, res, next) => {
     await user.findByIdAndUpdate(
       userId,
       {
-        $push: { doneVideos: req.body.id.toString() },
+        $push: { doneVideos: req.body.id },
       },
       { new: true }
     );
