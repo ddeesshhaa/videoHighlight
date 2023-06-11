@@ -18,9 +18,10 @@ import "./popular.css";
 
 const Popular = () => {
 
-  const { user } = useAuthContext();
+  const user = JSON.parse(localStorage.getItem("vh_user"))
   const [popularVideos, setPopularVideos] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  
 
   useEffect(() => {
     const getPopularData = async () => {
@@ -40,7 +41,7 @@ const Popular = () => {
                 },
               })
               .then((favVideos) => {
-                //console.log(favVideos.data);
+                console.log(favVideos.data);
                 const favVideosIds = favVideos.data.map((voood) => voood._id);
                 //console.log("sanjkas" + favVideosIds);
 
@@ -116,8 +117,8 @@ const Popular = () => {
   return (
     <div className="poular-page" style={{ color: "white" }}>
       <div className="main-header-cont">
-        <h1 className="main-header">Popular Now</h1>
-        <BiTrendingUp style={{ width: "2rem", height: "2rem" }} />
+        <h1 className="main-header">Recent Videos</h1>
+        {/* <BiTrendingUp style={{ width: "2rem", height: "2rem" }} /> */}
       </div>
 
       {isLoading ? (
