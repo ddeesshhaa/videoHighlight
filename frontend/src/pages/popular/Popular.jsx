@@ -27,6 +27,7 @@ const Popular = () => {
         await axios
           .get(`http://localhost:8080/videos/all`)
           .then(async (popvideos) => {
+            if(user){
             console.log(popvideos.data);
             await axios
               .get("http://localhost:8080/profile/getFavVideos", {
@@ -48,7 +49,12 @@ const Popular = () => {
                 setPopularVideos(updatedVideos);
                 setIsLoading(false);
               });
-          });
+          }else{
+            console.log("asnckldnl")
+            setPopularVideos(popvideos.data);
+            setIsLoading(false);
+          }
+        });
       } catch (err) {
         console.log(err);
       }
