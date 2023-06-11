@@ -42,26 +42,16 @@ const Profile = () => {
     const getVideos = async () => {
       try {
         await axios
-          .get(`http://localhost:8080/profile/getVideos`, {
+          .get(`http://localhost:8080/profile/getData`, {
             headers: {
               Authorization: JSON.parse(localStorage.getItem("vh_user")).token,
             },
           })
           .then((response) => {
-            //console.log(response.data);
-            setUserHighlightedVideos(response.data);
-          });
-
-        await axios
-          .get("http://localhost:8080/profile/getFavVideos", {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: JSON.parse(localStorage.getItem("vh_user")).token,
-            },
-          })
-          .then((res) => {
-            setUserFavVideos(res.data);
-            //console.log(userFavVideos);
+            console.log(response);
+            setUserHighlightedVideos(response.data.done);
+            //console.log(userHighlightedVideos);
+            setUserFavVideos(response.data.fav);
           });
 
         setIsLoading(false);
@@ -168,7 +158,7 @@ const Profile = () => {
                     wrapperClass
                   />
                 ) : (
-                  <p>{userHighlightedVideos.length}</p>
+                  <p>{userHighlightedVideos?.length}</p>
                 )}
                 <p>Highlighted</p>
               </div>
@@ -185,7 +175,7 @@ const Profile = () => {
                     wrapperClass
                   />
                 ) : (
-                  <p>{userFavVideos.length}</p>
+                  <p>{userFavVideos?.length}</p>
                 )}
                 <p>Favourites</p>
               </div>
