@@ -11,6 +11,7 @@ const { ExtractJson } = require("./jsonExtract");
 const { uploadToCloud } = require("./uploadToCloud");
 const videoModel = require("../models/video.model");
 const apiError = require("../errorHandler/apiError");
+const logger = require("../errorHandler/logger");
 const copyFile = promisify(fs.copyFile);
 
 exports.callingFunctions = async (
@@ -18,24 +19,25 @@ exports.callingFunctions = async (
   ext,
   tempDir,
   highlightPath,
+  res,
   next
 ) => {
   console.log("Working on => " + videoName);
 
   try {
-    const video = await splitVideo(videoName, ext, tempDir);
+    await splitVideo(videoName, ext, tempDir);
     console.log("1- Creating Clips Done");
 
-    const video2 = await clipToJpg(videoName, video.tempDir, video.ext);
+    await clipToJpg(videoName, tempDir, ext);
     console.log("2- Clips to JPG Done");
 
-    const video3 = await getVideoName(videoName, video2.tempPath);
+    await getVideoName(videoName, tempDir);
     console.log("3- Making Video Names Done");
 
-    const video4 = await jpgToJson(videoName, video3.tempPath);
+    await jpgToJson(videoName, tempDir);
     console.log("4- Json Created Successfully");
 
-    await runModel(video4.tempPath);
+    await runModel(tempDir);
     console.log("5- Model Done");
 
     await ExtractJson(videoName, tempDir);
@@ -57,8 +59,7 @@ exports.callingFunctions = async (
 
     return url;
   } catch (error) {
-    // console.error(error);
+    logger.error(`Generate Controller - callingFunctions - Error ${error}`);
     next(apiError.intErr("Error on Model Functions"));
-    // throw error;
   }
 };

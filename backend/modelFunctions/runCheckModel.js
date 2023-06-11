@@ -3,7 +3,8 @@ const path = require("path");
 
 exports.runClassificationModel = (framesPath) => {
   return new Promise((resolve, reject) => {
-    mainPyPath = path.join(
+    let frames = framesPath;
+    let mainPyPath = path.join(
       __dirname,
       "../",
       "assets",
@@ -13,7 +14,7 @@ exports.runClassificationModel = (framesPath) => {
     );
     const runClassificationModel = spawn(process.env.PYTHON_VERSION, [
       mainPyPath,
-      path.join(framesPath, "/"),
+      path.join(frames, "/"),
     ]);
     runClassificationModel.stdout.on("data", (data) => {
       // console.log(`stdout: ${data}`);
@@ -22,7 +23,7 @@ exports.runClassificationModel = (framesPath) => {
 
     runClassificationModel.stderr.on("data", (data) => {
       // console.error(`stderr: ${data}`);
-      // reject("error on step 1");
+      // reject("error on classification model" + data);
     });
 
     runClassificationModel.on("close", (code) => {
@@ -32,14 +33,15 @@ exports.runClassificationModel = (framesPath) => {
       } else {
         resolve(false);
       }
-      // resolve(code);
     });
   });
 };
 
-exports.extractFrames = (tempDir, framesPath, videoName, ext) => {
+exports.extractFrames = (tempPath, framesPath, videoName, ext) => {
   return new Promise((resolve, reject) => {
-    extractFramesPyPath = path.join(
+    let frames = framesPath;
+
+    let extractFramesPyPath = path.join(
       __dirname,
       "../",
       "assets",
@@ -48,7 +50,7 @@ exports.extractFrames = (tempDir, framesPath, videoName, ext) => {
       "utils",
       "extractFrames.py"
     );
-    videoPath = path.join(
+    let videoPath = path.join(
       __dirname,
       "../",
       "assets",
@@ -60,7 +62,7 @@ exports.extractFrames = (tempDir, framesPath, videoName, ext) => {
     const extractFrames = spawn("python", [
       extractFramesPyPath,
       videoPath,
-      framesPath,
+      frames,
     ]);
     extractFrames.stdout.on("data", (data) => {
       // console.log(`stdout: ${data}`);
@@ -69,12 +71,12 @@ exports.extractFrames = (tempDir, framesPath, videoName, ext) => {
 
     extractFrames.stderr.on("data", (data) => {
       // console.error(`stderr: ${data}`);
-      // reject("error on step 1");
+      // reject("error on extracting frames : " + data);
     });
 
     extractFrames.on("close", (code) => {
       // console.log(`child process exited with code ${code}`);
-      resolve(tempDir, framesPath);
+      resolve(tempPath, frames);
     });
   });
 };

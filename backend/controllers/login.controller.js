@@ -2,6 +2,7 @@ const user = require("../models/user.model");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const apiError = require("../errorHandler/apiError");
+const logger = require("../errorHandler/logger");
 
 exports.login = async (req, res, next) => {
   try {
@@ -28,6 +29,7 @@ exports.login = async (req, res, next) => {
       // res.status(400).send("Wrong email");
     }
   } catch (error) {
+    logger.error(`Error from login controller from user ${email} : ${error}`);
     next(apiError.intErr("Error"));
   }
 };

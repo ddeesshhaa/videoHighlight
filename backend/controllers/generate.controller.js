@@ -10,11 +10,11 @@ const mkdir = promisify(fs.mkdir);
 const user = require("../models/user.model");
 const modelFunctions = require("../modelFunctions/callingFunctions");
 const apiError = require("../errorHandler/apiError");
+const logger = require("../errorHandler/logger");
 
 exports.generateVideo = async (req, res, next) => {
   try {
     let video = await videoModel.findById(req.body.id);
-
     let userId = req.user._id;
     videoName = "Video-" + req.body.id;
     rootFolderName = videoName;
@@ -36,7 +36,6 @@ exports.generateVideo = async (req, res, next) => {
       video.title
     );
     tempDir = req.tempDir;
-    // const tempDir = await mkdtemp(path.join(os.tmpdir(), videoName));
     await Promise.all([
       mkdir(path.join(tempDir, "clips")),
       mkdir(path.join(tempDir, "jpgs")),
@@ -49,13 +48,11 @@ exports.generateVideo = async (req, res, next) => {
       videoName,
       ext,
       tempDir,
-      highlightPath
+      highlightPath,
+      res,
+      next
     );
-    // .then((url) => {})
-    // .catch((err) => {
-    //   // console.log(err);
-    //   next(apiError.intErr(err));
-    // });
+
     await user.findByIdAndUpdate(
       userId,
       {
@@ -65,8 +62,9 @@ exports.generateVideo = async (req, res, next) => {
     );
     fsExtra.remove(tempDir);
     res.status(200).json({ urlH: url });
+    // res.end({ urlH: url });
   } catch (error) {
-    console.error(error);
+    logger.error(`User ${req.user._id} - Generate Controller - Error ${error}`);
     next(apiError.intErr("Error on generating"));
   }
 };

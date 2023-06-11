@@ -3,30 +3,9 @@ const apiError = require("../errorHandler/apiError");
 const user = require("../models/user.model");
 const videoModel = require("../models/video.model");
 const bcrypt = require("bcrypt");
+const logger = require("../errorHandler/logger");
 
-// exports.getVideosById = (req, res, next) => {
-//   try {
-//     videoModel.find({ owner: req.user._id }).then((videos) => {
-//       res.send(videos);
-//     });
-//   } catch (error) {
-//     next(apiError.er(404, "Profile Videos Error"));
-//   }
-// };
 exports.getVideosById = async (req, res, next) => {
-  // try {
-  //   let userData = await user.findById(req.user._id);
-
-  //   let videos = [];
-  //   for (let videoIdx of userData.doneVideos) {
-  //     let foundVideo = await videoModel.find({ _id: videoIdx });
-  //     videos.push(...foundVideo);
-  //   }
-  //   res.status(200).send(videos);
-  // } catch (err) {
-  //   // console.log(err);
-  //   next(apiError.er(404, "Profile Videos Error"));
-  // }
   try {
     user
       .findById(req.user._id)
@@ -42,22 +21,15 @@ exports.getVideosById = async (req, res, next) => {
           });
       });
   } catch (error) {
+    logger.error(
+      `User ${req.user._id} - Profile Controller - getVideosById - Error ${error}`
+    );
     next(apiError.er(404, "Profile Videos Error"));
   }
 };
 
 exports.getFavVideosById = async (req, res, next) => {
   try {
-    // var videos = [];
-    // let userData = await user.findById(req.user._id);
-
-    // for (let videoId of userData.favVideos) {
-    //   let foundVideos = await videoModel.find({
-    //     _id: videoId,
-    //   });
-    //   videos.push(...foundVideos);
-    // }
-    // res.status(200).send(videos);
     user
       .findById(req.user._id)
       .select("favVideos")
@@ -72,8 +44,10 @@ exports.getFavVideosById = async (req, res, next) => {
           });
       });
   } catch (error) {
+    logger.error(
+      `User ${req.user._id} - Profile Controller - getFavVideosById - Error ${error}`
+    );
     next(apiError.er(404, "Profile Videos Error"));
-    // console.log(error);
   }
 };
 
@@ -95,13 +69,12 @@ exports.getData = async (req, res, next) => {
       .find({ _id: { $in: doneVideosIds } })
       .exec();
 
-    console.log(favVideos, doneVideos);
     res.send({ userData: req.user, fav: favVideos, done: doneVideos });
-
-    // res.status(200).send(req.user);
   } catch (error) {
-    console.log(error);
-    // next(apiError.er(404, "User Data Error"));
+    logger.error(
+      `User ${req.user._id} - Profile Controller - getData - Error ${error}`
+    );
+    next(apiError.er(404, "User Data Error"));
   }
 };
 
@@ -122,6 +95,9 @@ exports.addToFav = async (req, res, next) => {
         .then(res.status(200).send("Done"));
     });
   } catch (error) {
+    logger.error(
+      `User ${req.user._id} - Profile Controller - addToFav - Error ${error}`
+    );
     next(apiError.er(404, "Error"));
   }
 };
@@ -137,6 +113,10 @@ exports.removeFromFav = async (req, res, next) => {
     );
     res.status(200).send(req.user._id);
   } catch (error) {
+    logger.error(
+      `User ${req.user._id} - Profile Controller - removeFromFav - Error ${error}`
+    );
+
     next(apiError.er(404, "Error"));
   }
 };
@@ -152,35 +132,44 @@ exports.removeFromHighlight = async (req, res, next) => {
     );
     res.status(200).send("Deleted");
   } catch (error) {
-    // console.error(error);
+    logger.error(
+      `User ${req.user._id} - Profile Controller - removeFromFav - Error ${error}`
+    );
     next(apiError.er(404, "Error"));
   }
 };
 
 exports.uploadProfilePic = async (req, res) => {
-  pict = {
-    name: req.file.originalname,
-    image: {
-      data: req.file.buffer,
-      contentType: req.file.mimetype,
-    },
-  };
-  await user.findByIdAndUpdate(
-    req.user._id,
-    {
-      pic: pict,
-    },
-    { new: true }
-  );
-
-  res
-    .status(200)
-    .send(
-      "data:" +
-        pict.image.contentType +
-        ";base64," +
-        pict.image.data.toString("base64")
+  try {
+    pict = {
+      name: req.file.originalname,
+      image: {
+        data: req.file.buffer,
+        contentType: req.file.mimetype,
+      },
+    };
+    await user.findByIdAndUpdate(
+      req.user._id,
+      {
+        pic: pict,
+      },
+      { new: true }
     );
+
+    res
+      .status(200)
+      .send(
+        "data:" +
+          pict.image.contentType +
+          ";base64," +
+          pict.image.data.toString("base64")
+      );
+  } catch (error) {
+    logger.error(
+      `User ${req.user._id} - Profile Controller - uploadProfilePic - Error ${error}`
+    );
+    next(apiError.er(404, "Error"));
+  }
 };
 
 exports.editProfile = async (req, res, next) => {
@@ -232,7 +221,9 @@ exports.editProfile = async (req, res, next) => {
       // res.status(400).send("Wrong Password");
     }
   } catch (error) {
-    // console.error(error);
+    logger.error(
+      `User ${req.user._id} - Profile Controller - editProfile - Error ${error}`
+    );
     next(apiError.er(400, "Error on Editing"));
   }
 };

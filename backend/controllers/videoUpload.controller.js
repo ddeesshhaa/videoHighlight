@@ -11,6 +11,7 @@ const { checkVideo } = require("../modelFunctions/checkVideoType");
 const mkdtemp = promisify(fs.mkdtemp);
 const os = require("os");
 const { default: mongoose } = require("mongoose");
+const logger = require("../errorHandler/logger");
 
 exports.uploadVideo = async (req, res, next) => {
   try {
@@ -22,9 +23,7 @@ exports.uploadVideo = async (req, res, next) => {
     ext = videoBaseNameArray[videoBaseNameArray.length - 1];
     var myId = new ObjectId();
     req.body.id = myId;
-    // FolderName = "Video-" + myId.toString();
     videoNewName = "Video-" + myId.toString();
-    // videoNewName = FolderName + "." + ext;
 
     rootPath = path.join(
       __dirname,
@@ -62,45 +61,10 @@ exports.uploadVideo = async (req, res, next) => {
     } else {
       res.status(400).send("Not Soccer Video");
     }
-    // .then(() => {
-    //   console.log("Uploaded successfully " + videoNewName);
-    // })
-    // .catch((err) => {
-    //   // console.error("Video Upload Error: " + err);
-    //   next(apiError.intErr("Video Upload Error"));
-    // });
-
-    // res.status(200).send("Video Uploaded");
   } catch (error) {
-    console.log(error);
-    // next(apiError.intErr("Error on Uploading"));
+    logger.error(
+      `USER : ${req.user._id} - Video Upload Controller - uploadVideo - Error ${error}`
+    );
+    next(apiError.intErr("Error on uploadVideo"));
   }
 };
-
-// exports.uploadVideo = async (req, res) => {
-//   if (!req.file) {
-//     res.status(400).send("No file uploaded");
-//     return;
-//   }
-//   cloudinary.config({
-//     cloud_name: "dbc3nc7vb",
-//     api_key: "991987112235953",
-//     api_secret: "y90XLdfxRWgjXoVBHZA1dSjPUMQ",
-//   });
-//   cloudinary.uploader.upload(
-//     filePath,
-//     { resource_type: "video" },
-//     (error, result) => {
-//       if (error) {
-//         console.error("Error uploading video to Cloudinary:", error);
-//         res.status(500).send("Error uploading video");
-//         return;
-//       }
-
-//       // Do something with the Cloudinary result, such as saving the URL to a database
-//       console.log("Video URL:", result.secure_url);
-
-//       res.status(200).send("Video uploaded to Cloudinary");
-//     }
-//   );
-// };

@@ -7,6 +7,7 @@ const mkdtemp = promisify(fs.mkdtemp);
 const mkdir = promisify(fs.mkdir);
 const user = require("../models/user.model");
 const apiError = require("../errorHandler/apiError");
+const logger = require("../errorHandler/logger");
 
 const { runClassificationModel, extractFrames } = require("./runCheckModel");
 
@@ -29,7 +30,7 @@ exports.checkVideo = async (videoName, ext, tempDir, next) => {
     });
     return res;
   } catch (error) {
+    logger.error(`Model Functions - checkVideo - Error ${error}`);
     next(apiError.intErr("Error on checkVideo"));
-    // console.error(error);
   }
 };

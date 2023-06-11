@@ -3,7 +3,10 @@ const path = require("path");
 
 exports.merge = (tempPath, videoName, ext) => {
   return new Promise((resolve, reject) => {
-    jpgPyPath = path.join(
+    let vN = videoName;
+    let tD = tempPath;
+    let ex = ext;
+    let jpgPyPath = path.join(
       __dirname,
       "../",
       "assets",
@@ -13,12 +16,12 @@ exports.merge = (tempPath, videoName, ext) => {
       "merge.py"
     );
 
-    watermarkPath = path.join(__dirname, "../", "assets", "watermark.png");
+    let watermarkPath = path.join(__dirname, "../", "assets", "watermark.png");
     const splitVideo = spawn(process.env.PYTHON_VERSION, [
       jpgPyPath,
-      tempPath,
-      videoName,
-      ext,
+      tD,
+      vN,
+      ex,
       watermarkPath,
     ]);
     splitVideo.stdout.on("data", (data) => {
@@ -27,12 +30,12 @@ exports.merge = (tempPath, videoName, ext) => {
 
     splitVideo.stderr.on("data", (data) => {
       // console.error(`stderr: ${data}`);
-      // reject("error on Merging");
+      // reject("error on Merging: " + data);
     });
 
     splitVideo.on("close", (code) => {
       // console.log(`child process exited with code ${code}`);
-      resolve(tempPath);
+      resolve();
     });
   });
 };
