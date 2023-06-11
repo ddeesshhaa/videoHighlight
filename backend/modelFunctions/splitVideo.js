@@ -24,11 +24,11 @@ exports.splitVideo = (videoName, ext, tempDir) => {
     ]);
     splitVideo.stdout.on("data", (data) => {
       // console.log(data);
-      // console.log(`stdout: ${data}`);
+      console.log(`stdout: ${data}`);
     });
 
     splitVideo.stderr.on("data", (data) => {
-      // console.error(`stderr: ${data}`);
+      console.error(`stderr: ${data}`);
       // reject("Can't Split Video:" + data);
     });
 

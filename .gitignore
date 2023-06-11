@@ -4,3 +4,4 @@ backend/.DS_Store
 backend/temp-audio.m4a
 backend/assets/generate/ClassificationModel/vgg16_model.h5
 backend/assets/generate/ClassificationModel/vgg16_model3.h5
+backend/app.log

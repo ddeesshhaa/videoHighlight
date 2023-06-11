@@ -26,7 +26,7 @@ exports.clipToJpg = (videoName, tempPath, ext) => {
     });
 
     splitVideo.stderr.on("data", (data) => {
-      // console.error(`stderr: ${data}`);
+      console.error(`stderr: ${data}`);
       // reject("error on Making JPGs: " + data);
     });
 
