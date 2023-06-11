@@ -14,54 +14,94 @@ const bcrypt = require("bcrypt");
 //   }
 // };
 exports.getVideosById = async (req, res, next) => {
-  try {
-    let userData = await user.findById(req.user._id);
+  // try {
+  //   let userData = await user.findById(req.user._id);
 
-    let videos = [];
-    for (let videoIdx of userData.doneVideos) {
-      let foundVideo = await videoModel.find({ _id: videoIdx });
-      videos.push(...foundVideo);
-    }
-    res.status(200).send(videos);
-  } catch (err) {
-    // console.log(err);
+  //   let videos = [];
+  //   for (let videoIdx of userData.doneVideos) {
+  //     let foundVideo = await videoModel.find({ _id: videoIdx });
+  //     videos.push(...foundVideo);
+  //   }
+  //   res.status(200).send(videos);
+  // } catch (err) {
+  //   // console.log(err);
+  //   next(apiError.er(404, "Profile Videos Error"));
+  // }
+  try {
+    user
+      .findById(req.user._id)
+      .select("doneVideos")
+      .exec()
+      .then((userData) => {
+        const doneVideoIds = userData.doneVideos; // Array of video IDs
+        videoModel
+          .find({ _id: { $in: doneVideoIds } })
+          .exec()
+          .then((videos) => {
+            res.status(200).send(videos);
+          });
+      });
+  } catch (error) {
     next(apiError.er(404, "Profile Videos Error"));
   }
 };
 
-//     userData["doneVideos"].forEach((videoId) => {
-//       videoModel.find({ _id: videoId }).then((videos) => {
-//         res.status(200).send("videos");
-//       });
-//     });
-//   } catch (error) {
-//     next(apiError.er(404, "Profile Videos Error"));
-//   }
-// };
-
 exports.getFavVideosById = async (req, res, next) => {
   try {
-    var videos = [];
-    let userData = await user.findById(req.user._id);
+    // var videos = [];
+    // let userData = await user.findById(req.user._id);
 
-    for (let videoId of userData.favVideos) {
-      let foundVideos = await videoModel.find({
-        _id: videoId,
+    // for (let videoId of userData.favVideos) {
+    //   let foundVideos = await videoModel.find({
+    //     _id: videoId,
+    //   });
+    //   videos.push(...foundVideos);
+    // }
+    // res.status(200).send(videos);
+    user
+      .findById(req.user._id)
+      .select("favVideos")
+      .exec()
+      .then((userData) => {
+        let favVideosIds = userData.favVideos;
+        videoModel
+          .find({ _id: { $in: favVideosIds } })
+          .exec()
+          .then((videos) => {
+            res.status(200).send(videos);
+          });
       });
-      videos.push(...foundVideos);
-    }
-    res.status(200).send(videos);
   } catch (error) {
     next(apiError.er(404, "Profile Videos Error"));
     // console.log(error);
   }
 };
 
-exports.getData = (req, res, next) => {
+exports.getData = async (req, res, next) => {
   try {
-    res.status(200).send(req.user);
+    let userData = await user
+      .findById(req.user._id)
+      .select("doneVideos favVideos")
+      .exec();
+
+    let favVideosIds = userData.favVideos;
+    let doneVideosIds = userData.doneVideos;
+
+    var favVideos = await videoModel
+      .find({ _id: { $in: favVideosIds } })
+      .exec();
+
+    var doneVideos = await videoModel
+      .find({ _id: { $in: doneVideosIds } })
+      .exec();
+
+    console.log(favVideos, doneVideos);
+    res.send({ userData: req.user, fav: favVideos, done: doneVideos });
+
+    // res.status(200).send(req.user);
   } catch (error) {
-    next(apiError.er(404, "User Data Error"));
+    console.log(error);
+    // next(apiError.er(404, "User Data Error"));
   }
 };
 

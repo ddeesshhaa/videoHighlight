@@ -1,4 +1,6 @@
 const mongoose = require("mongoose");
+const videoModel = require("./video.model");
+
 
 const userSchema = mongoose.Schema(
   {
@@ -28,15 +30,15 @@ const userSchema = mongoose.Schema(
       default: "user",
     },
     uploadedVideos: {
-      type: Array,
+      type: [{ type: mongoose.Schema.Types.ObjectId, ref: "videoModel" }],
       default: [],
     },
     favVideos: {
-      type: Array,
+      type: [{ type: mongoose.Schema.Types.ObjectId, ref: "videoModel" }],
       default: [],
     },
     doneVideos: {
-      type: Array,
+      type: [{ type: mongoose.Schema.Types.ObjectId, ref: "videoModel" }],
       default: [],
     },
     lastRequest: Date,
