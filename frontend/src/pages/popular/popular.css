@@ -16,7 +16,7 @@
 
 
 .veedio-card{
-    background-color: #161616;
+    background-color: #1c1e21;
     padding: 1.5rem;
     display: flex;
     flex-direction: column;
@@ -78,6 +78,7 @@
 
 .titlee{
     justify-content: space-between;
+    align-items: center;
     margin-top: 0.5rem;
     width: 100%;
 }

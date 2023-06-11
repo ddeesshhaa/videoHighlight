@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
+import ReactPlayer from 'react-player/youtube'
+
 import LoaderBall from "../../components/loader/LoaderBall";
 import { BiTrendingUp } from "react-icons/bi";
 import {AiFillHeart , AiOutlineCloudDownload} from 'react-icons/ai';
@@ -28,7 +30,7 @@ const Popular = () => {
           .get(`http://localhost:8080/videos/all`)
           .then(async (popvideos) => {
             if(user){
-            console.log("asnd" + popvideos.data);
+            //console.log("asnd" + JSON.stringify(popvideos.data.owner));
             await axios
               .get("http://localhost:8080/profile/getFavVideos", {
                 headers: {
@@ -47,6 +49,7 @@ const Popular = () => {
                   isFavorite: favVideosIds.includes(voood._id),
                 }));
                 setPopularVideos(updatedVideos);
+                console.log(popularVideos);
                 setIsLoading(false);
               });
           }else{
@@ -129,11 +132,11 @@ const Popular = () => {
                   key={video._id}
                   style={{ maxWidth: "450px" }}
                 >
-                <div className="d-flex titlee" style={{}}>
+                <div className="d-flex titlee" style={{borderBottom:'0.5px solid white', marginBottom:'1rem'}}>
                   <div className="owner d-flex justify-content-space-between ">
                 
                         <Link
-                          to={`/profile/${video.owner?.id}`}
+                          to={`/profile/${video.owner._id}`}
                           style={{ color: "unset", textDecoration: "none" }}
                           className="d-flex align-items-center gap-1"
                         >
@@ -163,6 +166,14 @@ const Popular = () => {
                   >
                     {" "}
                   </video>
+                  {/* <ReactPlayer url={video?.highlightUrl} config={{
+    youtube: {
+      playerVars: { showinfo: 1 }
+    },
+    facebook: {
+      appId: '12345'
+    }
+  }} controls/> */}
                   <div className="d-flex titlee">
                   <OverlayTrigger
                     overlay={

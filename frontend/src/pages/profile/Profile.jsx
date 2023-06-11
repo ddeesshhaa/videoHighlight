@@ -3,7 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import { ThreeDots } from "react-loader-spinner";
 
 import { MdOutlineVideoLibrary, MdOutlineFavorite } from "react-icons/md";
-import { AiOutlineArrowDown } from "react-icons/ai";
+import { AiOutlineCloudDownload } from "react-icons/ai";
 
 import { MdDelete } from "react-icons/md";
 
@@ -309,7 +309,7 @@ const Profile = () => {
                       )}
 
                       <a download="" href={vod.highlightUrl}>
-                        <AiOutlineArrowDown
+                        <AiOutlineCloudDownload
                           style={{
                             color: "white",
                             marginLeft: "0.5rem",
@@ -389,7 +389,7 @@ const Profile = () => {
                         />
                       )}
                       <a download="" href={vod.highlightUrl}>
-                        <AiOutlineArrowDown
+                        <AiOutlineCloudDownload
                           style={{
                             color: "white",
                             marginLeft: "0.5rem",
