@@ -84,12 +84,14 @@ const VedioInput = () => {
 
   /*End of handle click */
 
-  /*start of the generate function */
+  let reqId; /*start of the generate function */
   const genVideo = async (e) => {
     console.log(vedio);
     e.preventDefault();
     setIsLoading(true);
-    var reqId = uuidv4();
+    let requestIdd = uuidv4();
+    reqId = requestIdd;
+
     try {
       const source = axios.CancelToken.source();
       setCancelToken(source);
@@ -99,7 +101,7 @@ const VedioInput = () => {
           `http://localhost:8080/upload`,
           {
             video: vedio,
-            requestId: reqId,
+            requestId: requestIdd,
           },
           {
             headers: {
@@ -135,16 +137,20 @@ const VedioInput = () => {
   };
 
   const handleCancelClick = async () => {
-    await axios.post('localhost:8080/generate/cancel',
-    {
-      requestId: reqId,
-    },
-    {
-      headers: {
-        Authorization: JSON.parse(localStorage.getItem("vh_user")).token,
-      },
-    }
-    ).then(res => console.log(res))
+    console.log(reqId);
+    await axios
+      .post(
+        "http://localhost:8080/generate/cancel",
+        {
+          requestId: reqId,
+        },
+        {
+          headers: {
+            Authorization: JSON.parse(localStorage.getItem("vh_user")).token,
+          },
+        }
+      )
+      .then((res) => console.log(res));
     setIsLoading(false);
     setIsHighlight(false);
   };

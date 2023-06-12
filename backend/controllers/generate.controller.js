@@ -92,6 +92,8 @@ exports.generateVideo = async (req, res, next) => {
 exports.cancelRequest = async (req, res, next) => {
   const requestId = req.body.requestId;
 
+  console.log(requestId);
+
   activeRequests[requestId] = false;
 
   res.status(200).json({ message: "Request canceled" });
