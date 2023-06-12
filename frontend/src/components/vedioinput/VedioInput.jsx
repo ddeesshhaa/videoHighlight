@@ -37,7 +37,7 @@ const VedioInput = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isHighlight, setIsHighlight] = useState(false);
   const [fileName, setFileName] = useState("No selected file");
-  const [cancelToken, setCancelToken] = useState(null);
+  const [cancelId, setCancelId] = useState(null);
 
   /*start of handle file function */
 
@@ -84,24 +84,21 @@ const VedioInput = () => {
 
   /*End of handle click */
 
-  let reqId; /*start of the generate function */
+  /*start of the generate function */
   const genVideo = async (e) => {
     console.log(vedio);
     e.preventDefault();
     setIsLoading(true);
-    let requestIdd = uuidv4();
-    reqId = requestIdd;
+    setCancelId(uuidv4());
 
     try {
-      const source = axios.CancelToken.source();
-      setCancelToken(source);
 
       await axios
         .post(
           `http://localhost:8080/upload`,
           {
             video: vedio,
-            requestId: requestIdd,
+            requestId: cancelId,
           },
           {
             headers: {
@@ -109,7 +106,6 @@ const VedioInput = () => {
               Authorization: JSON.parse(localStorage.getItem("vh_user")).token,
             },
           },
-          { cancelToken: source.token }
         )
         .then((url) => {
           videoUrl = JSON.stringify(url.data.urlH);
@@ -119,13 +115,7 @@ const VedioInput = () => {
           console.log("This is video  " + videoUrl);
         });
     } catch (error) {
-      if (axios.isCancel(error)) {
-        console.log("Request canceled:", error.message);
-      } else {
-        console.log(error);
-      }
-    } finally {
-      setCancelToken(null);
+      console.log(error);
     }
   };
 
@@ -137,12 +127,12 @@ const VedioInput = () => {
   };
 
   const handleCancelClick = async () => {
-    console.log(reqId);
+    console.log(cancelId)
     await axios
       .post(
         "http://localhost:8080/generate/cancel",
         {
-          requestId: reqId,
+          requestId: cancelId,
         },
         {
           headers: {
