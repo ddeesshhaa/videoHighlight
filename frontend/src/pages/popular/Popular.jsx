@@ -122,7 +122,7 @@ const Popular = () => {
       </div>
 
       {isLoading ? (
-        <LoaderBall message={"Loading popular videos"} />
+        <LoaderBall message={"Loading Recent videos"} />
       ) : (
         <div className="sports-cont">
           <div className="sport-cont">

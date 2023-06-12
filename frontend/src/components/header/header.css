@@ -174,9 +174,11 @@ a{
 }
 
 
+
 @media screen and (max-width:576px) {
     .navbar-custom{
         padding-right: 1rem !important;
     }
     
 }
+
