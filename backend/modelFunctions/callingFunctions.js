@@ -14,60 +14,53 @@ const apiError = require("../errorHandler/apiError");
 const logger = require("../errorHandler/logger");
 const copyFile = promisify(fs.copyFile);
 
-exports.callingFunctions = async (
-  videoName,
-  ext,
-  tempDir,
-  activeRequests,
-  reqId,
-  next
-) => {
+exports.callingFunctions = async (videoName, ext, tempDir, reqId, next) => {
   console.log("Working on => " + videoName);
 
   try {
-    if (!activeRequests[reqId]) {
+    if (!global.activeRequests[reqId]) {
       return;
     }
     await splitVideo(videoName, ext, tempDir);
     console.log("1- Creating Clips Done");
 
-    if (!activeRequests[reqId]) {
+    if (!global.activeRequests[reqId]) {
       return;
     }
     await clipToJpg(videoName, tempDir, ext);
     console.log("2- Clips to JPG Done");
 
-    if (!activeRequests[reqId]) {
+    if (!global.activeRequests[reqId]) {
       return;
     }
     await getVideoName(videoName, tempDir);
     console.log("3- Making Video Names Done");
 
-    if (!activeRequests[reqId]) {
+    if (!global.activeRequests[reqId]) {
       return;
     }
     await jpgToJson(videoName, tempDir);
     console.log("4- Json Created Successfully");
 
-    if (!activeRequests[reqId]) {
+    if (!global.activeRequests[reqId]) {
       return;
     }
     await runModel(tempDir);
     console.log("5- Model Done");
 
-    if (!activeRequests[reqId]) {
+    if (!global.activeRequests[reqId]) {
       return;
     }
     await ExtractJson(videoName, tempDir);
     console.log("6- Extract Json Done");
 
-    if (!activeRequests[reqId]) {
+    if (!global.activeRequests[reqId]) {
       return;
     }
     await merge(tempDir, videoName, ext);
     console.log("7- Merge Done, Path: " + tempDir);
 
-    if (!activeRequests[reqId]) {
+    if (!global.activeRequests[reqId]) {
       return;
     }
     const highlightFilePath = path.join(
@@ -80,7 +73,7 @@ exports.callingFunctions = async (
     // );
     let url = await uploadToCloud(videoName, highlightFilePath);
     console.log("8- Upload Done, Url: " + url);
-    if (!activeRequests[reqId]) {
+    if (!global.activeRequests[reqId]) {
       return;
     }
 

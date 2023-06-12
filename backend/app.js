@@ -12,6 +12,8 @@ const app = express();
 const dbConnect = require("./utils/db.util");
 dbConnect.dbConnect();
 
+global.activeRequests = {};
+
 if (process.env.NODE_ENV === "dev") {
   app.use(morgan("dev"));
   console.log("Mode :" + process.env.NODE_ENV);

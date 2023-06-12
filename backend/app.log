@@ -1,5 +1,0 @@
-error: User 647a07a36c961f8f4c562bcc - Generate Controller - Error TypeError [ERR_INVALID_ARG_TYPE]: The "chunk" argument must be of type string or an instance of Buffer or Uint8Array. Received an instance of ObjectId {"timestamp":"2023-06-12T17:57:29.929Z"}
-error: User 647a07a36c961f8f4c562bcc - Generate Controller - Error TypeError [ERR_INVALID_ARG_TYPE]: The "chunk" argument must be of type string or an instance of Buffer or Uint8Array. Received an instance of ObjectId {"timestamp":"2023-06-12T17:57:48.149Z"}
-error: User 647a07a36c961f8f4c562bcc - Generate Controller - Error ReferenceError: requestId is not defined {"timestamp":"2023-06-12T18:24:35.309Z"}
-error: Token Controller - auth - Error JsonWebTokenError: jwt must be provided {"timestamp":"2023-06-12T18:25:40.721Z"}
-error: Generate Controller - callingFunctions - Error ReferenceError: res is not defined {"timestamp":"2023-06-12T18:30:36.064Z"}

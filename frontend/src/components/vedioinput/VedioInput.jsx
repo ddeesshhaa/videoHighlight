@@ -37,7 +37,7 @@ const VedioInput = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isHighlight, setIsHighlight] = useState(false);
   const [fileName, setFileName] = useState("No selected file");
-  const [cancelId, setCancelId] = useState(null);
+  const [cancelId, setCancelId] = useState(uuidv4);
 
   /*start of handle file function */
 
@@ -89,10 +89,8 @@ const VedioInput = () => {
     console.log(vedio);
     e.preventDefault();
     setIsLoading(true);
-    setCancelId(uuidv4());
 
     try {
-
       await axios
         .post(
           `http://localhost:8080/upload`,
@@ -105,7 +103,7 @@ const VedioInput = () => {
               "Content-Type": "multipart/form-data",
               Authorization: JSON.parse(localStorage.getItem("vh_user")).token,
             },
-          },
+          }
         )
         .then((url) => {
           videoUrl = JSON.stringify(url.data.urlH);
@@ -127,7 +125,6 @@ const VedioInput = () => {
   };
 
   const handleCancelClick = async () => {
-    console.log(cancelId)
     await axios
       .post(
         "http://localhost:8080/generate/cancel",
@@ -141,6 +138,7 @@ const VedioInput = () => {
         }
       )
       .then((res) => console.log(res));
+    setCancelId(uuidv4());
     setIsLoading(false);
     setIsHighlight(false);
   };

@@ -12,9 +12,17 @@ const mkdtemp = promisify(fs.mkdtemp);
 const os = require("os");
 const { default: mongoose } = require("mongoose");
 const logger = require("../errorHandler/logger");
+const { checkReqIsCanceled } = require("../errorHandler/reqCancel");
 
 exports.uploadVideo = async (req, res, next) => {
   try {
+    req.reqId = req.body.requestId;
+    let reqId = req.reqId;
+    global.activeRequests[reqId] = true;
+
+    if (checkReqIsCanceled(reqId)) {
+      return res.status(201).json({ message: "Request canceled" });
+    }
     let video = req.files.video;
     let videoBaseName = video.name;
     videoBaseNameArray = videoBaseName.split(".");
@@ -33,6 +41,10 @@ exports.uploadVideo = async (req, res, next) => {
       "videos",
       videoNewName
     );
+    if (checkReqIsCanceled(reqId)) {
+      return res.status(201).json({ message: "Request canceled" });
+    }
+
     mkdir(rootPath);
     video.mv(path.join(rootPath, videoNewName + "." + ext));
 
@@ -48,6 +60,9 @@ exports.uploadVideo = async (req, res, next) => {
         videoName: videoNewName,
       };
       myVid = new videoModel(data);
+      if (checkReqIsCanceled(reqId)) {
+        return res.status(201).json({ message: "Request canceled" });
+      }
       await myVid.save();
       await user.findByIdAndUpdate(
         req.user._id,
