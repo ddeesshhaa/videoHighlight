@@ -1,7 +1,7 @@
 .sport-cont{
     display: flex;
     flex-direction: column;
-    
+    width: 100%;
     margin-top: 2rem;
     color: white ;
 }

@@ -123,14 +123,11 @@ a{
   
   .navbar-toggler{
     background-color: #6aac28 !important;
+   background-image: url('data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 30 30%27%3e%3cpath stroke=%27rgba%280, 0, 0, 0.55%29%27 stroke-linecap=%27round%27 stroke-miterlimit=%2710%27 stroke-width=%272%27 d=%27M4 7h22M4 15h22M4 23h22%27/%3e%3c/svg%3e');
+   background-repeat: no-repeat;
+    background-position: center;
   }
 
-  /* .container{
-    display: flex !important;
-    justify-content: space-between !important;
-  } */
-
-  
 
 .navLink{
     
@@ -153,7 +150,7 @@ a{
 @media screen and (max-width:991px) {
     .navbar-collapse{
         background-color: #6aac28 !important;
-        padding-left: 1rem !important;
+        /* padding-left: 1rem !important; */
     }
 
     .navLink{

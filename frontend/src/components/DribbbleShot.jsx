@@ -11,7 +11,7 @@ import Link from '@mui/joy/Link';
 /* import Favorite from '@mui/icons-material/Favorite';
 import Visibility from '@mui/icons-material/Visibility'; */
 
-import vod from '../assests/2015-05-17 - 18-00 Manchester United 1 - 1 Arsenalg6.mkv';
+//import vod from '../assests/2015-05-17 - 18-00 Manchester United 1 - 1 Arsenalg6.mkv';
 
 export default function DribbbleShot() {
   return (
@@ -26,14 +26,6 @@ export default function DribbbleShot() {
       <Box sx={{ position: 'relative' }}>
         <AspectRatio ratio="4/3">
         
-          <video
-            controls
-            
-          >
-            <source
-              src={vod}
-            />
-          </video>
           
         </AspectRatio>
         <CardCover
