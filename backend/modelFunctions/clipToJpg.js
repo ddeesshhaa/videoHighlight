@@ -3,9 +3,10 @@ const path = require("path");
 
 exports.clipToJpg = (videoName, tempPath, ext) => {
   return new Promise((resolve, reject) => {
-    vName = videoName;
-    ext = ext;
-    jpgPyPath = path.join(
+    let vN = videoName;
+    let tD = tempPath;
+    let ex = ext;
+    let jpgPyPath = path.join(
       __dirname,
       "../",
       "assets",
@@ -16,9 +17,9 @@ exports.clipToJpg = (videoName, tempPath, ext) => {
     );
     const splitVideo = spawn(process.env.PYTHON_VERSION, [
       jpgPyPath,
-      videoName,
-      tempPath,
-      ext,
+      vN,
+      tD,
+      ex,
     ]);
     splitVideo.stdout.on("data", (data) => {
       // console.log(`stdout: ${data}`);
@@ -26,12 +27,12 @@ exports.clipToJpg = (videoName, tempPath, ext) => {
 
     splitVideo.stderr.on("data", (data) => {
       // console.error(`stderr: ${data}`);
-      // reject("error on Making JPGs");
+      // reject("error on Making JPGs: " + data);
     });
 
     splitVideo.on("close", (code) => {
       // console.log(`child process exited with code ${code}`);
-      resolve({ vName, tempPath });
+      resolve();
     });
   });
 };

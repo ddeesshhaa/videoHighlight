@@ -1,4 +1,5 @@
 const apiError = require("../errorHandler/apiError");
+const logger = require("../errorHandler/logger");
 const user = require("../models/user.model");
 const users = require("../models/user.model");
 const bcrypt = require("bcrypt");
@@ -7,7 +8,6 @@ const bcrypt = require("bcrypt");
 
 exports.addUser = async (req, res, next) => {
   try {
-    // if (Object.keys(req.body).length == 4) {
     const hash = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10));
     let data = {
       firstName: req.body.firstName,
@@ -24,13 +24,15 @@ exports.addUser = async (req, res, next) => {
     };
 
     if (!((await user.findOne({ email: req.body.email })) === null)) {
-      next(apiError.er(500, "Email is already exist"));
-      // res.status(500).send("Email is already exist");
+      next(apiError.er(400, "Email is already exist"));
     } else {
       await users.create(data);
-      res.status(200).send("Done");
+      res.status(200).send("Registered Successfully");
     }
   } catch (error) {
+    logger.error(
+      `User ${email} - Signup Controller - addUser - Error ${error}`
+    );
     next(apiError.intErr("error"));
   }
 };

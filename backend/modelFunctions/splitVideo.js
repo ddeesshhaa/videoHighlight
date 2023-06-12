@@ -3,7 +3,11 @@ const path = require("path");
 
 exports.splitVideo = (videoName, ext, tempDir) => {
   return new Promise((resolve, reject) => {
-    splitPyPath = path.join(
+    let vN = videoName;
+    let tD = tempDir;
+    let ex = ext;
+
+    let splitPyPath = path.join(
       __dirname,
       "../",
       "assets",
@@ -14,9 +18,9 @@ exports.splitVideo = (videoName, ext, tempDir) => {
     );
     const splitVideo = spawn(process.env.PYTHON_VERSION, [
       splitPyPath,
-      videoName,
-      tempDir,
-      ext,
+      vN,
+      tD,
+      ex,
     ]);
     splitVideo.stdout.on("data", (data) => {
       // console.log(data);
@@ -25,12 +29,12 @@ exports.splitVideo = (videoName, ext, tempDir) => {
 
     splitVideo.stderr.on("data", (data) => {
       // console.error(`stderr: ${data}`);
-      // reject(data);
+      // reject("Can't Split Video:" + data);
     });
 
     splitVideo.on("close", (code) => {
       // console.log(`child process exited with code ${code}`);
-      resolve({ videoName, tempDir, ext });
+      resolve();
     });
   });
 };

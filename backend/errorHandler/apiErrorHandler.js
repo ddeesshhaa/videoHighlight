@@ -5,7 +5,6 @@ function apiErrorHandler(err, req, res, next) {
     res.status(500).send(err.msg);
     return;
   }
-  // res.send(err);
   res.send("something went wrong!!");
 }
 

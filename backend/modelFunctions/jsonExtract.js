@@ -2,7 +2,7 @@ const { spawn } = require("child_process");
 const path = require("path");
 exports.ExtractJson = (videoName, tempPath) => {
   return new Promise((resolve, reject) => {
-    jsonExtractPath = path.join(
+    let jsonExtractPath = path.join(
       __dirname,
       "../",
       "assets",
@@ -11,7 +11,7 @@ exports.ExtractJson = (videoName, tempPath) => {
       "utils",
       "jsonExtract.py"
     );
-    resultJsonPath = path.join(tempPath, "result", "test.json");
+    let resultJsonPath = path.join(tempPath, "result", "test.json");
     const jsonExtract = spawn(process.env.PYTHON_VERSION, [
       jsonExtractPath,
       resultJsonPath,
@@ -22,12 +22,12 @@ exports.ExtractJson = (videoName, tempPath) => {
 
     jsonExtract.stderr.on("data", (data) => {
       // console.error(`stderr: ${data}`);
-      // reject("Error on Extracting Json");
+      // reject("Error on Extracting Json: " + data);
     });
 
     jsonExtract.on("close", (code) => {
       // console.log(`child process exited with code ${code}`);
-      resolve({ videoName, tempPath });
+      resolve();
     });
   });
 };

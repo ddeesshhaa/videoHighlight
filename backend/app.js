@@ -15,6 +15,9 @@ dbConnect.dbConnect();
 if (process.env.NODE_ENV === "dev") {
   app.use(morgan("dev"));
   console.log("Mode :" + process.env.NODE_ENV);
+} else {
+  app.use(morgan("tiny"));
+  console.log("Mode :" + process.env.NODE_ENV);
 }
 //Middleware
 app.use(express.urlencoded({ extended: true }));
@@ -39,7 +42,7 @@ app.use("/profile", profileRouter);
 app.use("/videos", videosRouter);
 app.use("/upload", videoUpload);
 app.use("/generate", generateRouter);
-app.use((req, res, next) => {
+app.use((req,res,next) => {
   res.status(404).send("Error 404 Not Found");
 });
 

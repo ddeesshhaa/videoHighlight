@@ -1,9 +1,10 @@
 const { spawn } = require("child_process");
 const path = require("path");
 
-exports.runModel = (tempDir) => {
+exports.runModel = (tempPath) => {
   return new Promise((resolve, reject) => {
-    mainPyPath = path.join(
+    let tD = tempPath;
+    let mainPyPath = path.join(
       __dirname,
       "../",
       "assets",
@@ -14,7 +15,7 @@ exports.runModel = (tempDir) => {
     const splitVideo = spawn(process.env.PYTHON_VERSION, [
       mainPyPath,
       "--root_path",
-      tempDir + "/",
+      tD + "/",
     ]);
     splitVideo.stdout.on("data", (data) => {
       // console.log(`stdout: ${data}`);
@@ -23,12 +24,12 @@ exports.runModel = (tempDir) => {
 
     splitVideo.stderr.on("data", (data) => {
       // console.error(`stderr: ${data}`);
-      // reject("error on step 1");
+      // reject("error on model: " + data);
     });
 
     splitVideo.on("close", (code) => {
       // console.log(`child process exited with code ${code}`);
-      resolve(tempDir);
+      resolve();
     });
   });
 };

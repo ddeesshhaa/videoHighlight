@@ -17,6 +17,7 @@
     "child_process": "^1.0.2",
     "cloudinary": "^1.37.0",
     "cors": "^2.8.5",
+    "dotenv": "^16.1.4",
     "express": "^4.18.2",
     "express-fileupload": "^1.4.0",
     "file-upload": "^0.0.0",
@@ -30,6 +31,7 @@
     "morgan": "^1.10.0",
     "multer": "^1.4.5-lts.1",
     "npm": "^9.6.4",
-    "request-promise": "^4.2.6"
+    "request-promise": "^4.2.6",
+    "winston": "^3.9.0"
   }
 }

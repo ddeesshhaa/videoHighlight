@@ -1,0 +1,9 @@
+1- create Videos folder in assets/uploads
+2- create preTrained folder in assetes/generate
+
+
+download models:
+classification : https://drive.google.com/file/d/1ZWN4zoJk9AiPCj4WzjLwdCgLeDcClLbi/view - in classification folder
+opts : https://drive.google.com/file/d/15VnQcPt6OOZ_jG2oc4X2Rgk0BjAQSrFs/view - in preTrained folder
+r3d : https://drive.google.com/file/d/1fFN5J2He6eTqMPRl_M9gFtFfpUmhtQc9/view - in preTrained folder
+save_25 : https://drive.google.com/file/d/1_8tz_fueuVUIx-4ixuC4qdiTnPjk9Yue/view?usp=sharing - in preTrained folder
