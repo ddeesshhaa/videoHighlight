@@ -10,8 +10,13 @@ const { promisify } = require("util");
 const copyFile = promisify(fs.copyFile);
 const mkdir = promisify(fs.mkdir);
 
+const activeRequests = {};
+
 exports.generateVideo = async (req, res, next) => {
   try {
+    let reqId = req.body.requestId;
+    activeRequests[reqId] = true;
+    console.log(reqId);
     let video = await videoModel.findById(req.body.id);
     let userId = req.user._id;
     videoName = "Video-" + req.body.id;
@@ -41,16 +46,24 @@ exports.generateVideo = async (req, res, next) => {
       mkdir(path.join(tempDir, "result")),
       copyFile(classIndPath, path.join(tempDir, "json", "classInd.txt")),
     ]);
-
+    if (!activeRequests[reqId]) {
+      fsExtra.remove(tempDir);
+      fsExtra.remove(highlightPath);
+      return res.status(201).json({ message: "Request canceled" });
+    }
     let url = await modelFunctions.callingFunctions(
       videoName,
       ext,
       tempDir,
-      highlightPath,
-      res,
+      activeRequests,
+      reqId,
       next
     );
-
+    if (!activeRequests[reqId]) {
+      fsExtra.remove(tempDir);
+      fsExtra.remove(highlightPath);
+      return res.status(201).json({ message: "Request canceled" });
+    }
     await user.findByIdAndUpdate(
       userId,
       {
@@ -58,13 +71,28 @@ exports.generateVideo = async (req, res, next) => {
       },
       { new: true }
     );
-    fsExtra.remove(tempDir);
-    fsExtra.remove(highlightPath);
 
-    res.status(200).json({ urlH: url });
-    // res.end({ urlH: url });
+    if (url) {
+      res.status(200).json({ urlH: url });
+      fsExtra.remove(tempDir);
+      fsExtra.remove(highlightPath);
+    } else {
+      res.status(201).send("cancelled");
+      fsExtra.remove(tempDir);
+      fsExtra.remove(highlightPath);
+    }
+    delete activeRequests[reqId];
   } catch (error) {
     logger.error(`User ${req.user._id} - Generate Controller - Error ${error}`);
     next(apiError.intErr("Error on generating"));
+    delete activeRequests[reqId];
   }
+};
+
+exports.cancelRequest = async (req, res, next) => {
+  const requestId = req.body.requestId;
+
+  activeRequests[requestId] = false;
+
+  res.status(200).json({ message: "Request canceled" });
 };

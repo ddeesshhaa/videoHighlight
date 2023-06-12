@@ -1,11 +1,11 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 import { Row, Col } from "react-bootstrap";
 
 import { MdCloudUpload, MdDelete } from "react-icons/md";
-import {AiFillFileImage} from 'react-icons/ai';
+import { AiFillFileImage } from "react-icons/ai";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import { useNavigate } from "react-router-dom";
 
@@ -36,7 +36,7 @@ const VedioInput = () => {
   const [highlightedVideo, setHighlightedVideo] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const [isHighlight, setIsHighlight] = useState(false);
-  const [fileName,setFileName] = useState("No selected file");
+  const [fileName, setFileName] = useState("No selected file");
   const [cancelToken, setCancelToken] = useState(null);
 
   /*start of handle file function */
@@ -64,9 +64,9 @@ const VedioInput = () => {
     xhr.send(formData);
   };
 
- /*End of handle file function */
+  /*End of handle file function */
 
- /*start of handle new click */
+  /*start of handle new click */
 
   const handleNewClick = () => {
     setIsLoading(false);
@@ -75,7 +75,7 @@ const VedioInput = () => {
 
   /*Endof handle file function */
 
-/*start of handle click */
+  /*start of handle click */
   let videoUrl = "";
   const handleClick = () => {
     if (user) inputRef.current.click();
@@ -84,15 +84,13 @@ const VedioInput = () => {
 
   /*End of handle click */
 
-
   /*start of the generate function */
-
   const genVideo = async (e) => {
     console.log(vedio);
     e.preventDefault();
     setIsLoading(true);
+    var reqId = uuidv4();
     try {
-
       const source = axios.CancelToken.source();
       setCancelToken(source);
 
@@ -101,6 +99,7 @@ const VedioInput = () => {
           `http://localhost:8080/upload`,
           {
             video: vedio,
+            requestId: reqId,
           },
           {
             headers: {
@@ -119,12 +118,11 @@ const VedioInput = () => {
         });
     } catch (error) {
       if (axios.isCancel(error)) {
-        console.log('Request canceled:', error.message);
+        console.log("Request canceled:", error.message);
       } else {
-        
         console.log(error);
       }
-    } finally{
+    } finally {
       setCancelToken(null);
     }
   };
@@ -134,11 +132,11 @@ const VedioInput = () => {
   const handleDelete = () => {
     setFileName("No selected file");
     setVedio(null);
-  }
+  };
 
   const handleCancelClick = () => {
     if (cancelToken) {
-      cancelToken.cancel('Request canceled by the user');
+      cancelToken.cancel("Request canceled by the user");
     }
     setIsLoading(false);
     setIsHighlight(false);
@@ -146,7 +144,8 @@ const VedioInput = () => {
 
   return (
     <Row style={{ margin: "10rem 0 5rem" }}>
-      <Col className="main-col"
+      <Col
+        className="main-col"
         style={{
           backgroundColor: "#161616",
           borderRadius: "1rem",
@@ -156,36 +155,35 @@ const VedioInput = () => {
         <h1 className="input-main-header">Highlight your match now</h1>
         {!isLoading && !isHighlight ? (
           <div id="gene">
-            
             {vedio ? (
-                <video
-                  className="VideoInput_video"
-                  width={600}
-                  height={305}
-                  controls
-                  src={filevideo}
-                />
-              ) : (<form
-              action=""
-              className="input-form"
-              onClick={() => handleClick()}
-            >
-              <input
-                type="file"
-                accept=".mkv,.mp4"
-                ref={inputRef}
-                hidden
-                onChange={handleFileChange}
-                name="video"
+              <video
+                className="VideoInput_video"
+                width={600}
+                height={305}
+                controls
+                src={filevideo}
               />
+            ) : (
+              <form
+                action=""
+                className="input-form"
+                onClick={() => handleClick()}
+              >
+                <input
+                  type="file"
+                  accept=".mkv,.mp4"
+                  ref={inputRef}
+                  hidden
+                  onChange={handleFileChange}
+                  name="video"
+                />
 
-              
                 <>
                   <MdCloudUpload color="#6aac28" size={60} />
                   <p style={{ fontWeight: "bold" }}>Upload The Match</p>
                 </>
-
-            </form>)}
+              </form>
+            )}
 
             <div style={{ marginTop: "1rem !important" }}>
               {vedio && uploadProgress < 100 && (
@@ -199,9 +197,12 @@ const VedioInput = () => {
             </div>
 
             <div className="data-div">
-              <span className='span' style={{color:'#6aac28'}}>
-                  {fileName}
-                  <MdDelete onClick={() => handleDelete()} style={{cursor:'pointer'}}/>
+              <span className="span" style={{ color: "#6aac28" }}>
+                {fileName}
+                <MdDelete
+                  onClick={() => handleDelete()}
+                  style={{ cursor: "pointer" }}
+                />
               </span>
               <button
                 type="button"
@@ -217,14 +218,13 @@ const VedioInput = () => {
           <div className="d-flex flex-column">
             <LoaderBall message={"It will take few minutes"} />
             <button
-                type="button"
-                className="btn"
-                onClick={() => handleCancelClick()}
-              >
-                Cancel
-              </button>
-          </div>   
-          
+              type="button"
+              className="btn"
+              onClick={() => handleCancelClick()}
+            >
+              Cancel
+            </button>
+          </div>
         ) : (
           <div>
             <video
@@ -236,7 +236,11 @@ const VedioInput = () => {
             />
             <div className="data-div" style={{ flexDirection: "row" }}>
               <button type="button" className="btn">
-                <a download="" href={highlightedVideo.replace(/"/g, "")} style={{color:'unset',textDecoration:'none'}}>
+                <a
+                  download=""
+                  href={highlightedVideo.replace(/"/g, "")}
+                  style={{ color: "unset", textDecoration: "none" }}
+                >
                   download
                 </a>
               </button>
