@@ -134,10 +134,17 @@ const VedioInput = () => {
     setVedio(null);
   };
 
-  const handleCancelClick = () => {
-    if (cancelToken) {
-      cancelToken.cancel("Request canceled by the user");
+  const handleCancelClick = async () => {
+    await axios.post('localhost:8080/generate/cancel',
+    {
+      requestId: reqId,
+    },
+    {
+      headers: {
+        Authorization: JSON.parse(localStorage.getItem("vh_user")).token,
+      },
     }
+    ).then(res => console.log(res))
     setIsLoading(false);
     setIsHighlight(false);
   };
