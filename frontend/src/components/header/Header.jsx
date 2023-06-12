@@ -24,6 +24,7 @@ const Header = () => {
 
   return (
     <>
+
       <Navbar collapseOnSelect expand="lg"  
          className='navbar-custom'>
         <Container className='d-flex justify-space-between'>
@@ -56,7 +57,7 @@ const Header = () => {
                     }}
                     className='navvv'
                   >
-                    Popular
+                    Recent
                   </NavLink></Nav.Item>
               <Nav.Item className='navLink'><HashLink to='/#gene' className='theLink'>Highlight</HashLink></Nav.Item>
             </Nav>
