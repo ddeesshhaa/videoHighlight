@@ -49,13 +49,13 @@ const Popular = () => {
                   ...voood,
                   isFavorite: favVideosIds.includes(voood._id),
                 }));
-                setPopularVideos(updatedVideos);
+                setPopularVideos(updatedVideos.filter(vid => vid.highlightUrl !== '#').reverse());
                 console.log(popularVideos);
                 setIsLoading(false);
               });
           }else{
             console.log("asnckldnl")
-            setPopularVideos(popvideos.data);
+            setPopularVideos(popvideos.data.filter(vid => vid.highlightUrl !== '#').reverse());
             setIsLoading(false);
           }
         });
