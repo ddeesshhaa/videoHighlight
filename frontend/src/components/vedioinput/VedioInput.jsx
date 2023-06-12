@@ -37,6 +37,9 @@ const VedioInput = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isHighlight, setIsHighlight] = useState(false);
   const [fileName,setFileName] = useState("No selected file");
+  const [cancelToken, setCancelToken] = useState(null);
+
+  /*start of handle file function */
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -61,32 +64,41 @@ const VedioInput = () => {
     xhr.send(formData);
   };
 
-  /*  const styles = {
-    header: {
-      backgroundImage: `url(${sports})`,
-      backgroundPosition: 'center',
-      backgroundRepeat: 'no-repeat',
-      backgroundSize: 'cover'
-    }
-  } */
+ /*End of handle file function */
+
+ /*start of handle new click */
 
   const handleNewClick = () => {
     setIsLoading(false);
     setIsHighlight(false);
   };
+
+  /*Endof handle file function */
+
+/*start of handle click */
   let videoUrl = "";
   const handleClick = () => {
     if (user) inputRef.current.click();
     else navigate("/login");
   };
+
+  /*End of handle click */
+
+
+  /*start of the generate function */
+
   const genVideo = async (e) => {
     console.log(vedio);
     e.preventDefault();
     setIsLoading(true);
     try {
+
+      const source = axios.CancelToken.source();
+      setCancelToken(source);
+
       await axios
         .post(
-          `${process.env.REACT_APP_API_URL}/upload`,
+          `http://localhost:8080/upload`,
           {
             video: vedio,
           },
@@ -95,7 +107,8 @@ const VedioInput = () => {
               "Content-Type": "multipart/form-data",
               Authorization: JSON.parse(localStorage.getItem("vh_user")).token,
             },
-          }
+          },
+          { cancelToken: source.token }
         )
         .then((url) => {
           videoUrl = JSON.stringify(url.data.urlH);
@@ -104,15 +117,32 @@ const VedioInput = () => {
           setIsHighlight(true);
           console.log("This is video  " + videoUrl);
         });
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      if (axios.isCancel(error)) {
+        console.log('Request canceled:', error.message);
+      } else {
+        
+        console.log(error);
+      }
+    } finally{
+      setCancelToken(null);
     }
   };
+
+  /*End of Generate function */
 
   const handleDelete = () => {
     setFileName("No selected file");
     setVedio(null);
   }
+
+  const handleCancelClick = () => {
+    if (cancelToken) {
+      cancelToken.cancel('Request canceled by the user');
+    }
+    setIsLoading(false);
+    setIsHighlight(false);
+  };
 
   return (
     <Row style={{ margin: "10rem 0 5rem" }}>
@@ -184,7 +214,17 @@ const VedioInput = () => {
             </div>
           </div>
         ) : isLoading && !isHighlight ? (
-          <LoaderBall message={"It will take few minutes"} />
+          <div className="d-flex flex-column">
+            <LoaderBall message={"It will take few minutes"} />
+            <button
+                type="button"
+                className="btn"
+                onClick={() => handleCancelClick()}
+              >
+                Cancel
+              </button>
+          </div>   
+          
         ) : (
           <div>
             <video
