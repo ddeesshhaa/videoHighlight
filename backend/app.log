@@ -1,5 +1,0 @@
-error: User 647a07a36c961f8f4c562bcc - Generate Controller - Error Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client {"timestamp":"2023-06-11T17:52:48.081Z"}
-error: User 647a07a36c961f8f4c562bcc - Generate Controller - Error TypeError [ERR_INVALID_ARG_TYPE]: The "chunk" argument must be of type string or an instance of Buffer or Uint8Array. Received an instance of Object {"timestamp":"2023-06-11T17:55:11.847Z"}
-error: Upload to cloud Controller - promise - Error ReferenceError: reject is not defined {"timestamp":"2023-06-11T19:19:25.401Z"}
-error: Upload to cloud Controller - promise - Error ReferenceError: reject is not defined {"timestamp":"2023-06-11T19:25:57.694Z"}
-error: Upload to cloud Controller - promise - Error ReferenceError: reject is not defined {"timestamp":"2023-06-11T19:42:38.823Z"}

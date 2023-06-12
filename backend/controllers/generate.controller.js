@@ -1,16 +1,14 @@
-const os = require("os");
 const videoModel = require("../models/video.model");
 const path = require("path");
 const fsExtra = require("fs-extra");
-const fs = require("fs");
-const { promisify } = require("util");
-const mkdtemp = promisify(fs.mkdtemp);
-const copyFile = promisify(fs.copyFile);
-const mkdir = promisify(fs.mkdir);
 const user = require("../models/user.model");
 const modelFunctions = require("../modelFunctions/callingFunctions");
-const apiError = require("../errorHandler/apiError");
 const logger = require("../errorHandler/logger");
+const fs = require("fs");
+const apiError = require("../errorHandler/apiError");
+const { promisify } = require("util");
+const copyFile = promisify(fs.copyFile);
+const mkdir = promisify(fs.mkdir);
 
 exports.generateVideo = async (req, res, next) => {
   try {
@@ -27,13 +25,13 @@ exports.generateVideo = async (req, res, next) => {
       "generate",
       "classInd.txt"
     );
-    highlightPath = path.join(
+    let highlightPath = path.join(
       __dirname,
       "../",
       "assets",
       "uploads",
       "videos",
-      video.title
+      videoName
     );
     tempDir = req.tempDir;
     await Promise.all([
@@ -61,6 +59,8 @@ exports.generateVideo = async (req, res, next) => {
       { new: true }
     );
     fsExtra.remove(tempDir);
+    fsExtra.remove(highlightPath);
+
     res.status(200).json({ urlH: url });
     // res.end({ urlH: url });
   } catch (error) {
