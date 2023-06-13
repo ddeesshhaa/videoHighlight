@@ -42,7 +42,7 @@ const Profile = () => {
     const getVideos = async () => {
       try {
         await axios
-          .get(`http://localhost:8080/profile/getData`, {
+          .get(`${process.env.REACT_APP_API_URL}/profile/getData`, {
             headers: {
               Authorization: JSON.parse(localStorage.getItem("vh_user")).token,
             },
@@ -61,7 +61,7 @@ const Profile = () => {
     };
 
     const getUserData = async () => {
-      await axios.get(`http://localhost:8080/videos/user/${id}`).then((res) => {
+      await axios.get(`${process.env.REACT_APP_API_URL}/videos/user/${id}`).then((res) => {
         //console.log("the data  " + res.data.user);
         setUserHighlightedVideos(res.data.videoData);
         setUserProfileData(res.data.user);
@@ -77,7 +77,7 @@ const Profile = () => {
     setDeleteLoader(true);
     try {
       await axios
-        .delete(`http://localhost:8080/profile/deleteHighlight`, {
+        .delete(`${process.env.REACT_APP_API_URL}/profile/deleteHighlight`, {
           data: { videoId: videoid },
           headers: {
             "Content-Type": "application/json",
@@ -101,7 +101,7 @@ const Profile = () => {
     //console.log(vid)
     try {
       await axios
-        .delete("http://localhost:8080/profile/removeFromFav", {
+        .delete(`${process.env.REACT_APP_API_URL}/profile/removeFromFav`, {
           data: { videoId: videoid },
           headers: {
             "Content-Type": "application/json",
@@ -253,12 +253,12 @@ const Profile = () => {
                 <div
                   className="vedio-card"
                   key={vod._id}
-                  style={{ maxWidth: "450px" }}
+                  style={{ width: "450px" }}
                 >
                   <video
                     src={vod.highlightUrl}
                     controls
-                    style={{ width: "90%" }}
+                    style={{ width: "90%" ,  maxHeight: '224px'}}
                   >
                     {" "}
                   </video>
@@ -329,12 +329,12 @@ const Profile = () => {
                 <div
                   className="vedio-card"
                   key={vod._id}
-                  style={{ maxWidth: "450px" }}
+                  style={{ width: "450px" }}
                 >
                   <video
                     src={vod.highlightUrl}
                     controls
-                    style={{ width: "90%" }}
+                    style={{ width: "90%" ,  height: '201.6px'}}
                   >
                     {" "}
                   </video>

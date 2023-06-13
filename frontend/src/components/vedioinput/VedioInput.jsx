@@ -93,7 +93,7 @@ const VedioInput = () => {
     try {
       await axios
         .post(
-          `http://localhost:8080/upload`,
+          `${process.env.REACT_APP_API_URL}upload`,
           {
             video: vedio,
             requestId: cancelId,
@@ -163,7 +163,7 @@ const VedioInput = () => {
   const handleCancelClick = async () => {
     await axios
       .post(
-        "http://localhost:8080/generate/cancel",
+        `${process.env.REACT_APP_API_URL}/generate/cancel`,
         {
           requestId: cancelId,
         },
@@ -182,7 +182,7 @@ const VedioInput = () => {
       pauseOnHover: true,
       draggable: true,
       progress: undefined,
-      theme: "colored",
+      theme: "light",
     });
     setCancelId(uuidv4());
     setIsLoading(false);

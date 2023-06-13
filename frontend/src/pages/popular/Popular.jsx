@@ -11,7 +11,6 @@ import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
 
 import { Link } from "react-router-dom";
-import { useAuthContext } from "../../hooks/useAuthContext";
 
 
 import "./popular.css";
@@ -28,12 +27,12 @@ const Popular = () => {
       setIsLoading(true);
       try {
         await axios
-          .get(`http://localhost:8080/videos/all`)
+          .get(`${process.env.REACT_APP_API_URL}/videos/all`)
           .then(async (popvideos) => {
             if(user){
             //console.log("asnd" + JSON.stringify(popvideos.data.owner));
             await axios
-              .get("http://localhost:8080/profile/getFavVideos", {
+              .get(`${process.env.REACT_APP_API_URL}/profile/getFavVideos`, {
                 headers: {
                   "Content-Type": "application/json",
                   Authorization: JSON.parse(localStorage.getItem("vh_user"))
@@ -79,7 +78,7 @@ const Popular = () => {
           Authorization: JSON.parse(localStorage.getItem("vh_user")).token,
         };
 
-        await axios.put("http://localhost:8080/profile/addToFav", data, {
+        await axios.put(`${process.env.REACT_APP_API_URL}/profile/addToFav`, data, {
           headers,
         });
 
@@ -95,7 +94,7 @@ const Popular = () => {
       }
     } else {
       try {
-        await axios.delete("http://localhost:8080/profile/removeFromFav", {
+        await axios.delete(`${process.env.REACT_APP_API_URL}/profile/removeFromFav`, {
           data: { videoId: id },
           headers: {
             "Content-Type": "application/json",
@@ -127,11 +126,11 @@ const Popular = () => {
         <div className="sports-cont">
           <div className="sport-cont">
             <div className="vedio-cont">
-              {popularVideos.slice(0, 22).map((video) => (
+              {popularVideos.slice(0, 20).map((video) => (
                 <div
                   className="veedio-card"
                   key={video._id}
-                  style={{ maxWidth: "450px" }}
+                  style={{ width: "450px"}}
                 >
                 <div className="d-flex titlee" style={{borderBottom:'0.5px solid white', marginBottom:'1rem'}}>
                   <div className="owner d-flex justify-content-space-between ">
@@ -163,7 +162,7 @@ const Popular = () => {
                   <video
                     src={video?.highlightUrl}
                     controls
-                    style={{ width: "100%" }}
+                    style={{ width: "100%" ,  maxHeight: '224px'}}
                   >
                     {" "}
                   </video>
