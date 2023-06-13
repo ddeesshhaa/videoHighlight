@@ -5,13 +5,15 @@ import { v4 as uuidv4 } from "uuid";
 import { Row, Col } from "react-bootstrap";
 
 import { MdCloudUpload, MdDelete } from "react-icons/md";
-import { AiFillFileImage } from "react-icons/ai";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import { useNavigate } from "react-router-dom";
 
 import { ProgressBar } from "react-bootstrap";
 
 import LoaderBall from "../loader/LoaderBall";
+
+import { ToastContainer,toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import "aos/dist/aos.css";
 import AOS from "aos";
@@ -50,7 +52,6 @@ const VedioInput = () => {
 
     const formData = new FormData();
     formData.append("video", file);
-
     const xhr = new XMLHttpRequest();
 
     xhr.upload.addEventListener("progress", (event) => {
@@ -73,6 +74,7 @@ const VedioInput = () => {
     setIsHighlight(false);
   };
 
+
   /*Endof handle file function */
 
   /*start of handle click */
@@ -89,7 +91,6 @@ const VedioInput = () => {
     console.log(vedio);
     e.preventDefault();
     setIsLoading(true);
-
     try {
       await axios
         .post(
@@ -114,6 +115,43 @@ const VedioInput = () => {
         });
     } catch (error) {
       console.log(error);
+      if(error.status === 400){
+        toast.error('It is not a soccer !', {
+          position: "bottom-left",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          });
+      }else if(error.status === 401){
+        toast.error('Please enter video bigger than 5 minutes', {
+          position: "bottom-left",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          });
+      }else{
+        toast.error('There is error please try again later', {
+          position: "bottom-left",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          });
+      }
+      setIsLoading(false);
+      setVedio(false);
+      setIsHighlight(false);
     }
   };
 
@@ -138,13 +176,24 @@ const VedioInput = () => {
         }
       )
       .then((res) => console.log(res));
+      toast.success('The process is cancelled sucessecfully', {
+        position: "bottom-left",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        });
     setCancelId(uuidv4());
     setIsLoading(false);
     setIsHighlight(false);
   };
 
   return (
-    <Row style={{ margin: "10rem 0 5rem" }}>
+    <div>
+        <Row style={{ margin: "10rem 0 5rem" }}>
       <Col
         className="main-col"
         style={{
@@ -257,7 +306,22 @@ const VedioInput = () => {
           </div>
         )}
       </Col>
+      
     </Row>
+    <ToastContainer
+position="bottom-left"
+autoClose={2000}
+hideProgressBar={false}
+newestOnTop={false}
+closeOnClick
+rtl={false}
+pauseOnFocusLoss
+draggable
+pauseOnHover
+theme="colored"
+/>
+    </div>
+    
   );
 };
 
