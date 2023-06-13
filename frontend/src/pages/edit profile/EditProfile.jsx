@@ -90,7 +90,7 @@ const EditProfile = () => {
             </div>
 
             <div className="d-flex justify-content-center">
-              <div className="btn btn-primary btn-rounded">
+              <div className="btn-primary btn-rounded"  style={{ backgroundColor: '#6aac28', padding: '0.75rem 1.5rem', borderRadius: '5px', border: 'none', fontSize: '1.2rem' , fontWeight:'bold'}}>
                 <label
                   className="form-label text-white m-1"
                   htmlFor="customFile2"
@@ -162,7 +162,7 @@ const EditProfile = () => {
           </div>
 
           <div className="d-grid gap-2 mt-3">
-            <button type="submit" className="btn-primary" style={{ backgroundColor: '#6aac28', padding: '0.75rem 1.5rem', borderRadius: '5px', border: 'none', fontSize: '1.2rem' , fontWeight:'bold'}}>
+            <button type="submit" className="btn-primary" style={{color:'white' ,backgroundColor: '#6aac28', padding: '0.75rem 1.5rem', borderRadius: '5px', border: 'none', fontSize: '1.2rem' , fontWeight:'bold'}}>
               Update
             </button>
 

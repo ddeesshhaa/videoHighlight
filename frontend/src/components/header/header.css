@@ -148,10 +148,10 @@ a{
 }
 
 @media screen and (max-width:991px) {
-    .navbar-collapse{
+    /* .navbar-collapse{
         background-color: #6aac28 !important;
-        /* padding-left: 1rem !important; */
-    }
+        padding-left: 1rem !important;
+    } */
 
     .navLink{
         margin: auto !important;

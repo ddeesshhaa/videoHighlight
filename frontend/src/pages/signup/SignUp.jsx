@@ -89,7 +89,7 @@ const SignUp = () => {
         </div>
 
         <div className="d-flex justify-content-center">
-            <div className="btn btn-primary btn-rounded">
+            <div className="btn-primary btn-rounded" style={{color:'white' ,backgroundColor: '#6aac28', padding: '0.75rem 1.5rem', borderRadius: '5px', border: 'none', fontSize: '1.2rem' , fontWeight:'bold'}}>
                 <label className="form-label text-white m-1" htmlFor="customFile2">Choose file</label>
                 <input type="file" className="form-control d-none" id="customFile2" onChange={handleChange}
                 multiple accept="image/*" required/>
@@ -145,7 +145,7 @@ const SignUp = () => {
           {/* <input type="file" name="image" multiple accept="image/*" required onChange={handleChange}/> */}
 
           <div className="d-grid gap-2 mt-3">
-            <button type="submit" className="btn btn-primary">
+            <button type="submit" className="btn-primary" style={{color:'white' ,backgroundColor: '#6aac28', padding: '0.75rem 1.5rem', borderRadius: '5px', border: 'none', fontSize: '1.2rem' , fontWeight:'bold'}}>
               Submit
             </button>
 
