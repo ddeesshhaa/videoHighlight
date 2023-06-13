@@ -176,6 +176,16 @@ const VedioInput = () => {
         }
       )
       .then((res) => console.log(res));
+      toast.success('The process is cancelled sucessecfully', {
+        position: "bottom-left",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        });
     setCancelId(uuidv4());
     setIsLoading(false);
     setIsHighlight(false);
