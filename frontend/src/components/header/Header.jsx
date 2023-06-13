@@ -12,7 +12,7 @@ const Header = () => {
 
   const { user ,dispatch,toggleNavItems} = useAuthContext();
   const navigate = useNavigate();
-
+  const inputRef = React.useRef();
 
   const handleClick = () => {
       localStorage.removeItem('vh_user');
@@ -20,6 +20,10 @@ const Header = () => {
       toggleNavItems(false);
       navigate('/');
   }
+
+  const handleItemClick = () => {
+    inputRef.current.click();   
+  };
   
 
   return (
@@ -34,7 +38,7 @@ const Header = () => {
             </Link>
             
           </Navbar.Brand>
-          <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+          <Navbar.Toggle aria-controls="responsive-navbar-nav" ref={inputRef}/>
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="me-auto">
               <Nav.Item className='navLink'><NavLink
@@ -45,6 +49,7 @@ const Header = () => {
                       };
                     }}
                     className='navvv'
+                    onClick={() => handleItemClick()}
                   >
                     Home
                   </NavLink></Nav.Item>
@@ -56,10 +61,14 @@ const Header = () => {
                       };
                     }}
                     className='navvv'
+                    onClick={() => handleItemClick()}
                   >
                     Recent
-                  </NavLink></Nav.Item>
-              <Nav.Item className='navLink'><HashLink to='/#gene' className='theLink'>Highlight</HashLink></Nav.Item>
+                  </NavLink>
+                </Nav.Item>
+              <Nav.Item className='navLink'>
+                <HashLink to='/#gene' className='theLink' onClick={() => handleItemClick()}>Highlight</HashLink>
+              </Nav.Item>
             </Nav>
 
             {
@@ -73,11 +82,12 @@ const Header = () => {
                       };
                     }}
                     className='navvv'
+                    onClick={() => handleItemClick()}
                   >
                     {user.userData.firstName}
                   </NavLink>
                     </Nav.Item>
-                  <Nav.Item className='navLink' onClick={handleClick}>Logout</Nav.Item>
+                  <Nav.Item className='navLink' onClick={() => {handleClick(); handleItemClick();}}>Logout</Nav.Item>
               </Nav>:
               <Nav>
                   <Nav.Item className='navLink'>
@@ -89,6 +99,7 @@ const Header = () => {
                       };
                     }}
                     className='navvv'
+                    onClick={() => handleItemClick()}
                   >
                     Login
                   </NavLink>
@@ -102,6 +113,7 @@ const Header = () => {
                       };
                     }}
                     className='navvv'
+                    onClick={() => handleItemClick()}
                   >
                     Signup
                   </NavLink>

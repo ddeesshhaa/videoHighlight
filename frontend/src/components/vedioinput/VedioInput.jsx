@@ -24,7 +24,7 @@ const VedioInput = () => {
   useEffect(() => {
     AOS.init({
       duration: 1000,
-      offset: 300,
+      offset: 400,
     });
   }, []);
 
@@ -198,7 +198,7 @@ const VedioInput = () => {
             backgroundColor: "#161616",
             borderRadius: "1rem",
           }}
-          data-aos="fade-up"
+          data-aos="zoom-in"
         >
           <h1 className="input-main-header">Highlight your match now</h1>
           {!isLoading && !isHighlight ? (

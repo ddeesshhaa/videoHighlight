@@ -21,12 +21,16 @@ import "react-loading-skeleton/dist/skeleton.css";
 import "./profile.css";
 
 const Profile = () => {
-  const user = JSON.parse(localStorage.getItem("vh_user"));
-  const logUser = user.userData;
-
-  const enc = logUser.pic.image.data;
-
   const { id } = useParams();
+  let logUser;
+  let enc;
+  if(id == 1){
+    const user = JSON.parse(localStorage.getItem("vh_user"));
+    logUser = user.userData;
+
+    enc = logUser.pic.image.data;
+  }
+  
   //console.log(id);
 
   const [activeClass, setActiveClass] = useState("left");
