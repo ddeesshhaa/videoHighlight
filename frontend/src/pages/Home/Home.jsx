@@ -44,7 +44,7 @@ const Home = () => {
         
       </header> */}
       <div style={{ width: '100%', overflow: 'hidden' }} className='headd'>
-        <div className='d-flex flex-column flex-grow-1 head-text'>
+        <div className='d-flex flex-column head-text'>
         <h1 className='header-text' >Highlight Your football Match</h1>
         <div className='feat' >
             <BsPatchCheckFill style={{alignSelf:'center', marginRight:'1rem'}}/>
