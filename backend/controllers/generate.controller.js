@@ -14,6 +14,8 @@ const mkdir = promisify(fs.mkdir);
 exports.generateVideo = async (req, res, next) => {
   let reqId = req.reqId;
   try {
+    tempDir = req.tempDir;
+
     let video = await videoModel.findById(req.body.id);
     let userId = req.user._id;
     videoName = "Video-" + req.body.id;
@@ -35,7 +37,8 @@ exports.generateVideo = async (req, res, next) => {
       "videos",
       videoName
     );
-    tempDir = req.tempDir;
+    if (checkReqIsCanceledAndDelPaths(tempDir, highlightPath, reqId)) {
+    }
     await Promise.all([
       mkdir(path.join(tempDir, "clips")),
       mkdir(path.join(tempDir, "jpgs")),
@@ -45,7 +48,6 @@ exports.generateVideo = async (req, res, next) => {
     ]);
 
     if (checkReqIsCanceledAndDelPaths(tempDir, highlightPath, reqId)) {
-      return res.status(201).json({ message: "Request canceled" });
     }
 
     let url = await modelFunctions.callingFunctions(
@@ -56,7 +58,6 @@ exports.generateVideo = async (req, res, next) => {
       next
     );
     if (checkReqIsCanceledAndDelPaths(tempDir, highlightPath, reqId)) {
-      return res.status(201).json({ message: "Request canceled" });
     }
     await user.findByIdAndUpdate(
       userId,

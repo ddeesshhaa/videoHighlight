@@ -12,8 +12,8 @@ import { ProgressBar } from "react-bootstrap";
 
 import LoaderBall from "../loader/LoaderBall";
 
-import { ToastContainer,toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import "aos/dist/aos.css";
 import AOS from "aos";
@@ -74,7 +74,6 @@ const VedioInput = () => {
     setIsHighlight(false);
   };
 
-
   /*Endof handle file function */
 
   /*start of handle click */
@@ -106,17 +105,16 @@ const VedioInput = () => {
             },
           }
         )
-        .then((url) => {
-          videoUrl = JSON.stringify(url.data.urlH);
+        .then((res) => {
+          videoUrl = JSON.stringify(res.data.urlH);
           setHighlightedVideo(videoUrl);
           setIsLoading(false);
           setIsHighlight(true);
           console.log("This is video  " + videoUrl);
         });
     } catch (error) {
-      console.log(error);
-      if(error.status === 400){
-        toast.error('It is not a soccer !', {
+      if (error.response.status === 400) {
+        toast.error("It is not a soccer !", {
           position: "bottom-left",
           autoClose: 2000,
           hideProgressBar: false,
@@ -125,9 +123,9 @@ const VedioInput = () => {
           draggable: true,
           progress: undefined,
           theme: "colored",
-          });
-      }else if(error.status === 401){
-        toast.error('Please enter video bigger than 5 minutes', {
+        });
+      } else if (error.response.status === 401) {
+        toast.error("Please enter video bigger than 5 minutes", {
           position: "bottom-left",
           autoClose: 2000,
           hideProgressBar: false,
@@ -136,9 +134,9 @@ const VedioInput = () => {
           draggable: true,
           progress: undefined,
           theme: "colored",
-          });
-      }else{
-        toast.error('There is error please try again later', {
+        });
+      } else {
+        toast.error("There is error please try again later", {
           position: "bottom-left",
           autoClose: 2000,
           hideProgressBar: false,
@@ -147,7 +145,7 @@ const VedioInput = () => {
           draggable: true,
           progress: undefined,
           theme: "colored",
-          });
+        });
       }
       setIsLoading(false);
       setVedio(false);
@@ -176,16 +174,16 @@ const VedioInput = () => {
         }
       )
       .then((res) => console.log(res));
-      toast.success('The process is cancelled sucessecfully', {
-        position: "bottom-left",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-        });
+    toast.success("The process is cancelled sucessecfully", {
+      position: "bottom-left",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+    });
     setCancelId(uuidv4());
     setIsLoading(false);
     setIsHighlight(false);
@@ -193,135 +191,133 @@ const VedioInput = () => {
 
   return (
     <div>
-        <Row style={{ margin: "10rem 0 5rem" }}>
-      <Col
-        className="main-col"
-        style={{
-          backgroundColor: "#161616",
-          borderRadius: "1rem",
-        }}
-        data-aos="fade-up"
-      >
-        <h1 className="input-main-header">Highlight your match now</h1>
-        {!isLoading && !isHighlight ? (
-          <div id="gene">
-            {vedio ? (
+      <Row style={{ margin: "10rem 0 5rem" }}>
+        <Col
+          className="main-col"
+          style={{
+            backgroundColor: "#161616",
+            borderRadius: "1rem",
+          }}
+          data-aos="fade-up"
+        >
+          <h1 className="input-main-header">Highlight your match now</h1>
+          {!isLoading && !isHighlight ? (
+            <div id="gene">
+              {vedio ? (
+                <video
+                  className="VideoInput_video"
+                  width={600}
+                  height={305}
+                  controls
+                  src={filevideo}
+                />
+              ) : (
+                <form
+                  action=""
+                  className="input-form"
+                  onClick={() => handleClick()}
+                >
+                  <input
+                    type="file"
+                    accept=".mkv,.mp4"
+                    ref={inputRef}
+                    hidden
+                    onChange={handleFileChange}
+                    name="video"
+                  />
+
+                  <>
+                    <MdCloudUpload color="#6aac28" size={60} />
+                    <p style={{ fontWeight: "bold" }}>Upload The Match</p>
+                  </>
+                </form>
+              )}
+
+              <div style={{ marginTop: "1rem !important" }}>
+                {vedio && uploadProgress < 100 && (
+                  <ProgressBar
+                    animated
+                    now={uploadProgress}
+                    label={`${Math.trunc(uploadProgress)}%`}
+                    color="#6aac28 !important"
+                  />
+                )}
+              </div>
+
+              <div className="data-div">
+                <span className="span" style={{ color: "#6aac28" }}>
+                  {fileName}
+                  <MdDelete
+                    onClick={() => handleDelete()}
+                    style={{ cursor: "pointer" }}
+                  />
+                </span>
+                <button
+                  type="button"
+                  className="btn"
+                  onClick={(e) => genVideo(e)}
+                  disabled={!vedio}
+                >
+                  Highlight Now
+                </button>
+              </div>
+            </div>
+          ) : isLoading && !isHighlight ? (
+            <div className="d-flex flex-column">
+              <LoaderBall message={"It will take few minutes"} />
+              <button
+                type="button"
+                className="btn"
+                onClick={() => handleCancelClick()}
+              >
+                Cancel
+              </button>
+            </div>
+          ) : (
+            <div>
               <video
                 className="VideoInput_video"
                 width={600}
                 height={305}
                 controls
-                src={filevideo}
+                src={highlightedVideo.replace(/"/g, "")}
               />
-            ) : (
-              <form
-                action=""
-                className="input-form"
-                onClick={() => handleClick()}
-              >
-                <input
-                  type="file"
-                  accept=".mkv,.mp4"
-                  ref={inputRef}
-                  hidden
-                  onChange={handleFileChange}
-                  name="video"
-                />
+              <div className="data-div" style={{ flexDirection: "row" }}>
+                <button type="button" className="btn">
+                  <a
+                    download=""
+                    href={highlightedVideo.replace(/"/g, "")}
+                    style={{ color: "unset", textDecoration: "none" }}
+                  >
+                    download
+                  </a>
+                </button>
 
-                <>
-                  <MdCloudUpload color="#6aac28" size={60} />
-                  <p style={{ fontWeight: "bold" }}>Upload The Match</p>
-                </>
-              </form>
-            )}
-
-            <div style={{ marginTop: "1rem !important" }}>
-              {vedio && uploadProgress < 100 && (
-                <ProgressBar
-                  animated
-                  now={uploadProgress}
-                  label={`${Math.trunc(uploadProgress)}%`}
-                  color="#6aac28 !important"
-                />
-              )}
-            </div>
-
-            <div className="data-div">
-              <span className="span" style={{ color: "#6aac28" }}>
-                {fileName}
-                <MdDelete
-                  onClick={() => handleDelete()}
-                  style={{ cursor: "pointer" }}
-                />
-              </span>
-              <button
-                type="button"
-                className="btn"
-                onClick={(e) => genVideo(e)}
-                disabled={!vedio}
-              >
-                Highlight Now
-              </button>
-            </div>
-          </div>
-        ) : isLoading && !isHighlight ? (
-          <div className="d-flex flex-column">
-            <LoaderBall message={"It will take few minutes"} />
-            <button
-              type="button"
-              className="btn"
-              onClick={() => handleCancelClick()}
-            >
-              Cancel
-            </button>
-          </div>
-        ) : (
-          <div>
-            <video
-              className="VideoInput_video"
-              width={600}
-              height={305}
-              controls
-              src={highlightedVideo.replace(/"/g, "")}
-            />
-            <div className="data-div" style={{ flexDirection: "row" }}>
-              <button type="button" className="btn">
-                <a
-                  download=""
-                  href={highlightedVideo.replace(/"/g, "")}
-                  style={{ color: "unset", textDecoration: "none" }}
+                <button
+                  type="button"
+                  className="btn"
+                  onClick={() => handleNewClick()}
                 >
-                  download
-                </a>
-              </button>
-
-              <button
-                type="button"
-                className="btn"
-                onClick={() => handleNewClick()}
-              >
-                New
-              </button>
+                  New
+                </button>
+              </div>
             </div>
-          </div>
-        )}
-      </Col>
-      
-    </Row>
-    <ToastContainer
-position="bottom-left"
-autoClose={2000}
-hideProgressBar={false}
-newestOnTop={false}
-closeOnClick
-rtl={false}
-pauseOnFocusLoss
-draggable
-pauseOnHover
-theme="colored"
-/>
+          )}
+        </Col>
+      </Row>
+      <ToastContainer
+        position="bottom-left"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
     </div>
-    
   );
 };
 

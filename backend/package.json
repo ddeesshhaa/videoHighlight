@@ -22,6 +22,7 @@
     "express-fileupload": "^1.4.0",
     "file-upload": "^0.0.0",
     "fileupload": "^1.0.0",
+    "fluent-ffmpeg": "^2.1.2",
     "fs-jetpack": "^5.1.0",
     "i": "^0.3.7",
     "jsonwebtoken": "^9.0.0",

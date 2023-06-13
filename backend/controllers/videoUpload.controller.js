@@ -5,14 +5,17 @@ const { promisify } = require("util");
 const user = require("../models/user.model");
 const ObjectId = require("mongo-objectid");
 const mkdir = promisify(fs.mkdir);
-const multer = require("multer");
 const apiError = require("../errorHandler/apiError");
 const { checkVideo } = require("../modelFunctions/checkVideoType");
 const mkdtemp = promisify(fs.mkdtemp);
 const os = require("os");
-const { default: mongoose } = require("mongoose");
 const logger = require("../errorHandler/logger");
-const { checkReqIsCanceled } = require("../errorHandler/reqCancel");
+const {
+  checkReqIsCanceled,
+  checkReqIsCanceledAndDelPaths,
+} = require("../errorHandler/reqCancel");
+const ffmpeg = require("fluent-ffmpeg");
+const fsExtra = require("fs-extra");
 
 exports.uploadVideo = async (req, res, next) => {
   try {
@@ -20,9 +23,6 @@ exports.uploadVideo = async (req, res, next) => {
     let reqId = req.reqId;
     global.activeRequests[reqId] = true;
 
-    if (checkReqIsCanceled(reqId)) {
-      return res.status(201).json({ message: "Request canceled" });
-    }
     let video = req.files.video;
     let videoBaseName = video.name;
     videoBaseNameArray = videoBaseName.split(".");
@@ -41,17 +41,40 @@ exports.uploadVideo = async (req, res, next) => {
       "videos",
       videoNewName
     );
-    if (checkReqIsCanceled(reqId)) {
-      return res.status(201).json({ message: "Request canceled" });
-    }
 
-    mkdir(rootPath);
-    video.mv(path.join(rootPath, videoNewName + "." + ext));
+    await mkdir(rootPath);
+    let videoPath = path.join(rootPath, videoNewName + "." + ext);
+    await video.mv(videoPath);
+
+    const getVideoDuration = (videoPath) => {
+      return new Promise((resolve, reject) => {
+        ffmpeg.ffprobe(videoPath, (err, metadata) => {
+          if (err) {
+            reject(err);
+          } else {
+            const duration = metadata.format.duration; // Duration in seconds
+            const minDuration = 300;
+            if (duration < minDuration) {
+              resolve(false);
+            } else {
+              resolve(true);
+            }
+          }
+        });
+      });
+    };
 
     const tempDir = await mkdtemp(path.join(os.tmpdir(), videoNewName));
-
+    if (checkReqIsCanceledAndDelPaths(tempDir, rootPath, reqId)) {
+      return res.status(204).send("Request canceled");
+    }
     let videoType = await checkVideo(videoNewName, ext, tempDir);
     if (videoType) {
+      if (!(await getVideoDuration(videoPath))) {
+        fsExtra.remove(rootPath);
+        fsExtra.remove(tempDir);
+        return res.status(401).send("The Video not at least 5 minutes");
+      }
       let data = {
         _id: myId,
         title: vn,
@@ -60,9 +83,7 @@ exports.uploadVideo = async (req, res, next) => {
         videoName: videoNewName,
       };
       myVid = new videoModel(data);
-      if (checkReqIsCanceled(reqId)) {
-        return res.status(201).json({ message: "Request canceled" });
-      }
+
       await myVid.save();
       await user.findByIdAndUpdate(
         req.user._id,
@@ -75,6 +96,8 @@ exports.uploadVideo = async (req, res, next) => {
       next();
     } else {
       res.status(400).send("Not Soccer Video");
+      fsExtra.remove(rootPath);
+      fsExtra.remove(tempDir);
     }
   } catch (error) {
     logger.error(
