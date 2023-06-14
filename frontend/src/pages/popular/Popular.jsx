@@ -130,7 +130,7 @@ const Popular = () => {
                 <div
                   className="veedio-card"
                   key={video._id}
-                  style={{ width: "450px"}}
+                  style={{ maxWidth: "28.125rem"}}
                 >
                 <div className="d-flex titlee" style={{borderBottom:'0.5px solid white', marginBottom:'1rem'}}>
                   <div className="owner d-flex justify-content-space-between ">

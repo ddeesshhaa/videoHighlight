@@ -228,7 +228,7 @@ const VedioInput = () => {
 
                   <>
                     <MdCloudUpload color="#6aac28" size={60} />
-                    <p style={{ fontWeight: "bold" }}>Upload The Match</p>
+                    <p style={{ fontWeight: "bold" }} className="upload-title">Upload The Match</p>
                   </>
                 </form>
               )}

@@ -186,7 +186,7 @@ const Profile = () => {
             </div>
 
             {id == 1 && (
-              <button className="py-2 px-4 rounded">
+              <button className=" edit-btn py-2 px-4 rounded ">
                 <Link to="/edit" className="editLink">
                   Edit Profile
                 </Link>
@@ -257,7 +257,6 @@ const Profile = () => {
                 <div
                   className="vedio-card"
                   key={vod._id}
-                  style={{ width: "450px" }}
                 >
                   <video
                     src={vod.highlightUrl}
@@ -333,7 +332,7 @@ const Profile = () => {
                 <div
                   className="vedio-card"
                   key={vod._id}
-                  style={{ width: "450px" }}
+                  /* style={{ width: "450px" }} */
                 >
                   <video
                     src={vod.highlightUrl}
