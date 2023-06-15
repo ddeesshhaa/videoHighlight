@@ -53,9 +53,9 @@ exports.uploadToCloud = async (videoName, path) => {
         resolve(x);
       })
       .catch((error) => {
-        // reject(error);
         logger.error(`Upload to cloud Controller - promise - Error ${error}`);
-        next(apiError.er(500, "Video processing failed"));
+                reject(error);
+
       });
   });
 };

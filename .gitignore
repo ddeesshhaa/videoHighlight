@@ -5,3 +5,12 @@ backend/temp-audio.m4a
 backend/assets/generate/ClassificationModel/vgg16_model.h5
 backend/assets/generate/ClassificationModel/vgg16_model3.h5
 backend/app.log
+backend/.DS_Store
+backend/.DS_Store
+backend/app.log
+backend/assets/generate/ClassificationModel/vgg16_model.zip
+backend/setup.bat
+backend/tools/7z.exe
+backend/tools/gdrive.exe
+backend/tools/wget.exe
+backend/app.log

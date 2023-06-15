@@ -29,7 +29,7 @@ exports.login = async (req, res, next) => {
       // res.status(400).send("Wrong email");
     }
   } catch (error) {
-    logger.error(`Error from login controller from user ${email} : ${error}`);
+    logger.error(`Error from login controller from user: ${error}`);
     next(apiError.intErr("Error"));
   }
 };
