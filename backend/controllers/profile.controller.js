@@ -22,7 +22,7 @@ exports.getVideosById = async (req, res, next) => {
       });
   } catch (error) {
     logger.error(
-      `User ${req.user._id} - Profile Controller - getVideosById - Error ${error}`
+      `Profile Controller - getVideosById - Error ${error}`
     );
     next(apiError.er(404, "Profile Videos Error"));
   }
@@ -45,7 +45,7 @@ exports.getFavVideosById = async (req, res, next) => {
       });
   } catch (error) {
     logger.error(
-      `User ${req.user._id} - Profile Controller - getFavVideosById - Error ${error}`
+      `Profile Controller - getFavVideosById - Error ${error}`
     );
     next(apiError.er(404, "Profile Videos Error"));
   }
@@ -72,7 +72,7 @@ exports.getData = async (req, res, next) => {
     res.send({ userData: req.user, fav: favVideos, done: doneVideos });
   } catch (error) {
     logger.error(
-      `User ${req.user._id} - Profile Controller - getData - Error ${error}`
+      `Profile Controller - getData - Error ${error}`
     );
     next(apiError.er(404, "User Data Error"));
   }
@@ -96,7 +96,7 @@ exports.addToFav = async (req, res, next) => {
     });
   } catch (error) {
     logger.error(
-      `User ${req.user._id} - Profile Controller - addToFav - Error ${error}`
+      `Profile Controller - addToFav - Error ${error}`
     );
     next(apiError.er(404, "Error"));
   }
@@ -114,7 +114,7 @@ exports.removeFromFav = async (req, res, next) => {
     res.status(200).send(req.user._id);
   } catch (error) {
     logger.error(
-      `User ${req.user._id} - Profile Controller - removeFromFav - Error ${error}`
+      `Profile Controller - removeFromFav - Error ${error}`
     );
 
     next(apiError.er(404, "Error"));
@@ -133,7 +133,7 @@ exports.removeFromHighlight = async (req, res, next) => {
     res.status(200).send("Deleted");
   } catch (error) {
     logger.error(
-      `User ${req.user._id} - Profile Controller - removeFromFav - Error ${error}`
+      `Profile Controller - removeFromFav - Error ${error}`
     );
     next(apiError.er(404, "Error"));
   }
@@ -166,7 +166,7 @@ exports.uploadProfilePic = async (req, res) => {
       );
   } catch (error) {
     logger.error(
-      `User ${req.user._id} - Profile Controller - uploadProfilePic - Error ${error}`
+      `Profile Controller - uploadProfilePic - Error ${error}`
     );
     next(apiError.er(404, "Error"));
   }
@@ -222,7 +222,7 @@ exports.editProfile = async (req, res, next) => {
     }
   } catch (error) {
     logger.error(
-      `User ${req.user._id} - Profile Controller - editProfile - Error ${error}`
+      `Profile Controller - editProfile - Error ${error}`
     );
     next(apiError.er(400, "Error on Editing"));
   }

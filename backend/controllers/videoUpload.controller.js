@@ -53,7 +53,7 @@ exports.uploadVideo = async (req, res, next) => {
             reject(err);
           } else {
             const duration = metadata.format.duration; // Duration in seconds
-            const minDuration = 300;
+            const minDuration = 30;
             if (duration < minDuration) {
               resolve(false);
             } else {
