@@ -72,7 +72,7 @@ button:hover{
     align-items: center;
     font-weight: bold;
     border-radius: 0.5rem;
-    width: 90%;
+    
 }
 
 .del{
@@ -145,5 +145,8 @@ button:hover{
     }
     .edit-btn{
         padding: 0rem !important;
+    }
+    .vedio-card{
+        width: 90% !important;
     }
 }

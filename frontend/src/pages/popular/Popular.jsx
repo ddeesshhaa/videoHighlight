@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-import ReactPlayer from 'react-player/youtube'
+import { DefaultPlayer as Video } from 'react-html5video';
+import 'react-html5video/dist/styles.css';
 
 import LoaderBall from "../../components/loader/LoaderBall";
 import { BiTrendingUp } from "react-icons/bi";
@@ -20,11 +23,13 @@ const Popular = () => {
   const user = JSON.parse(localStorage.getItem("vh_user"))
   const [popularVideos, setPopularVideos] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isError , setIsError] = useState(false);
   
 
   useEffect(() => {
     const getPopularData = async () => {
       setIsLoading(true);
+      setIsError(false);
       try {
         await axios
           .get(`${process.env.REACT_APP_API_URL}/videos/all`)
@@ -60,6 +65,10 @@ const Popular = () => {
         });
       } catch (err) {
         console.log(err);
+        
+          setIsLoading(false);
+          setIsError(true);
+        
       }
     };
 
@@ -81,7 +90,7 @@ const Popular = () => {
         await axios.put(`${process.env.REACT_APP_API_URL}/profile/addToFav`, data, {
           headers,
         });
-
+        
         //console.log("snnaksnkksk");
         const updatedVideos = popularVideos.map((voood) =>
           voood._id === id ? { ...voood, isFavorite: true } : voood
@@ -89,6 +98,17 @@ const Popular = () => {
         //console.log(updatedVideos);
         setPopularVideos(updatedVideos);
         console.log(popularVideos);
+        toast.success("The video is added sucessecfully", {
+          position: "bottom-left",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+        
       } catch (error) {
         console.log("Error making PUT request:", error);
       }
@@ -107,6 +127,16 @@ const Popular = () => {
         //console.log(updatedVideos);
         setPopularVideos(updatedVideos);
         console.log(popularVideos);
+        toast.success("The video is deleted sucessecfully", {
+          position: "bottom-left",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
       } catch (err) {
         console.log(err);
       }
@@ -122,7 +152,9 @@ const Popular = () => {
 
       {isLoading ? (
         <LoaderBall message={"Loading Recent videos"} />
-      ) : (
+      ) : isError?<h1 style={{color:'white' , textAlign:'center'}}>
+      There is problem in the server Please try again later
+      </h1>:(
         <div className="sports-cont">
           <div className="sport-cont">
             <div className="vedio-cont">
@@ -130,7 +162,7 @@ const Popular = () => {
                 <div
                   className="veedio-card"
                   key={video._id}
-                  style={{ maxWidth: "28.125rem"}}
+                  style={{ width: "28.125rem"}}
                 >
                 <div className="d-flex titlee" style={{borderBottom:'0.5px solid white', marginBottom:'1rem'}}>
                   <div className="owner d-flex justify-content-space-between ">
@@ -159,21 +191,12 @@ const Popular = () => {
                         </p>
                   </div>
                   
-                  <video
-                    src={video?.highlightUrl}
-                    controls
+                  <Video
+                    controls={['PlayPause', 'Seek', 'Time', 'Volume', 'Fullscreen']}
                     style={{ width: "100%" ,  maxHeight: '224px'}}
                   >
-                    {" "}
-                  </video>
-                  {/* <ReactPlayer url={video?.highlightUrl} config={{
-    youtube: {
-      playerVars: { showinfo: 1 }
-    },
-    facebook: {
-      appId: '12345'
-    }
-  }} controls/> */}
+                   <source src={video.highlightUrl} />
+                  </Video>
                   <div className="d-flex titlee">
                   <OverlayTrigger
                     overlay={
@@ -201,6 +224,18 @@ const Popular = () => {
           </div>
         </div>
       )}
+      <ToastContainer
+        position="bottom-left"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </div>
   );
 };

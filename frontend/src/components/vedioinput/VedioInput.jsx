@@ -93,7 +93,7 @@ const VedioInput = () => {
     try {
       await axios
         .post(
-          `${process.env.REACT_APP_API_URL}upload`,
+          `${process.env.REACT_APP_API_URL}/upload`,
           {
             video: vedio,
             requestId: cancelId,

@@ -1,0 +1,4 @@
+error: Videos Controller - getUserVideos - Error MongoServerSelectionError: getaddrinfo ENOTFOUND ac-u9rzku2-shard-00-00.feyf8sr.mongodb.net {"timestamp":"2023-06-15T23:02:45.780Z"}
+error: Videos Controller - getUserVideos - Error MongoServerSelectionError: getaddrinfo ENOTFOUND ac-u9rzku2-shard-00-00.feyf8sr.mongodb.net {"timestamp":"2023-06-15T23:04:12.797Z"}
+error: Videos Controller - getUserVideos - Error MongoServerSelectionError: getaddrinfo ENOTFOUND ac-u9rzku2-shard-00-00.feyf8sr.mongodb.net {"timestamp":"2023-06-15T23:04:39.817Z"}
+error: Videos Controller - getUserVideos - Error MongoServerSelectionError: getaddrinfo ENOTFOUND ac-u9rzku2-shard-00-00.feyf8sr.mongodb.net {"timestamp":"2023-06-15T23:04:44.791Z"}
