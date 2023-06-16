@@ -56,7 +56,7 @@ const Home = () => {
         </div>
         <div className='feat mb-8'>
             <BsPatchCheckFill style={{alignSelf:'center', marginRight:'1rem'}}/>
-            <p style={{margin:'0'}}>Download any highlight match for free</p>
+            <p style={{margin:'0'}}>Download any highlighted match for free</p>
         </div>
         <HashLink to='/#gene'><button className='header-btn' style={{ backgroundColor: '#6aac28', padding: '0.75rem 1.5rem', borderRadius: '5px', border: 'none', fontSize: '1.2rem' , fontWeight:'bold'}}>
           Get started

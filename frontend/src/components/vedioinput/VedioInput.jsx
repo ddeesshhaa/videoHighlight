@@ -24,7 +24,7 @@ const VedioInput = () => {
   useEffect(() => {
     AOS.init({
       duration: 1000,
-      offset: 300,
+      offset: 400,
     });
   }, []);
 
@@ -93,7 +93,7 @@ const VedioInput = () => {
     try {
       await axios
         .post(
-          `http://localhost:8080/upload`,
+          `${process.env.REACT_APP_API_URL}/upload`,
           {
             video: vedio,
             requestId: cancelId,
@@ -163,7 +163,7 @@ const VedioInput = () => {
   const handleCancelClick = async () => {
     await axios
       .post(
-        "http://localhost:8080/generate/cancel",
+        `${process.env.REACT_APP_API_URL}/generate/cancel`,
         {
           requestId: cancelId,
         },
@@ -182,7 +182,7 @@ const VedioInput = () => {
       pauseOnHover: true,
       draggable: true,
       progress: undefined,
-      theme: "colored",
+      theme: "light",
     });
     setCancelId(uuidv4());
     setIsLoading(false);
@@ -198,7 +198,7 @@ const VedioInput = () => {
             backgroundColor: "#161616",
             borderRadius: "1rem",
           }}
-          data-aos="fade-up"
+          data-aos="zoom-in"
         >
           <h1 className="input-main-header">Highlight your match now</h1>
           {!isLoading && !isHighlight ? (
@@ -228,7 +228,7 @@ const VedioInput = () => {
 
                   <>
                     <MdCloudUpload color="#6aac28" size={60} />
-                    <p style={{ fontWeight: "bold" }}>Upload The Match</p>
+                    <p style={{ fontWeight: "bold" }} className="upload-title">Upload The Match</p>
                   </>
                 </form>
               )}

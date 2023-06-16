@@ -42,7 +42,7 @@ const EditProfile = () => {
 
     try {
       let response = await axios.post(
-        "http://localhost:8080/profile/editProfile",
+        `${process.env.REACT_APP_API_URL}/profile/editProfile`,
         {
           firstName: e.target.firstName.value,
           lastName: e.target.secondName.value,

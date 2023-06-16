@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { ThreeDots } from "react-loader-spinner";
 
+import { DefaultPlayer as Video } from 'react-html5video';
+import 'react-html5video/dist/styles.css';
+
 import { MdOutlineVideoLibrary, MdOutlineFavorite } from "react-icons/md";
 import { AiOutlineCloudDownload } from "react-icons/ai";
 
@@ -21,12 +24,16 @@ import "react-loading-skeleton/dist/skeleton.css";
 import "./profile.css";
 
 const Profile = () => {
-  const user = JSON.parse(localStorage.getItem("vh_user"));
-  const logUser = user.userData;
-
-  const enc = logUser.pic.image.data;
-
   const { id } = useParams();
+  let logUser;
+  let enc;
+  if(id == 1){
+    const user = JSON.parse(localStorage.getItem("vh_user"));
+    logUser = user?.userData;
+
+    enc = logUser?.pic.image.data;
+  }
+  
   //console.log(id);
 
   const [activeClass, setActiveClass] = useState("left");
@@ -36,13 +43,14 @@ const Profile = () => {
   const [deleteLoader, setDeleteLoader] = useState(false);
   const [deletedVideo, setDeletedVideo] = useState("");
   const [userProfileData, setUserProfileData] = useState();
+  const [userLoginData , setUserLoginData] = useState();
 
   useEffect(() => {
     setIsLoading(true);
     const getVideos = async () => {
       try {
         await axios
-          .get(`http://localhost:8080/profile/getData`, {
+          .get(`${process.env.REACT_APP_API_URL}/profile/getData`, {
             headers: {
               Authorization: JSON.parse(localStorage.getItem("vh_user")).token,
             },
@@ -50,6 +58,7 @@ const Profile = () => {
           .then((response) => {
             console.log(response);
             setUserHighlightedVideos(response.data.done);
+            setUserLoginData(response.data.userData)
             //console.log(userHighlightedVideos);
             setUserFavVideos(response.data.fav);
           });
@@ -61,7 +70,7 @@ const Profile = () => {
     };
 
     const getUserData = async () => {
-      await axios.get(`http://localhost:8080/videos/user/${id}`).then((res) => {
+      await axios.get(`${process.env.REACT_APP_API_URL}/videos/user/${id}`).then((res) => {
         //console.log("the data  " + res.data.user);
         setUserHighlightedVideos(res.data.videoData);
         setUserProfileData(res.data.user);
@@ -77,7 +86,7 @@ const Profile = () => {
     setDeleteLoader(true);
     try {
       await axios
-        .delete(`http://localhost:8080/profile/deleteHighlight`, {
+        .delete(`${process.env.REACT_APP_API_URL}/profile/deleteHighlight`, {
           data: { videoId: videoid },
           headers: {
             "Content-Type": "application/json",
@@ -101,7 +110,7 @@ const Profile = () => {
     //console.log(vid)
     try {
       await axios
-        .delete("http://localhost:8080/profile/removeFromFav", {
+        .delete(`${process.env.REACT_APP_API_URL}/profile/removeFromFav`, {
           data: { videoId: videoid },
           headers: {
             "Content-Type": "application/json",
@@ -119,24 +128,45 @@ const Profile = () => {
 
   return (
     <div className="profile-page">
-      <div className="main-cont">
+      {
+        !logUser && id == 1?
+        <h1 style={{color:'white' , textAlign:'center'}}>
+          Page 404 Not found
+          </h1>:
+        <>
+        <div className="main-cont">
         <div className="profile-data d-flex">
-          <img
+
+          {isLoading?<SkeletonTheme color="#202020" highlightColor="#444">
+          <Skeleton circle height={200} width={200} />
+                </SkeletonTheme>:<img
             className="profile-img"
-            src={id==1?`data:${logUser.pic.image.contentType};base64,${enc}`
+            src={
+              id==1? isLoading?
+              (
+                <SkeletonTheme color="#202020" highlightColor="#444">
+                  <Skeleton height={10} width={250} />
+                </SkeletonTheme>
+              ):
+              `data:${userLoginData?.pic?.image?.contentType};base64,${userLoginData?.pic?.image?.data}`
             : isLoading ? (
-              <SkeletonTheme color="#202020" highlightColor="#444">
-                <Skeleton height={10} width={250} />
+              <SkeletonTheme color="red" highlightColor="#444">
+                <Skeleton circle height={100} width={100} />
               </SkeletonTheme>
             ) : (
               `data:${userProfileData?.pic?.image?.contentType};base64,${userProfileData.pic?.image?.data}`
             )}
-          />
+          />}
           <div className="name-data mt-4">
             <p className="profileName">
-              {id == 1 ? (
-                `${logUser.firstName} ${logUser.lastName}`
-              ) : isLoading ? (
+              {id == 1 ? 
+              isLoading ? (
+                <SkeletonTheme color="#202020" highlightColor="#444">
+                  <Skeleton height={10} width={250} />
+                </SkeletonTheme>
+              ) :
+                `${userLoginData.firstName} ${userLoginData.lastName}`
+               : isLoading ? (
                 <SkeletonTheme color="#202020" highlightColor="#444">
                   <Skeleton height={10} width={250} />
                 </SkeletonTheme>
@@ -182,7 +212,7 @@ const Profile = () => {
             </div>
 
             {id == 1 && (
-              <button className="py-2 px-4 rounded">
+              <button className=" edit-btn py-2 px-4 rounded ">
                 <Link to="/edit" className="editLink">
                   Edit Profile
                 </Link>
@@ -253,15 +283,14 @@ const Profile = () => {
                 <div
                   className="vedio-card"
                   key={vod._id}
-                  style={{ maxWidth: "450px" }}
+                  style={{ width: "28.125rem"}}
                 >
-                  <video
-                    src={vod.highlightUrl}
-                    controls
-                    style={{ width: "90%" }}
+                  <Video
+                    controls={['PlayPause', 'Seek', 'Time', 'Volume', 'Fullscreen']}
+                    style={{ width: "90%" ,  maxHeight: '224px'}}
                   >
-                    {" "}
-                  </video>
+                    <source src={vod.highlightUrl} />
+                  </Video>
                   <div
                     className="d-flex w-100 mt-2"
                     style={{
@@ -329,15 +358,14 @@ const Profile = () => {
                 <div
                   className="vedio-card"
                   key={vod._id}
-                  style={{ maxWidth: "450px" }}
+                  style={{ width: "28.125rem"}} 
                 >
-                  <video
-                    src={vod.highlightUrl}
-                    controls
-                    style={{ width: "90%" }}
+                  <Video
+                    controls={['PlayPause', 'Seek', 'Time', 'Volume', 'Fullscreen']}
+                    style={{ width: "100%" ,  height: '201.6px'}}
                   >
-                    {" "}
-                  </video>
+                    <source src={vod.highlightUrl} />
+                  </Video>
                   <div
                     className="d-flex w-100 mt-2"
                     style={{
@@ -402,6 +430,10 @@ const Profile = () => {
           </div>
         )}
       </div>
+        </>
+        
+      }
+      
     </div>
   );
 };

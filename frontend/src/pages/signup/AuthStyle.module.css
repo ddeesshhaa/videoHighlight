@@ -37,9 +37,9 @@
     color: rgb(34, 34, 34);
   }
 
-  @media screen and (max-width:676px){
+  /* @media screen and (max-width:676px){
     .Auth_form{
       width: 50vw;
       align-self: center;
     }
-  }
+  } */

@@ -1,3 +1,16 @@
+.poular-page{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.sports-cont{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; 
+    width: 100%;
+}
 .sport-cont{
     display: flex;
     flex-direction: column;
@@ -115,5 +128,15 @@
         justify-content: center;
         align-items: center;
         flex-direction: column;
+        width: 100%;
+        padding-left: 0;
     }
+    .veedio-card{
+        width: 100%;
+        margin-left: 0;
+    }
+}
+
+@media screen and (max-width:400px) {
+    
 }

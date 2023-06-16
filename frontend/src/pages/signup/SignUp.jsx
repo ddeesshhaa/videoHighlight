@@ -2,14 +2,17 @@ import React, { useState } from "react";
 import Style from "./AuthStyle.module.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { ThreeDots } from 'react-loader-spinner'
+
 
 
 const SignUp = () => {
 
   const [error, setError] = useState(null)
-  //const [isLoading, setIsLoading] = useState(null)
+  const [isLoading, setIsLoading] = useState(false)
   const[profilePic,setProfilePic] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
+
   
 
   const navigate = useNavigate();
@@ -30,7 +33,7 @@ const SignUp = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setIsLoading(true);
     try{
       let response = await axios.post(
         `${process.env.REACT_APP_API_URL}/signup`,
@@ -58,20 +61,7 @@ const SignUp = () => {
       setError(err);
     }
     
-    
-    //console.log(res2);
-
-    /* if (response.status === 200){
-
-      setIsLoading(false);
-
-      navigate('/login');
-    }
-    else{
-      console.log("snjdnjkan");
-      setIsLoading(false)
-      setError("Email is already exist")
-    } */
+    setIsLoading(false);
     
 
   };
@@ -92,7 +82,7 @@ const SignUp = () => {
             <div className="btn-primary btn-rounded" style={{color:'white' ,backgroundColor: '#6aac28', padding: '0.75rem 1.5rem', borderRadius: '5px', border: 'none', fontSize: '1.2rem' , fontWeight:'bold'}}>
                 <label className="form-label text-white m-1" htmlFor="customFile2">Choose file</label>
                 <input type="file" className="form-control d-none" id="customFile2" onChange={handleChange}
-                multiple accept="image/*" required/>
+                multiple accept="image/*" />
             </div>
         </div>
 
@@ -145,12 +135,21 @@ const SignUp = () => {
           {/* <input type="file" name="image" multiple accept="image/*" required onChange={handleChange}/> */}
 
           <div className="d-grid gap-2 mt-3">
-            <button type="submit" className="btn-primary" style={{color:'white' ,backgroundColor: '#6aac28', padding: '0.75rem 1.5rem', borderRadius: '5px', border: 'none', fontSize: '1.2rem' , fontWeight:'bold'}}>
-              Submit
+          <button type="submit" className="d-flex btn-primary " style={{color:'white' ,backgroundColor: '#6aac28', padding: '0.75rem 1.5rem', borderRadius: '5px', border: 'none', fontSize: '1.2rem' , fontWeight:'bold' ,justifyContent:'center'}}>
+              {isLoading?<ThreeDots
+                    height="15"
+                    width="15"
+                    radius="12"
+                    color="white"
+                    ariaLabel="loading"
+                    wrapperStyle
+                    wrapperClass
+                    
+                  />:<>Submit</>}
             </button>
 
             {error && <div class="alert alert-danger" role="alert">
-                            {error.response?.data}
+                            {error?.response?.data}
                        </div>
             }
           </div>

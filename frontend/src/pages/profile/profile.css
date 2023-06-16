@@ -49,13 +49,16 @@ button:hover{
     padding-top: 1rem;
     color: white;
 }
-
+.vedio-div{
+    width: 100%;
+}
 .vedio-cont{
+    width: 100% !important;
     display: flex;
     gap: 1rem;
     justify-content: center;
     flex-wrap: wrap;
-    margin-left: 2rem;
+   
     margin-top: 2rem;
 }
 
@@ -69,6 +72,7 @@ button:hover{
     align-items: center;
     font-weight: bold;
     border-radius: 0.5rem;
+    
 }
 
 .del{
@@ -135,5 +139,14 @@ button:hover{
         display: flex;
         justify-content: space-evenly;
         color: white;
+    }
+    .name-data{
+        margin-left: 2rem;
+    }
+    .edit-btn{
+        padding: 0rem !important;
+    }
+    .vedio-card{
+        width: 90% !important;
     }
 }
