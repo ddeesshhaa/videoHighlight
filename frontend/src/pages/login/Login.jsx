@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useAuthContext } from "../../hooks/useAuthContext";
-import { ThreeDots } from 'react-loader-spinner'
+import { ThreeDots } from "react-loader-spinner";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -13,7 +13,7 @@ const Login = () => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isLoading , setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const [error, setError] = useState(null);
 
@@ -22,7 +22,7 @@ const Login = () => {
     setIsLoading(true);
     try {
       let res = await axios.post(
-        `${process.env.REACT_APP_API_URL}/login`,
+        `http://localhost:8080/login`,
         {
           email: email,
           password: password,
@@ -81,17 +81,33 @@ const Login = () => {
             />
           </div>
           <div className="d-grid gap-2 mt-3">
-            <button type="submit" className="d-flex btn-primary " style={{color:'white' ,backgroundColor: '#6aac28', padding: '0.75rem 1.5rem', borderRadius: '5px', border: 'none', fontSize: '1.2rem' , fontWeight:'bold' ,justifyContent:'center'}}>
-              {isLoading?<ThreeDots
-                    height="15"
-                    width="15"
-                    radius="12"
-                    color="white"
-                    ariaLabel="loading"
-                    wrapperStyle
-                    wrapperClass
-                    
-                  />:<>Submit</>}
+            <button
+              type="submit"
+              className="d-flex btn-primary "
+              style={{
+                color: "white",
+                backgroundColor: "#6aac28",
+                padding: "0.75rem 1.5rem",
+                borderRadius: "5px",
+                border: "none",
+                fontSize: "1.2rem",
+                fontWeight: "bold",
+                justifyContent: "center",
+              }}
+            >
+              {isLoading ? (
+                <ThreeDots
+                  height="15"
+                  width="15"
+                  radius="12"
+                  color="white"
+                  ariaLabel="loading"
+                  wrapperStyle
+                  wrapperClass
+                />
+              ) : (
+                <>Submit</>
+              )}
             </button>
 
             {error && (

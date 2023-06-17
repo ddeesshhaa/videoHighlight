@@ -93,7 +93,7 @@ const VedioInput = () => {
     try {
       await axios
         .post(
-          `${process.env.REACT_APP_API_URL}/upload`,
+          `http://localhost:8080/upload`,
           {
             video: vedio,
             requestId: cancelId,
@@ -163,7 +163,7 @@ const VedioInput = () => {
   const handleCancelClick = async () => {
     await axios
       .post(
-        `${process.env.REACT_APP_API_URL}/generate/cancel`,
+        `http://localhost:8080/generate/cancel`,
         {
           requestId: cancelId,
         },
@@ -228,7 +228,9 @@ const VedioInput = () => {
 
                   <>
                     <MdCloudUpload color="#6aac28" size={60} />
-                    <p style={{ fontWeight: "bold" }} className="upload-title">Upload The Match</p>
+                    <p style={{ fontWeight: "bold" }} className="upload-title">
+                      Upload The Match
+                    </p>
                   </>
                 </form>
               )}

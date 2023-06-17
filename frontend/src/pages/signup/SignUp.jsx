@@ -2,18 +2,13 @@ import React, { useState } from "react";
 import Style from "./AuthStyle.module.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { ThreeDots } from 'react-loader-spinner'
-
-
+import { ThreeDots } from "react-loader-spinner";
 
 const SignUp = () => {
-
-  const [error, setError] = useState(null)
-  const [isLoading, setIsLoading] = useState(false)
-  const[profilePic,setProfilePic] = useState(null);
+  const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [profilePic, setProfilePic] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
-
-  
 
   const navigate = useNavigate();
 
@@ -27,43 +22,38 @@ const SignUp = () => {
     };
     reader.readAsDataURL(file);
 
-
     console.log(file);
-  }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-    try{
+    try {
       let response = await axios.post(
-        `${process.env.REACT_APP_API_URL}/signup`,
+        `http://localhost:8080/signup`,
         {
           firstName: e.target.firstName.value,
           lastName: e.target.secondName.value,
           email: e.target.email.value,
           password: e.target.password.value,
-          image:profilePic
+          image: profilePic,
         },
         {
           headers: {
-            'Content-Type': 'multipart/form-data',
+            "Content-Type": "multipart/form-data",
           },
         }
       );
-  
-      
-  
+
       let user = await response.data;
       console.log(user);
-      navigate('/login');
-    }catch(err){
+      navigate("/login");
+    } catch (err) {
       console.log(err);
       setError(err);
     }
-    
-    setIsLoading(false);
-    
 
+    setIsLoading(false);
   };
   return (
     <div className={Style.Auth_form_container}>
@@ -71,23 +61,50 @@ const SignUp = () => {
         <div className={Style.Auth_form_content}>
           <h3 className={Style.Auth_form_title}>Sign up</h3>
 
-      <div>
-
-        <div className="d-flex justify-content-center mb-4">
-            <img src={profilePic?previewUrl:"https://mdbootstrap.com/img/Photos/Others/placeholder-avatar.jpg"}
-            className="rounded-circle" alt="example placeholder" style={{width:'5rem',height:'5rem'}} />
-        </div>
-
-        <div className="d-flex justify-content-center">
-            <div className="btn-primary btn-rounded" style={{color:'white' ,backgroundColor: '#6aac28', padding: '0.75rem 1.5rem', borderRadius: '5px', border: 'none', fontSize: '1.2rem' , fontWeight:'bold'}}>
-                <label className="form-label text-white m-1" htmlFor="customFile2">Choose file</label>
-                <input type="file" className="form-control d-none" id="customFile2" onChange={handleChange}
-                multiple accept="image/*" />
+          <div>
+            <div className="d-flex justify-content-center mb-4">
+              <img
+                src={
+                  profilePic
+                    ? previewUrl
+                    : "https://mdbootstrap.com/img/Photos/Others/placeholder-avatar.jpg"
+                }
+                className="rounded-circle"
+                alt="example placeholder"
+                style={{ width: "5rem", height: "5rem" }}
+              />
             </div>
-        </div>
 
-      </div>
-
+            <div className="d-flex justify-content-center">
+              <div
+                className="btn-primary btn-rounded"
+                style={{
+                  color: "white",
+                  backgroundColor: "#6aac28",
+                  padding: "0.75rem 1.5rem",
+                  borderRadius: "5px",
+                  border: "none",
+                  fontSize: "1.2rem",
+                  fontWeight: "bold",
+                }}
+              >
+                <label
+                  className="form-label text-white m-1"
+                  htmlFor="customFile2"
+                >
+                  Choose file
+                </label>
+                <input
+                  type="file"
+                  className="form-control d-none"
+                  id="customFile2"
+                  onChange={handleChange}
+                  multiple
+                  accept="image/*"
+                />
+              </div>
+            </div>
+          </div>
 
           <div className="form-group mt-3">
             <label>First Name</label>
@@ -135,23 +152,40 @@ const SignUp = () => {
           {/* <input type="file" name="image" multiple accept="image/*" required onChange={handleChange}/> */}
 
           <div className="d-grid gap-2 mt-3">
-          <button type="submit" className="d-flex btn-primary " style={{color:'white' ,backgroundColor: '#6aac28', padding: '0.75rem 1.5rem', borderRadius: '5px', border: 'none', fontSize: '1.2rem' , fontWeight:'bold' ,justifyContent:'center'}}>
-              {isLoading?<ThreeDots
-                    height="15"
-                    width="15"
-                    radius="12"
-                    color="white"
-                    ariaLabel="loading"
-                    wrapperStyle
-                    wrapperClass
-                    
-                  />:<>Submit</>}
+            <button
+              type="submit"
+              className="d-flex btn-primary "
+              style={{
+                color: "white",
+                backgroundColor: "#6aac28",
+                padding: "0.75rem 1.5rem",
+                borderRadius: "5px",
+                border: "none",
+                fontSize: "1.2rem",
+                fontWeight: "bold",
+                justifyContent: "center",
+              }}
+            >
+              {isLoading ? (
+                <ThreeDots
+                  height="15"
+                  width="15"
+                  radius="12"
+                  color="white"
+                  ariaLabel="loading"
+                  wrapperStyle
+                  wrapperClass
+                />
+              ) : (
+                <>Submit</>
+              )}
             </button>
 
-            {error && <div class="alert alert-danger" role="alert">
-                            {error?.response?.data}
-                       </div>
-            }
+            {error && (
+              <div class="alert alert-danger" role="alert">
+                {error?.response?.data}
+              </div>
+            )}
           </div>
           <p
             className="forgot-password text-center mt-2"
@@ -163,9 +197,8 @@ const SignUp = () => {
           </p>
         </div>
       </form>
-      
     </div>
   );
-}
+};
 
 export default SignUp;

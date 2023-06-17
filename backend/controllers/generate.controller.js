@@ -46,7 +46,7 @@ exports.generateVideo = async (req, res, next) => {
       mkdir(path.join(tempDir, "result")),
       copyFile(classIndPath, path.join(tempDir, "json", "classInd.txt")),
     ]);
-
+    console.log(`Working Directory => ${tempDir}`);
     if (checkReqIsCanceledAndDelPaths(tempDir, highlightPath, reqId)) {
     }
 
